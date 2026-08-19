@@ -1,0 +1,23 @@
+# BASED NUT
+
+## BASED NUT
+
+- [BASED NUT](https://docs.basednut.com/based-nut/based-nut.md): EVERY FOREST 🌱 STARTS WITH ONE NUT 🌰🥜
+- [The Orchard](https://docs.basednut.com/based-nut/the-orchard.md): ESTABLISHED 420 BASE COMMON ERA
+- [NUT Multilayered Token Ecosystem](https://docs.basednut.com/based-nut/the-orchard/nut-multilayered-token-ecosystem.md): The Original NUTpaper - Released 2024
+- [NUT](https://docs.basednut.com/based-nut/the-orchard/nut.md): The Liquidity Anchor of the Entire Ecosystem
+- [SNUT](https://docs.basednut.com/based-nut/the-orchard/snut.md): SNUT the Non-Escrow Staking Rewards
+- [pNUT](https://docs.basednut.com/based-nut/the-orchard/pnut.md): The NUT Index Token
+- [Nested NUT Tokens](https://docs.basednut.com/based-nut/the-orchard/nested-nut-tokens.md)
+- [Nested Arbitrage Dynamics](https://docs.basednut.com/based-nut/the-orchard/nested-nut-tokens/nested-arbitrage-dynamics.md)
+- [DEEZ](https://docs.basednut.com/based-nut/the-orchard/nested-nut-tokens/deez.md)
+- [NUTINO](https://docs.basednut.com/based-nut/the-orchard/nested-nut-tokens/nutino.md)
+- [NUT Army](https://docs.basednut.com/based-nut/the-orchard/nested-nut-tokens/nut-army.md)
+- [JOIN THE NUT WAR](https://docs.basednut.com/based-nut/the-orchard/nested-nut-tokens/nut-army/join-the-nut-war.md)
+- [The Great Nut War Lore](https://docs.basednut.com/based-nut/the-orchard/nested-nut-tokens/nut-army/the-great-nut-war-lore.md)
+- [Salt](https://docs.basednut.com/based-nut/the-orchard/nested-nut-tokens/nut-army/salt.md)
+- [Honey](https://docs.basednut.com/based-nut/the-orchard/nested-nut-tokens/nut-army/honey.md): TBA
+- [Butter](https://docs.basednut.com/based-nut/the-orchard/nested-nut-tokens/nut-army/butter.md): TBA
+- [Caramel](https://docs.basednut.com/based-nut/the-orchard/nested-nut-tokens/nut-army/caramel.md): TBA
+- [Pepper](https://docs.basednut.com/based-nut/the-orchard/nested-nut-tokens/nut-army/pepper.md): TBA
+- [Smart Agents](https://docs.basednut.com/based-nut/the-orchard/smart-agents.md): TBD
