@@ -8,7 +8,7 @@ patterns = {
     'pns/cns': r'\bpns\b|\bcns\b', 'cron/supervisor': r'\bcron\b|supervisord', 'akash': r'akash',
     'self-heal/bootstrap': r'self-?heal|bootstrap', 'kill switch': r'kill\s+switch',
     'dry-run': r'dry.?run', 'operator approval': r'operator\s+approval', 'hot wallet': r'hot\s+wallet',
-    'cdp/vault': r'\bcdp\b', 'profit pipeline': r'profit\s+sweep|profit\s+vault', 'escrow/acp job': r'escrow|job\s*70\d\d\d',
+    'cdp/vault': r'cdp\s+(managed\s+)?wallet|coinbase\s+developer', 'profit pipeline': r'profit\s+sweep|profit\s+vault', 'escrow/acp job': r'(?<!non-)escrow|job\s*70\d\d\d',
     'ports': r':\s*(9000|8017|8090)\b', 'cost': r'\$0/day|\$0\.\d\d.\d\d/day',
     'internal profiles': r'nut-(coordinator|architect|engineer|analyst|validator|executor|editor|operator|librarian)|nine specialist',
     'phasing': r'\bp2\b|\bp3\b|\bp4\b|phasing',
