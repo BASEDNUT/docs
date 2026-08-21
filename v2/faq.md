@@ -64,7 +64,7 @@ Mint Club (mint.club) is the hub for NUT-backed child tokens. It lists existing 
 
 ### What is the SNUT recursive burn flywheel?
 
-Dead-held SNUT earns NUT. That NUT goes to dead too. Burn feeds burn — the flywheel never stops. See [SNUT Mechanics](/v2/the-orchard/snut-mechanics.md).
+Dead-held SNUT earns NUT. That NUT goes to dead too. Burn feeds burn — the flywheel never stops. See [SNUT Mechanics](/v2/tokens/snut.md).
 
 ### What is the SNUT-LP meta-pool (Palm Grove)?
 
@@ -120,7 +120,7 @@ Pick a venue (Uniswap V3/V2, Aerodrome, Balancer), fund both sides, and set your
 
 ### What are the pool roles in the ecosystem?
 
-Each pool has a distinct economic purpose — main liquidity, meta-market for LP rights, keeper-arb reactor, multi-asset arbitrage reactor. See [SNUT Mechanics](/v2/the-orchard/snut-mechanics.md) for the SNUT venue set; see [Tokens](/v2/tokens.md) for the full catalog.
+Each pool has a distinct economic purpose — main liquidity, meta-market for LP rights, keeper-arb reactor, multi-asset arbitrage reactor. See [SNUT Mechanics](/v2/tokens/snut.md) for the SNUT venue set; see [Tokens](/v2/tokens/catalog.md) for the full catalog.
 
 ## Data
 
@@ -144,7 +144,7 @@ Peanutoshi NSI tracks market sentiment: green = bullish (rally the Nut Army), re
 
 ### What NFT collections exist in the ecosystem?
 
-P-NUTS (Peanut Generals, 251), PEANUT ARMY (Peanut Soldiers, 5,013), ALMONDS (Almond Generals, 424), S-ALMONDS (Almond Soldiers, 6,238). All bonded to NUT via Mint Club bonding curves — mint to enlist, burn to reclaim. Trade fractions on Sudoswap. See [Tokens](/v2/tokens.md).
+P-NUTS (Peanut Generals, 251), PEANUT ARMY (Peanut Soldiers, 5,013), ALMONDS (Almond Generals, 424), S-ALMONDS (Almond Soldiers, 6,238). All bonded to NUT via Mint Club bonding curves — mint to enlist, burn to reclaim. Trade fractions on Sudoswap. See [Tokens](/v2/tokens/catalog.md).
 
 ### How does NFT fractionalization work?
 

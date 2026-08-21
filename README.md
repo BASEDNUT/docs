@@ -1,28 +1,23 @@
 # BASED NUT — Docs
 
-The BASED NUT documentation.
+Public documentation for the BASED NUT ecosystem on Base. Start at [v2/index.md](v2/index.md).
 
-## Layout
+## Contents
+
+| Section | Pages |
+|---|---|
+| **Start Here** | [BASED NUT](v2/based-nut.md) · [The Orchard](v2/the-orchard.md) · [Token Catalog](v2/tokens/catalog.md) · [FAQ](v2/faq.md) |
+| **Tokens** | [NUT](v2/tokens/nut.md) · [NUT Doctrine](v2/tokens/nut-doctrine.md) · [SNUT](v2/tokens/snut.md) · [pNUT](v2/tokens/pnut.md) · [SALT](v2/tokens/salt.md) · [NUTINO](v2/tokens/nutino.md) · [DEEZ](v2/tokens/deez.md) · [Multilayered Ecosystem](v2/tokens/multilayered-ecosystem.md) |
+| **Nut War** | [The Armies](v2/nut-war/nut-army.md) · [Join the War](v2/nut-war/join-the-war.md) · [War Lore](v2/nut-war/war-lore.md) · [War Machine](v2/nut-war/war-machine.md) |
+| **Smart Agents** | [Agents](v2/agents/smart-agents.md) |
+| **Arbitrage** | [War Room](v2/arb/index.md) · [Arb Loops](v2/arb/arb-loops.md) · [Machine Spec](v2/arb/machine-spec.md) · [Nested Dynamics](v2/arb/nested-arbitrage-dynamics.md) |
+| **RWA** | [Environmental Balance Sheet](v2/rwa/carbon-debt.md) · [US Nut Economy](v2/rwa/nuts-production.md) |
+| **Extras** | [Staking & Rewards](v2/staking.md) |
+
+## Also in this repo
 
 ```
 based-nut/   v1 — 19 pages from docs.basednut.com (GitBook originals, untouched reference)
-v2/          v2 — 33 pages: v1 carried forward + portal content + agent layer
-gate_v2.py   leak gate — diff-based scan of new content, runs before every push
+v2/          current docs
 llms.txt     v1 machine-readable index
 ```
-
-## v2 = v1 + portal + agents
-
-* All 19 v1 pages carried **verbatim** — tabs, figures, lore, formatting intact
-* Portal content ported to docs form: Arb Bot Builder (3 pages), RWA (Environmental Balance Sheet, US Nut Economy), Great Nut War battlefield, staking, liquidity tree, FAQ, token catalog
-* Orchard depth pages: NUT Doctrine, SNUT Mechanics, pNUT Mechanics — the site's own deep content, documented
-* Corrections where on-chain truth has moved: SNUT fee 6% → 1% (2026-07-30, tx `0x7dc59b67…`)
-* Smart Agents page fulfilled: Peanutoshi, x402 machine-payable data services, IRIS public data plane
-* Entry index at `v2/index.md`
-
-## Rules
-
-- Public-safe content only. No secrets, no internal plans, no unreleased designs, no ops internals.
-- Leak-check gate runs before every push (diff-based: new content only).
-- v1 is the canonical base — v2 extends and corrects, never discards.
-- Every v2 fact traces to the deployed portal (orchard.basednut.com) or v1 GitBook — no invented numbers.
