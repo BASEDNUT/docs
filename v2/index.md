@@ -14,6 +14,41 @@
 | [Token Catalog](/v2/tokens/catalog.md) | Every asset in the ecosystem — one table |
 | [FAQ](/v2/faq.md) | Everything you need to know |
 
+## 🧭 Choose Your Path
+
+Three doors into the Orchard. Pick yours — every path leads back to the same NUT.
+
+> **Nutkamoto:** different maps, one territory. 🥜
+
+### 🖼️ NFT Crowd — collectors, factions, war
+
+| Page | What you get |
+|---|---|
+| [The War](/v2/nut-war/nut-army.md) | The armies — factions and ranks |
+| [Join the War](/v2/nut-war/join-the-war.md) | Enlistment — mint to join, burn to leave |
+| [War Machine](/v2/nut-war/war-machine.md) | The battlefield — factions, abilities, actions |
+| [War Lore](/v2/nut-war/war-lore.md) | The chronicle of the Great Nut War |
+| [Staking & Rewards](/v2/staking.md) | Mint Club vaults — NFT airdrop history |
+
+### 📉 Arbitrage Traders — divergence is the product
+
+| Page | What you get |
+|---|---|
+| [The Orchard MetaDEX](/v2/metadex.md) | Why independent markets diverge — arbitrage is the coupling |
+| [War Room](/v2/arb/index.md) | The Arb Bot Builder — start here |
+| [Arb Loops](/v2/arb/arb-loops.md) | All 9 loops with honest verdicts |
+| [Nested Arbitrage Dynamics](/v2/arb/nested-arbitrage-dynamics.md) | Curve ↔ DEX loop theory |
+| [Machine Spec](/v2/arb/machine-spec.md) | Addresses, routes, APIs — machine-readable |
+
+### 🌾 Yield Farmers — rewards and index exposure
+
+| Page | What you get |
+|---|---|
+| [SNUT](/v2/tokens/snut.md) | The burn flywheel — 1% tax, buyback burns, non-escrow rewards |
+| [pNUT](/v2/tokens/pnut.md) | The Balancer index basket — cbETH, cbBTC, NUT, SNUT in one token |
+| [Staking & Rewards](/v2/staking.md) | Mint Club vaults + SALT airdrop history |
+| [Atomic NUTS](/v2/tokens/attonut.md) | The resolution underneath — 1 NUT = 1 quintillion units |
+
 ## 🌰 Tokens
 
 | Page | Token |
