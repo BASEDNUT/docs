@@ -10,6 +10,7 @@
 |---|---|
 | [BASED NUT](/v2/based-nut.md) | The project — core tokens, layers, resources |
 | [The Orchard](/v2/the-orchard.md) | The Meta-DEX framework — soil, saplings, nut trees |
+| [The Orchard MetaDEX](/v2/metadex.md) | A market formed between markets — DEX vs MetaDEX, market graph, arbitrage coupling |
 | [Token Catalog](/v2/tokens/catalog.md) | Every asset in the ecosystem — one table |
 | [FAQ](/v2/faq.md) | Everything you need to know |
 
