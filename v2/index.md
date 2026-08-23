@@ -19,6 +19,7 @@
 |---|---|
 | [NUT](/v2/tokens/nut.md) | The root — supply of 1, no tax, no team allocation |
 | [NUT Doctrine](/v2/tokens/nut-doctrine.md) | Conservation, the liquidity machine, research lenses |
+| [Atomic NUTS](/v2/tokens/attonut.md) | 1 NUT = 1 quintillion attoNUTs — our SATS |
 | [SNUT](/v2/tokens/snut.md) | The burn flywheel — 1% tax, buyback burns, non-escrow rewards |
 | [pNUT](/v2/tokens/pnut.md) | The basket index — cbETH, cbBTC, NUT, SNUT in one token |
 | [SALT](/v2/tokens/salt.md) | Nested token — flat bonding curve, Aerodrome arbitrage |
