@@ -2,7 +2,7 @@ import os, re, difflib, sys
 
 SRC, DST = 'based-nut', 'v2'
 patterns = {
-    'credit protocol': r'credit\s+protocol', 'wnut': r'wnut', 'attestation': r'attestation',
+    'credit protocol': r'credit\s+protocol',
     'inscription': r'inscription', 'inference gateway': r'inference\s+gateway', 'discourse': r'discourse',
     'treasury': r'treasury', 'clob': r'\bclob\b', 'prd/ard': r'\bprd\b|\bard-\d',
     'pns/cns': r'\bpns\b|\bcns\b', 'cron/supervisor': r'\bcron\b|supervisord', 'akash': r'akash',
