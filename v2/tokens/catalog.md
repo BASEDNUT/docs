@@ -29,10 +29,10 @@ Every asset the portal documents, by layer. The root anchors; the branches and c
 
 | Collection | Count | Role |
 |---|---|---|
-| **P-NUTS** — Peanut War Generals | 251 officer NFTs | Bonded to NUT. Mint to enlist, burn to reclaim. 200 SALT airdropped per General. Trade fractions on Sudoswap in USDC |
+| **P-NUTS** — Peanut War Generals | 251 officer NFTs | Bonded to NUT. Mint to enlist, burn to reclaim. 200 SALT airdropped per General. Whole-NFT trading on Sudoswap in USDC |
 | **PEANUT ARMY (PNUTRMY)** — Peanut Soldiers | 5,013 infantry NFTs | Bonded to NUT. 80 SALT airdropped per Soldier. Backbone of the Orchard — no Sudoswap pool yet |
-| **ALMONDS (ALMD)** — Almond War Generals | 424 officer NFTs | Bonded to NUT. Golden Salted Swarm. 200 SALT airdropped per General. Trade fractions on Sudoswap in cbETH |
-| **S-ALMONDS (SALMD)** — Almond Soldiers | 6,238 infantry NFTs | Bonded to NUT. Sky-Seasoned Crunch. 80 SALT airdropped per Soldier. Trade fractions on Sudoswap in cbETH |
+| **ALMONDS (ALMD)** — Almond War Generals | 424 officer NFTs | Bonded to NUT. Golden Salted Swarm. 200 SALT airdropped per General. Whole-NFT trading on Sudoswap in cbETH |
+| **S-ALMONDS (SALMD)** — Almond Soldiers | 6,238 infantry NFTs | Bonded to NUT. Sky-Seasoned Crunch. 80 SALT airdropped per Soldier. Whole-NFT trading on Sudoswap in cbETH |
 
 ## The Soil (Base Assets)
 

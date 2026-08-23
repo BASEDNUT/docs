@@ -17,12 +17,11 @@ Each loop below is a self-contained arbitrage strategy with a full breakdown: wh
 | 3 | SALT Loop | Mint Club → Aerodrome (SALT/USDC) | — | Sporadic | $200+ | CHALLENGING |
 | 4 | NUTINO Loop | Mint Club → Uni V2 (NUTINO/cbBTC) | — | Sporadic | $200+ | CHALLENGING |
 | 5 | SNUT Deflationary | Buyback contract → dead burn | Beginner (monitoring only) | Continuous | N/A (any SNUT to hold) | NOT AN ARB |
-| 6 | NFT Fractionalization | Sudoswap ↔ NFT marketplaces | — | Very rare | $500+ per NFT | OPPORTUNISTIC |
-| 7 | SNUT Cross-Venue | Uni V2 ↔ Aero ↔ pNUT basket | Advanced | Event-driven | $1,000+ | VIABLE WITH CAUTION |
-| 8 | SNUT/NUT Keeper | Aero V2 (SNUT/NUT) reactor | Advanced Keeper | Regular (reward schedule) | $50+ gas | ADVANCED KEEPER ARB |
-| 9 | SNUT/ETH-LP Meta-Pool | Uni V2 meta-pool ↔ main pool | Advanced | Low freq / high potential | $500+ | OPPORTUNISTIC |
+| 6 | SNUT Cross-Venue | Uni V2 ↔ Aero ↔ pNUT basket | Advanced | Event-driven | $1,000+ | VIABLE WITH CAUTION |
+| 7 | SNUT/NUT Keeper | Aero V2 (SNUT/NUT) reactor | Advanced Keeper | Regular (reward schedule) | $50+ gas | ADVANCED KEEPER ARB |
+| 8 | SNUT/ETH-LP Meta-Pool | Uni V2 meta-pool ↔ main pool | Advanced | Low freq / high potential | $500+ | OPPORTUNISTIC |
 
-*Difficulty marked "—" is not ranked in the page's suggested-start guidance; the page only labels loops 5 and 1 as beginner-friendly and loops 2, 7, 8, 9 as advanced.*
+*Difficulty marked "—" is not ranked in the page's suggested-start guidance; the page only labels loops 5 and 1 as beginner-friendly and loops 2, 6, 7, 8 as advanced.*
 
 ***
 
@@ -281,58 +280,9 @@ Tax reduces liquidity. Burn rate depends on volume. No arbitrage exit — long-t
 
 ***
 
-## Loop 6 — NFT Fractionalization Arb
-
-* **Venues:** Sudoswap AMM (fractional pools) ↔ OpenSea / NFT marketplaces
-
-### What it is
-
-NFT fractionalization arbitrage using Sudoswap AMM. Some BASED NUT NFT collections (PNUTS, ALMD, SALMD) have fractional pools on Sudoswap. When the sum of fraction prices diverges from the NFT floor price on marketplaces, you can arbitrage the gap.
-
-### How to use
-
-1. Identify collections with Sudoswap fractional pools.
-2. Get fraction price from Sudoswap pool contract.
-3. Get NFT floor price from OpenSea/marketplace.
-4. If fractions cheap: buy fractions, assemble full NFT, sell on marketplace.
-5. If NFT cheap: buy NFT, fractionalize on Sudoswap, sell fractions.
-6. Account for 2.5% marketplace fee.
-
-### When to use
-
-When NFT floor prices move sharply (market dumps/hypes). When Sudoswap pool has stale pricing. After collection launches or events. Very opportunistic.
-
-### Frequency
-
-Very rare — NFT markets are illiquid and slow. Maybe once a week or less during active NFT periods.
-
-### Capital needed
-
-$500+ per NFT. NFT floor prices vary. Fractionalization and assembly have gas costs. Marketplace fees (2.5%) eat into profits.
-
-### Prerequisites
-
-Sudoswap SDK, NFT marketplace API (OpenSea), understanding of ERC721/ERC1155, fractionalization mechanics, NFT floor price tracking.
-
-### Profit condition
-
-```
-profit = (fraction_price × total_fractions) - NFT_floor_price - gas
-```
-
-`|fraction_sum − floor_price|` must exceed **gas + Sudoswap fees + marketplace fees (2.5%)**.
-
-### Risks
-
-Illiquid NFT markets. Fractionalization may not be available for all collections. Marketplace fees. Slow execution.
-
-### Verdict
-
-**OPPORTUNISTIC** — low liquidity makes this sporadic. Monitor floor prices vs Sudoswap pool values. Best for bots with NFT marketplace integration.
-
 ***
 
-## Loop 7 — SNUT Cross-Venue Arbitrage
+## Loop 6 — SNUT Cross-Venue Arbitrage
 
 * **Venues:** Uniswap V2 (SNUT/WETH) ↔ Aerodrome (SNUT/NUT) ↔ Balancer V2 (pNUT basket)
 
@@ -384,7 +334,7 @@ SNUT 1% transfer tax erodes profits on taxable transfers. SNUT uses 9 decimals (
 
 ***
 
-## Loop 8 — SNUT/NUT Reactor Keeper Game
+## Loop 7 — SNUT/NUT Reactor Keeper Game
 
 * **Venues:** Aerodrome V2 (SNUT/NUT) — dividend-eligible pair
 
@@ -435,7 +385,7 @@ Competition from other keepers. Gas wars during high excess events. NUT is low-f
 
 ***
 
-## Loop 9 — SNUT/ETH-LP Meta-Pool Arbitrage
+## Loop 8 — SNUT/ETH-LP Meta-Pool Arbitrage
 
 * **Venues:** Uniswap V2 (SNUT/ETH-LP/ETH meta-pool) ↔ Uniswap V2 (SNUT/WETH main pool)
 

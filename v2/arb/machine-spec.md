@@ -162,7 +162,7 @@ These are a **subset** of the read ABI, not the full ABI.
 | GeckoTerminal | Alternative pool data / cross-verification | — |
 | Mint Club V2 SDK (`npm i mint.club-v2-sdk`) or browser automation (Playwright) | Bonding curve prices for SALT/NUTINO | RPC unreliable for minimal-proxy Mint Club contracts. |
 | Balancer API / `getPoolTokens` | pNUT basket composition + NAV | Needed because `balanceOf(pNUT)` returns zeros. |
-| OpenSea API | NFT floor prices | For NFT fractionalization arb. |
+| OpenSea API | NFT floor prices | For NFT venue arb (marketplace vs Sudoswap). |
 
 ### Data source hierarchy
 

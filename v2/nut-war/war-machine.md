@@ -11,14 +11,14 @@
 Enlist as Soldier. Lead as General.
 
 - **Peanut Soldiers (PNUTRMY)** — 5,013 infantry NFTs bonded to NUT. 80 SALT airdropped per Soldier. Backbone of the Orchard.
-- **Peanut Generals (P-NUTS)** — 251 officer NFTs bonded to NUT. 200 SALT airdropped per General. Trade fractions on Sudoswap in USDC.
+- **Peanut Generals (P-NUTS)** — 251 officer NFTs bonded to NUT. 200 SALT airdropped per General. Whole-NFT trading on Sudoswap in USDC.
 
 ### 🌰 Almond Order
 
 Join as Soldier. Command as General.
 
-- **Almond Soldiers (S-ALMD)** — 6,238 infantry NFTs bonded to NUT. Sky-Seasoned Crunch. 80 SALT airdropped per Soldier. Trade fractions on Sudoswap in cbETH.
-- **Almond Generals (ALMD)** — 424 officer NFTs bonded to NUT. Golden Salted Swarm. 200 SALT airdropped per General. Trade fractions on Sudoswap in cbETH.
+- **Almond Soldiers (S-ALMD)** — 6,238 infantry NFTs bonded to NUT. Sky-Seasoned Crunch. 80 SALT airdropped per Soldier. Whole-NFT trading on Sudoswap in cbETH.
+- **Almond Generals (ALMD)** — 424 officer NFTs bonded to NUT. Golden Salted Swarm. 200 SALT airdropped per General. Whole-NFT trading on Sudoswap in cbETH.
 
 All ranks mint on Mint Club bonding curves — mint to enlist (deposit NUT), burn to reclaim the NUT backing. The bonding curve sets the floor price.
 

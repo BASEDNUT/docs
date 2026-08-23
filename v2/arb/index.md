@@ -25,7 +25,7 @@ The page is structured as an ordered build sequence. Each section gives you one 
 | 5 | 🏭 Mint Club | Bonding-curve pricing quirks (buy ≠ sell) |
 | 6 | 🧺 pNUT | How to price the index basket |
 | 7 | 🏠 Venues | Where each token trades + which API |
-| 8 | 🖼️ NFT | Fractionalization |
+| 8 | 🖼️ NFT | Sudoswap whole-NFT AMM venues |
 | 9 | ⚙️ Spec | One machine-readable JSON of everything |
 | 10 | 🚀 Start | The order to build |
 
@@ -59,7 +59,7 @@ Every loop on this page is assessed honestly. Verdicts are **not** upgraded to l
 
 Some loops carry additional honest tags (e.g. **OPPORTUNISTIC**, **ADVANCED KEEPER ARB**, **VIABLE WITH CAUTION**) — these are kept verbatim, never softened.
 
-The full breakdown of all nine loops lives in [arb-loops.md](arb-loops.md). The machine-readable contract/address/signature reference is in [machine-spec.md](machine-spec.md).
+The full breakdown of all eight loops lives in [arb-loops.md](arb-loops.md). The machine-readable contract/address/signature reference is in [machine-spec.md](machine-spec.md).
 
 ***
 

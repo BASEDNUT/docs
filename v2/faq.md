@@ -90,7 +90,7 @@ Burned SNUT tokens are sent to the dead address `0x00000000000000000000000000000
 
 ### What arbitrage opportunities exist?
 
-Multiple loops: (1) SALT: mint on Mint Club → sell on Aerodrome SALT/USDC. (2) NUTINO: mint on Mint Club → sell on Uniswap V2 NUTINO/cbBTC. (3) pNUT drift: buy pNUT when market price < NAV, redeem basket; mint pNUT when market price > NAV, sell. (4) Cross-pool NUT arbitrage between Uniswap V3, V2, and Aerodrome. (5) NFT fractional: OpenSea vs Sudoswap vs intrinsic redeemable NUT.
+Multiple loops: (1) SALT: mint on Mint Club → sell on Aerodrome SALT/USDC. (2) NUTINO: mint on Mint Club → sell on Uniswap V2 NUTINO/cbBTC. (3) pNUT drift: buy pNUT when market price < NAV, redeem basket; mint pNUT when market price > NAV, sell. (4) Cross-pool NUT arbitrage between Uniswap V3, V2, and Aerodrome. (5) NFT venue: marketplace price vs Sudoswap AMM price vs intrinsic redeemable NUT backing.
 
 ### How does the SALT arbitrage loop work?
 
@@ -144,11 +144,11 @@ Peanutoshi NSI tracks market sentiment: green = bullish (rally the Nut Army), re
 
 ### What NFT collections exist in the ecosystem?
 
-P-NUTS (Peanut Generals, 251), PEANUT ARMY (Peanut Soldiers, 5,013), ALMONDS (Almond Generals, 424), S-ALMONDS (Almond Soldiers, 6,238). All bonded to NUT via Mint Club bonding curves — mint to enlist, burn to reclaim. Trade fractions on Sudoswap. See [Tokens](/v2/tokens/catalog.md).
+P-NUTS (Peanut Generals, 251), PEANUT ARMY (Peanut Soldiers, 5,013), ALMONDS (Almond Generals, 424), S-ALMONDS (Almond Soldiers, 6,238). All bonded to NUT via Mint Club bonding curves — mint to enlist, burn to reclaim. Whole-NFT trading on Sudoswap. See [Tokens](/v2/tokens/catalog.md).
 
-### How does NFT fractionalization work?
+### Where can the NFT collections be traded?
 
-War NFTs are minted by depositing NUT via bonding curves and burned to withdraw the NUT backing — the bonding curve sets a floor price. Sudoswap pools enable fractional NFT trading in USDC or cbETH.
+War NFTs are minted by depositing NUT via bonding curves and burned to withdraw the NUT backing — the bonding curve sets a floor price. Sudoswap AMM pools enable whole-NFT trading (buy/sell via bonding curves) in USDC or cbETH, alongside regular NFT marketplaces.
 
 ### What is the "Great Nut War"?
 
