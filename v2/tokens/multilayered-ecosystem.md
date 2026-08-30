@@ -124,6 +124,29 @@ Just as each part of a tree plays a vital role in its growth and sustainability,
 
 ***
 
+## THE CREDIT LAYER
+
+Above the token layers sits the credit layer.
+
+nutUSD is the tokenized share of a USDC credit reserve.
+Deposits of USDC supply conservative 38.5% LLTV credit markets, collateralized by assets such as cbBTC and cbETH.
+nutUSD is proposed; it is not yet deployed on Base mainnet.
+
+```
+NUT — the root
+      ↓
+token layers — SNUT, pNUT, SALT, NUTINO
+      ↓
+credit layer — nutUSD, the USDC reserve share
+```
+
+The credit layer is not a child token of the root.
+It is a reserve share — economic structure supplied by USDC deposits, not derived from NUT supply.
+
+See [nutUSD](/v2/tokens/nutusd.md).
+
+***
+
 ## **A Novel Multilayered Token Economy**
 
 ### Advanced Effects: Cascading and Lagging Dynamics

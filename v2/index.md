@@ -63,6 +63,7 @@ Three doors into the Orchard. Pick yours — every path leads back to the same N
 | [NUTINO](/v2/tokens/nutino.md) | Nested token — exponential curve, Uniswap arbitrage |
 | [DEEZ](/v2/tokens/deez.md) | Legacy nested token |
 | [Multilayered Ecosystem](/v2/tokens/multilayered-ecosystem.md) | How all the layers fit together |
+| [nutUSD](/v2/tokens/nutusd.md) | The credit layer — USDC reserve share, conservative 38.5% markets (PROPOSED) |
 
 ## ⚔️ The Nut War
 
@@ -94,6 +95,12 @@ Three doors into the Orchard. Pick yours — every path leads back to the same N
 |---|---|
 | [Environmental Balance Sheet](/v2/rwa/carbon-debt.md) | Emissions vs response capital — 42 companies |
 | [US Nut Economy](/v2/rwa/nuts-production.md) | Seven crops, five Americas, coproduct streams |
+
+## 🔬 Research
+
+| Page | What it covers |
+|---|---|
+| [nutUSD Testnet Experiment](/v2/research/nutusd-testnet.md) | The controlled experiment behind the credit layer — boundary sweep, real liquidation, incentive measurement, protection proofs |
 
 ## 🏰 The Orchard Extras
 

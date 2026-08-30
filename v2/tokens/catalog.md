@@ -57,6 +57,12 @@ Every asset the portal documents, by layer. The root anchors; the branches and c
 
 1%/1% transfer tax configured — fires only on pools registered via `isLiquidityPool()`. The official Virtuals pair is the only registered pool; NUT/PIPS + PIPS/USDC are unregistered → untaxed today. Risk: owner can register an external pool anytime.
 
+## The Credit Layer (Proposed)
+
+| Token | Status | Role |
+|---|---|---|
+| **nutUSD** | PROPOSED | ERC-4626 vault share of the USDC Credit Reserve. Deposits supply isolated 38.5% LLTV credit markets against cbBTC/cbETH collateral. Not a stablecoin, not USD. See [nutUSD](/v2/tokens/nutusd.md) |
+
 ## Key Addresses
 
 | Token | Address |
