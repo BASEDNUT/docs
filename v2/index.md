@@ -101,6 +101,7 @@ Three doors into the Orchard. Pick yours — every path leads back to the same N
 | Page | What it covers |
 |---|---|
 | [nutUSD Testnet Experiment](/v2/research/nutusd-testnet.md) | The controlled experiment behind the credit layer — boundary sweep, real liquidation, incentive measurement, protection proofs |
+| [nutUSD Adversarial Experiment](/v2/research/nutusd-adversarial.md) | The failure-mode record — bad-debt propagation, oracle misbehavior, liquidation overreach, rounding, donations |
 
 ## 🏰 The Orchard Extras
 

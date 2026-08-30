@@ -1,6 +1,6 @@
-# 🔬 Research — nutUSD Testnet Experiment
+# 🔬 Research — nutUSD Testnet Experiment (Experiment I)
 
-This page records the controlled experiment behind the nutUSD credit layer's boundary and protection properties. The product page ([nutUSD](/v2/tokens/nutusd.md)) states what the system is; this page records how those properties were established, what was measured, and what remains untested.
+This page records the controlled experiment behind the nutUSD credit layer's boundary and protection properties. The product page ([nutUSD](/v2/tokens/nutusd.md)) states what the system is; this page records how those properties were established, what was measured, and what remains untested. The follow-on [Adversarial Experiment](/v2/research/nutusd-adversarial.md) attacks the same configuration — bad debt, oracle misbehavior, and value-extraction paths.
 
 All results were produced on Base Sepolia with live Chainlink price feeds and the canonical Morpho Blue deployment. nutUSD is not deployed on Base mainnet.
 
@@ -8,7 +8,7 @@ All results were produced on Base Sepolia with live Chainlink price feeds and th
 
 | # | Question | Verdict |
 |---|---|---|
-| Q1 | Is the 38.5% liquidation loan-to-value an exact wall or a slope? | Exact wall |
+| Q1 | Is the 38.5% LLTV a hard borrowing ceiling, and where does liquidation begin? | Hard ceiling; a position at the maximum stays healthy; crossing requires accrued interest or price movement |
 | Q2 | Are protections bidirectional — healthy borrowers and standing lenders both covered? | Yes |
 | Q3 | How is repayment settled, and what happens on overshoot? | Shares; overshoot fails |
 | Q4 | What does a real liquidation pay, and to whom? | 1.15× incentive, zero bad debt, independent liquidator |
@@ -34,11 +34,11 @@ All results were produced on Base Sepolia with live Chainlink price feeds and th
 
 ## Method
 
-- **Unit-first.** 51 offline tests across two suites — 30 market-and-vault, 21 closure — cover calldata encoding, event decoding, and boundary math before any chain interaction.
+- **Unit-first.** 52 offline tests across two suites — 31 market-and-vault, 21 closure — cover calldata encoding, event decoding, and boundary math before any chain interaction.
 - **Staged live gates.** 27 phases total (13 market-and-vault phases, 14 closure phases); every phase is gated by assertions on transaction receipts and on-chain reads.
 - **Idempotent phases.** Each phase resumes from persisted state; a crash never re-broadcasts a settled transaction.
 - **Chain-verified decoding.** The `Liquidate` event signature was derived offline, then corrected against the live receipt — the deployed contract emits the eight-argument form. A regression test pins the observed event topic.
-- **Fresh-market isolation.** A CREATE2 salt guarantees the closure market is distinct from the original market.
+- **Fresh-market isolation.** A fresh CREATE2 salt gives the closure oracle a distinct address; because the oracle address is a Morpho market parameter, the market ID is distinct — the closure run never touches the original market's state.
 
 ## Boundary
 
@@ -49,10 +49,12 @@ Sweep against a fixed collateral position (0.01 WETH):
 | 50% | Executed |
 | 90% | Executed |
 | 99.9% | Executed |
-| 100% | Executed — one base unit below the computed maximum (floor rounding) |
+| 100% | Executed at the highest executable amount — floor rounding places it below the theoretical maximum |
 | 101% | Rejected |
 
 `Maximum Debt = Collateral Value × 0.385`
+
+The 38.5% LLTV is a borrowing ceiling, not a liquidation trigger. A position at the computed maximum remains healthy — Morpho requires health after borrowing, and liquidation becomes possible only once accrued debt or collateral-price movement pushes the position past the ceiling. The measured crossing used interest accrual, not an oracle move (see Real liquidation).
 
 Closure run: 0.02 WETH collateral · maximum debt 18.913388 USDC · borrowed 18.913386 USDC (two base units below the maximum) · market utilization at borrow 94.97%.
 
@@ -79,7 +81,7 @@ The position was opened at the boundary; the protocol's own interest accrual mov
 | Seized value at oracle price | 4.912568 USDC |
 | Liquidation incentive | 1.1500× |
 | Bad debt | 0 (assets and shares) |
-| Liquidator net profit | 0.640767 USDC |
+| Gross liquidation bonus at oracle valuation | 0.640767 USDC (net profit not measured — gas and collateral-conversion costs excluded) |
 | Transaction | [0x57a75a06…98d38f8](https://sepolia.basescan.org/tx/0x57a75a06ec563b79334c8723b56a64207116fa9c8a16849c9fe70668898d38f8) |
 
 ### Incentive formula
@@ -88,7 +90,7 @@ From the Morpho Blue source (`Morpho.sol`, `liquidate()`; `ConstantsLib.sol`):
 
 `LIF = min(1.15, 1 / (1 − 0.3 × (1 − LLTV)))`
 
-At LLTV = 0.385 the uncapped value is 1.2262; the protocol cap of 1.15 binds. The measured on-chain ratio (seized value ÷ repaid) was 1.14999…, matching the capped formula within share-conversion rounding. **The 38.5% choice therefore fixes the liquidation incentive at exactly 1.15× — the protocol maximum.**
+At LLTV = 0.385 the uncapped value is 1.2262; the protocol cap of 1.15 binds. The measured on-chain ratio (seized value ÷ repaid) was 1.14999…, matching the capped formula within share-conversion rounding. **The 38.5% choice therefore fixes the liquidation incentive at exactly 1.15× — the protocol maximum.** The cap binds below ≈56.52% LLTV; among Morpho's standard nonzero LLTVs (62.5% and up) none other reaches it. 38.5% pairs the lowest approved leverage ceiling with the maximum liquidation draw.
 
 ### After the liquidation
 
@@ -98,30 +100,30 @@ The experiment wallet held both roles, depositor and borrower. Its closing balan
 
 ## Vault behavior
 
-- **First shares.** Initial shares of the vault and of each credit market are minted to an unspendable address at initialization — the first-depositor inflation window is closed before anyone deposits.
+- **First shares.** Dead shares were seeded to the burn address in the vault and each credit market before user deposits — the first-depositor inflation window was closed before anyone deposited. This is a deliberate deployment step, following Morpho's vault guidance.
 - **Deposit allocation.** Every USDC deposit is allocated to the credit market automatically; the idle balance measured zero throughout the tested configuration.
-- **Redemption.** A full exit — every share in one transaction — returned the exact corresponding USDC. The deposit-and-redeem roundtrip is exact to one base unit.
-- **Repayment arithmetic.** A repay call defined in assets does not clamp to outstanding debt; overshooting fails with an arithmetic error. Exact repayment is performed by shares.
+- **Redemption.** A full exit — every share in one transaction — returned USDC matching the expected value within one base unit.
+- **Repayment arithmetic.** A repay call defined in assets does not clamp to outstanding debt; overshooting fails with an arithmetic error. Exact full closure was performed in shares; asset-denominated repayment remains valid for partial repayment.
 
 ## Findings
 
 | # | Finding |
 |---|---|
-| F1 | The 38.5% LLTV is an exact wall — no borrow crosses it, at 99.9% or at 100% of the maximum. |
+| F1 | The 38.5% LLTV forms a hard borrowing ceiling. The highest executable borrow sat one USDC base unit below the theoretical floor-rounded maximum; attempts beyond the ceiling reverted. A position at the maximum remains healthy; liquidation requires crossing via accrual or price movement. |
 | F2 | Protections are bidirectional: healthy positions cannot be liquidated; indebted positions cannot withdraw collateral. |
 | F3 | Two distinct withdrawal bounds, both enforced: market liquidity bounds asset withdrawal; debt bounds collateral withdrawal. |
-| F4 | Repayment settles in shares; repay-by-assets overshoot reverts. Integrations must repay by shares. |
-| F5 | At 38.5% LLTV the liquidation incentive is exactly 1.15× — the protocol cap binds. Measured on-chain. |
-| F6 | A real liquidation executed by an independent party produced zero bad debt and a 1.15×-incentivized profit. |
-| F7 | The first-share inflation window is closed by dead deposits at initialization. |
+| F4 | Asset-denominated repayment does not clamp to outstanding debt; an oversized repayment can revert when the computed shares exceed the position. Exact full closure uses the outstanding shares. |
+| F5 | At 38.5% LLTV the liquidation incentive is exactly 1.15× — the protocol cap binds, measured on-chain. The cap binds below ≈56.52% LLTV; 38.5% is the only nonzero standard Morpho LLTV that receives the maximum. |
+| F6 | A real liquidation executed by an independent party produced zero bad debt and a gross liquidation bonus of 0.640767 USDC at oracle valuation; net profit was not measured. |
+| F7 | Before user deposits, the experiment seeded dead shares to the burn address in the vault and each credit market, closing the first-depositor inflation window. |
 | F8 | The vault holds no idle capital in the tested configuration; deposits allocate automatically. |
-| F9 | Full-exit redemption is exact — every share redeemed returns the corresponding USDC. |
+| F9 | Full-exit redemption matched the expected value within one USDC base unit. |
 
 ## Limitations
 
 - Single executor for the market and vault phases; the independent party executed only the liquidation.
 - Testnet assets: mock USDC and testnet WETH/cbETH. Mainnet liquidity and behavior differ.
-- Live Chainlink feeds cannot be crashed at will; the boundary crossing used interest accrual at an exact-boundary position rather than an oracle price move. Staleness and circuit-breaker paths were not exercised.
+- Live Chainlink feeds cannot be crashed at will; the boundary crossing used interest accrual at an exact-boundary position rather than an oracle price move. Oracle failure modes were exercised in [Experiment II](/v2/research/nutusd-adversarial.md) against controlled feeds standing in for Chainlink.
 - No multi-user concurrency and no adversarial flash-loan suite.
 - Base Sepolia establishes mechanism behavior, not production performance.
 
@@ -133,6 +135,31 @@ The experiment wallet held both roles, depositor and borrower. Its closing balan
 - Share-based repayment as the canonical integration form (measured; see F4).
 - Liquidation economics verified against the reference bot ecosystem ([morpho-blue-liquidation-bot](https://github.com/morpho-org/morpho-blue-liquidation-bot), [Liquidator-Morpho](https://github.com/etherhood/Liquidator-Morpho), [morpho-liquidator-bot](https://github.com/zach030/morpho-liquidator-bot)).
 - Interface listing policy reviewed for the future mainnet surface ([listing policy](https://docs.morpho.org/get-started/resources/interface-listing-policy/)).
+
+## Artifacts
+
+All state below is on-chain and immutable; the parameter set is sufficient to reproduce every scenario against the canonical deployment.
+
+| Artifact | Value |
+|---|---|
+| Chain | Base Sepolia (84532), public RPC `https://sepolia.base.org` |
+| Morpho Blue | [`0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb`](https://sepolia.basescan.org/address/0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) — canonical per the [official addresses page](https://docs.morpho.org/developers/contracts/addresses/) |
+| Oracle factory (V2) | [`0x2DC205F24BCb6B311E5cdf0745B0741648Aebd3d`](https://sepolia.basescan.org/address/0x2DC205F24BCb6B311E5cdf0745B0741648Aebd3d) |
+| Vault V2 factory | [`0xE3a2CEbca662d99D0F279aF13a6bb8c9825D2ea0`](https://sepolia.basescan.org/address/0xE3a2CEbca662d99D0F279aF13a6bb8c9825D2ea0) |
+| Adapter factory | [`0xa24674Cc2c603FBA8AE6b442E3dB05f3dDaAa3D5`](https://sepolia.basescan.org/address/0xa24674Cc2c603FBA8AE6b442E3dB05f3dDaAa3D5) |
+| AdaptiveCurve IRM | [`0x46415998764C29aB2a25CbeA6254146D50D22687`](https://sepolia.basescan.org/address/0x46415998764C29aB2a25CbeA6254146D50D22687) |
+| LLTV (raw) | 385000000000000000000000000 (38.5%) |
+| Rehearsal market ID | `0x3988b77d0eb64930b443ca506ab855a0f379cd7af19a7e2aba6a71ef23aa02ba` |
+| Closure market | ID `0x32085c90746d71fc4568e3c645b5badc86b733bebc0f65dda2f4b20d49c2db7a`, CREATE2 salt 1788054426 |
+| Adversarial market ID | `0xf38bfb2a57d3882268518b364e4c4ac4978e1e1f77014f56f5bda33bd17057cc` (Experiment II) |
+| Dead deposits | Burn address `0x…dEaD`, seeded before user deposits — 10^6 base units (1 USDC) in the closure and adversarial markets/vaults; 10^12 base units in the original market-and-vault rehearsal (larger seed, same purpose) |
+| Run windows (UTC) | 2026-08-29 06:43–15:35 (market + vault) · 2026-08-30 01:47–01:56 (closure) · 2026-08-30 05:58–07:16 (adversarial) |
+| Closure block range | 46143070–46143350 |
+| Adversarial liquidation blocks | 46151903–46152400 |
+| Offline tests | 76 across three suites (31 market-and-vault, 21 closure, 24 adversarial) |
+| `Liquidate` event | 8-argument form; topic = keccak256 of `Liquidate(bytes32,address,address,uint256,uint256,uint256,uint256,uint256)`; pinned by regression test against the live receipt |
+
+The measurement harness is internal tooling; the complete on-chain record — transactions, receipts, events — is public, and the parameter set above reproduces every scenario against the immutable deployment.
 
 ## References
 

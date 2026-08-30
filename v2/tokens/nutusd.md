@@ -384,6 +384,17 @@ For example, a borrower beginning at 30% LTV reaches 38.5% LLTV when collateral 
 relative to an initial collateral value of 100.
 That corresponds to approximately a 22.08% collateral decline, ignoring accrued interest and oracle effects.
 
+Past the ceiling, three states follow:
+
+```
+LTV ≤ 38.5%          → healthy
+38.5% < LTV ≤ 86.96% → liquidatable; liquidation still covers the debt
+LTV > 86.96%         → bad-debt region; seizure no longer covers the debt
+```
+
+86.96% is 1/1.15, the inverse of the liquidation incentive.
+From a maximum-boundary borrow, the bad-debt region begins only after a collateral decline greater than 55.725%.
+
 ## Liquidation Economics
 
 Morpho determines the liquidation incentive from the market LLTV.
@@ -397,6 +408,8 @@ At 38.5%:
 `LIF = min(1.15, 1 / (0.3 × 0.385 + 0.7)) = 1.15`
 
 This means a liquidator may receive collateral worth up to approximately 115% of the debt repaid, subject to the actual liquidation mechanics.
+
+Among Morpho's standard nonzero LLTV options, 38.5% is the one at which the maximum incentive applies — the lowest approved leverage ceiling with the maximum liquidation draw.
 
 That incentive exists to make liquidation economically attractive.
 It is beneficial to lenders only insofar as it helps unhealthy debt get repaid.
@@ -764,23 +777,24 @@ It is not money creation.
 
 ### The Liquidation Boundary
 
-The 38.5% LLTV is enforced exactly.
-
-A borrower may borrow at most:
+The 38.5% LLTV forms the borrowing ceiling.
 
 `Maximum Debt = Collateral Value × 0.385`
 
-The maximum is computed to the smallest unit of the loan asset.
-A borrow request above the maximum is rejected.
-There is no rounding path past the boundary.
+The ceiling is computed to the smallest unit of the loan asset, with floor rounding.
+The highest executable borrow can sit one unit below the theoretical maximum.
+A borrow request beyond the ceiling is rejected.
 
 ```
 $100 collateral
       ↓
 $38.50 maximum debt
       ↓
-borrow above the maximum → rejected
+borrow beyond the ceiling → rejected
 ```
+
+A borrower at the ceiling remains healthy.
+Liquidation becomes possible only when accrued interest or a collateral-price change moves the position past the ceiling.
 
 ### Position Protection
 
@@ -803,17 +817,19 @@ withdraw collateral → rejected
 The debt must be repaid first.
 Zero-value borrow and repay calls are rejected.
 
-The protections run in both directions.
-The borrower is protected while healthy.
-The lender is protected while debt stands.
+The protections are three:
+a healthy borrower cannot be liquidated;
+a borrower with debt cannot withdraw collateral;
+a lender cannot withdraw beyond available liquidity.
 
 ### First Shares
 
-The first shares of the vault are minted to an unspendable address at initialization.
-The first supply shares of each credit market are minted the same way.
+Dead shares are seeded to an unspendable address before public deposits.
+The vault's first shares are placed out of reach.
+The first supply shares of each credit market are placed out of reach the same way.
 
 ```
-initial shares → unspendable address
+dead shares → unspendable address
       ↓
 no depositor is ever the first shareholder
       ↓
@@ -825,7 +841,7 @@ The dead shares close that window before any depositor enters.
 
 ### Repayment
 
-Repayment is settled in shares.
+Repayment can be specified in assets or in shares.
 
 A repay call defined in assets does not stop at the outstanding debt.
 Repaying more assets than the debt computes more shares than the position holds and fails.
@@ -836,8 +852,8 @@ repay(assets > debt)
 share underflow → rejected
 ```
 
-Exact repayment is performed by shares.
-Borrower and liquidation integrations must repay by shares.
+Exact full closure is performed in shares.
+Asset-denominated repayment serves partial repayment.
 
 ### Redemption
 
