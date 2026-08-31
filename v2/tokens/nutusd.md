@@ -3,6 +3,8 @@
 **Status: PROPOSED** — not deployed on Base mainnet; nutUSD does not exist as a live token yet. For the full asset map see [Token Catalog](/v2/tokens/catalog.md); for how the layers fit see [Multilayered Ecosystem](/v2/tokens/multilayered-ecosystem.md).
 
 > Research notes: [nutUSD Testnet Experiment](/v2/research/nutusd-testnet.md)
+>
+> First designed application: [Agricultural Credit — RWA](/v2/rwa/credits.md)
 
 > **Nutkamoto:** not a dollar, not a stablecoin — a share of a disciplined credit reserve. The word after the nut is the loan book, not a peg. 🥜
 

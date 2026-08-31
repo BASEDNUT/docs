@@ -95,6 +95,7 @@ Three doors into the Orchard. Pick yours — every path leads back to the same N
 |---|---|
 | [Environmental Balance Sheet](/v2/rwa/carbon-debt.md) | Emissions vs response capital — 42 companies |
 | [US Nut Economy](/v2/rwa/nuts-production.md) | Seven crops, five Americas, coproduct streams |
+| [Agricultural Credit](/v2/rwa/credits.md) | The nutUSD farm-financing layer — carbon-backed agricultural credit (PROPOSED) |
 
 ## 🔬 Research
 
