@@ -10,7 +10,7 @@ All results were produced on Base Sepolia with live Chainlink price feeds and th
 |---|---|---|
 | Q1 | Is the 38.5% LLTV a hard borrowing ceiling, and where does liquidation begin? | Hard ceiling; a position at the maximum stays healthy; crossing requires accrued interest or price movement |
 | Q2 | Are protections bidirectional — healthy borrowers and standing lenders both covered? | Yes |
-| Q3 | How is repayment settled, and what happens on overshoot? | Shares; overshoot fails |
+| Q3 | How is repayment settled, and what happens on overshoot? | Shares for exact full closure; an oversized asset-denominated repayment can fail — see F4 |
 | Q4 | What does a real liquidation pay, and to whom? | 1.15× incentive, zero bad debt, independent liquidator |
 | Q5 | What bounds a withdrawal — market liquidity or outstanding debt? | Both, separately enforced |
 | Q6 | Does the vault hold idle capital? | None in the tested configuration |
@@ -132,7 +132,7 @@ The experiment wallet held both roles, depositor and borrower. Its closing balan
 - Conservative LLTV selection per Morpho's curation guidance ([docs.morpho.org/curate](https://docs.morpho.org/curate/)).
 - Chainlink price feeds wrapped in Morpho oracle adapters, per the oracle requirements ([ecosystem/oracles](https://docs.morpho.org/developers/ecosystem/oracles/)).
 - Dead-share initialization against first-depositor inflation ([vault-v2](https://github.com/morpho-org/vault-v2)).
-- Share-based repayment as the canonical integration form (measured; see F4).
+- Share-based repayment for exact full closure — both asset- and share-denominated repayment exist; shares are the precise close path (measured; see F4).
 - Liquidation economics verified against the reference bot ecosystem ([morpho-blue-liquidation-bot](https://github.com/morpho-org/morpho-blue-liquidation-bot), [Liquidator-Morpho](https://github.com/etherhood/Liquidator-Morpho), [morpho-liquidator-bot](https://github.com/zach030/morpho-liquidator-bot)).
 - Interface listing policy reviewed for the future mainnet surface ([listing policy](https://docs.morpho.org/get-started/resources/interface-listing-policy/)).
 

@@ -1,6 +1,6 @@
 # 🔬 Research — nutUSD Vault Machinery (Experiment V)
 
-Fifth experiment in the nutUSD research series. [Experiment I](/v2/research/nutusd-testnet.md) verified the market boundary; [Experiment II](/v2/research/nutusd-adversarial.md) recorded the failure modes; [Experiment III](/v2/research/nutusd-liquidation-envelope.md) completed the seizure envelope; [Experiment IV](/v2/research/nutusd-liquidity-rates.md) measured liquidity and rates. This experiment exercises the vault layer the production design wraps around the market: the role and timelock machinery, the inflation-attack surface, and the rate limiter that governs how the vault recognizes gains. Every number is a measured on-chain value.
+Fifth experiment in the nutUSD research series. [Experiment I](/v2/research/nutusd-testnet.md) verified the market boundary; [Experiment II](/v2/research/nutusd-adversarial.md) recorded the failure modes; [Experiment III](/v2/research/nutusd-liquidation-envelope.md) mapped the seizure branches and oracle-zero states; [Experiment IV](/v2/research/nutusd-liquidity-rates.md) measured liquidity and rates. This experiment exercises the vault layer the production design wraps around the market: the role and timelock machinery, the inflation-attack surface, and the rate limiter that governs how the vault recognizes gains. Every number is a measured on-chain value.
 
 ## Questions
 
@@ -19,7 +19,7 @@ Fifth experiment in the nutUSD research series. [Experiment I](/v2/research/nutu
 | Chain | Base Sepolia (84532) |
 | Vault | `VaultV2` via the canonical factory — three configurations |
 | Loan asset | Mock USDC (6 decimals) |
-| Dead-share shield | `virtualShares` = 10¹² on every vault — verified on-chain |
+| Virtual-share offset | `virtualShares` = 10¹² on every vault, derived from asset decimals — an accounting offset, distinct from the dead shares held by the burn address |
 | Attacker / victim | Two ephemeral wallets; attacker deposits 1 base unit, victim deposits 10 USDC after a 100 USDC gift |
 
 | Vault | Recognition rate | Purpose |
@@ -56,12 +56,12 @@ The active vault (real balance 110.000001 USDC, recognized 10.000761 USDC) was l
 |---|---|
 | Recognized before | 10,000,761 — 10.000761 USDC |
 | Elapsed | 162 s (block timestamps) |
-| Recognition cap | old × maxRate × elapsed — 200%/year ceiling |
+| Recognition cap | recognized × maxRate × elapsed per accrual — 200%/year, compounding across accruals |
 | Recognized after | 10,000,863 — 10.000863 USDC |
 | Drip | 102 base units — equal to the cap, exact |
 | Real balance | 110.000001 USDC — the ceiling the drip climbs toward |
 
-The drip equals the cap exactly: recognition grows at most at maxRate per year on the recognized base, no faster — a 100 USDC gain at the 200%/year cap on a 10 USDC base takes years to fully recognize. Gains drip in; the same mechanism makes losses instant — a real balance below the recognized figure binds withdrawals immediately. Asymmetric by design, in the depositor's favor on losses and against premature gain-harvesting.
+The drip equals the cap exactly: each accrual recognizes at most recognized-base × maxRate × elapsed, and the enlarged recognized base becomes the next accrual's base — recognition compounds across accruals. The 200%/year constant is a per-accrual ceiling on that base, not a fixed multi-year schedule; a long-drip projection needs simulation, not extrapolation. Gains drip in; the same mechanism makes losses instant — a real balance below the recognized figure binds withdrawals immediately. Asymmetric by design, in the depositor's favor on losses and against premature gain-harvesting.
 
 ## Findings
 
@@ -69,7 +69,7 @@ The drip equals the cap exactly: recognition grows at most at maxRate per year o
 |---|---|
 | F1 | The role machinery executes as documented: setCurator → submit → execute lands the allocator flag; the `setIsAllocator` timelock defaults to zero. |
 | F2 | The inflation attack is dead at zero rate: victim shares equal fair shares exactly, the gift never enters share math. |
-| F3 | The inflation attack is dead at the 200%/year cap: the gift is unrecognized at the victim's deposit — the recognition-timing window the attack needs does not open. |
+| F3 | The same-block and immediate inflation sequences are dead at the 200%/year cap: the gift is unrecognized at the victim's deposit — the recognition-timing window those sequences need does not open. |
 | F4 | A gift to an untouched vault is invisible: `totalAssets` reads zero with 100 USDC inside; the first deposit opens at the virtual-share floor. |
 | F5 | Gain recognition is rate-limited and exact: the drip equals old × maxRate × elapsed to the base unit; losses bind immediately. |
 | F6 | The virtual-share shield (10¹²) and the rate limiter compose into a two-layer inflation defense — rounding window and recognition timing both closed. |
@@ -78,6 +78,7 @@ The drip equals the cap exactly: recognition grows at most at maxRate per year o
 
 - Three vault sizes on the scale of the experiment wallets; the shield and limiter behavior at production scale with continuous deposits is not measured here.
 - The 200%/year cap is the ceiling of the parameter space, chosen to stress the limiter; production caps will sit far lower, which only lengthens the drip.
+- The timed inflation sequence — gift, wait, repeated accrual, victim deposit, attacker redeem — is unmeasured; the rate limiter delays recognition, it does not permanently prohibit it.
 - No fuzzing of share arithmetic in this experiment — dust and rounding behavior is measured in Experiment II; a stateful fuzz campaign remains forward work.
 - Allocator misuse — a malicious or compromised allocator reallocating depositors' funds across markets — is not exercised; the production design's guardrails are documented in the product page.
 

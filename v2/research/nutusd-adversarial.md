@@ -101,7 +101,7 @@ Odd-amount deposit → redeem cycles: 1000001 → 1000000, 999999 → 999998, 12
 
 ### A8 — Donations
 
-- **Direct USDC gift to the vault:** invisible to `totalAssets` at the moment of transfer — `totalAssets` counts the adapter's Morpho position, and excess balance is recognized only through the vault's rate limiter. A gift never moves the share price instantly; it drips into `totalAssets` at at most maxRate per year (the drip is measured exactly in [Experiment V](/v2/research/nutusd-vault-machinery.md)). At a zero recognition rate it stays invisible indefinitely; in this experiment's configuration the recognized amount was zero throughout.
+- **Direct USDC gift to the vault:** invisible to `totalAssets` at the moment of transfer — `totalAssets` counts the adapter's Morpho position, and excess balance is recognized only through the vault's rate limiter. A gift never moves the share price instantly; it drips into `totalAssets` capped per accrual at the recognized base × maxRate × elapsed, compounding across accruals (the drip is measured exactly in [Experiment V](/v2/research/nutusd-vault-machinery.md)). At a zero recognition rate it stays invisible indefinitely; in this experiment's configuration the recognized amount was zero throughout.
 - **Gift to the adapter:** same class, one step worse — invisible to `realAssets`, and outside the vault's recognition path entirely: no drip, no sweep, locked.
 
 Donation-dilution is impossible in this configuration: a gift cannot move the share price instantly, whether it is recognized later (vault — rate-limited) or never (adapter). Rescuing stray adapter funds remains impossible.
@@ -126,8 +126,8 @@ The trust stack for nutUSD oracles is therefore: Chainlink feed quality plus the
 
 ## What this means for nutUSD
 
-1. The one severe depositor scenario is a collateral crash deeper than 55.725% from a maximum-boundary borrow (collateral value below 44.275% of initial). At that point liquidation cannot cover the debt, and suppliers — the vault's position plus the market's dead shares — absorb the difference, exactly and proportionally at every layer.
-2. Every other measured attack either reverts or hurts only the attacker or the borrower.
+1. Depositor loss occurs whenever a failure creates unrecoverable borrower debt. Measured causes: a collateral crash deeper than 55.725% from a maximum-boundary borrow, oracle overvaluation followed by correction, and the zero-base-feed liquidation path (Experiment III). All converge on the same terminal mechanism: bad debt → supplier loss → vault-share loss, exact and proportional at every layer.
+2. The remaining measured attacks either revert or hurt only the attacker or the borrower.
 3. Oracle safety is entirely external to the adapter: it is a property of the feeds chosen, locked in at market creation.
 4. A dead feed freezes borrowers but preserves the depositor exit door (bounded by market liquidity).
 5. Rounding favors the vault; donations cannot dilute.

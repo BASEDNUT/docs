@@ -1,6 +1,6 @@
 # 🔬 Research — nutUSD Liquidity & Rates (Experiment IV)
 
-Fourth experiment in the nutUSD research series. [Experiment I](/v2/research/nutusd-testnet.md) verified the boundary; [Experiment II](/v2/research/nutusd-adversarial.md) recorded the failure modes; [Experiment III](/v2/research/nutusd-liquidation-envelope.md) completed the seizure envelope. This experiment measures the market under the production interest-rate model: accrual exactness, the utilization wall, and liquidity recovery. The series' other markets run a zero-rate IRM to isolate boundary math from accrual; this market runs the canonical AdaptiveCurveIRM — the model the production vault will use.
+Fourth experiment in the nutUSD research series. [Experiment I](/v2/research/nutusd-testnet.md) verified the boundary; [Experiment II](/v2/research/nutusd-adversarial.md) recorded the failure modes; [Experiment III](/v2/research/nutusd-liquidation-envelope.md) mapped the seizure branches and oracle-zero states. This experiment measures the market under the production interest-rate model: accrual exactness, the utilization wall, and liquidity recovery. Experiments II, III, and V–VII run a zero-rate IRM to isolate static geometry from accrual; Experiment I measured its boundary and liquidation through live-feed accrual; this market runs the canonical AdaptiveCurveIRM — the model the production vault will use.
 
 ## Questions
 
@@ -33,7 +33,7 @@ Fourth experiment in the nutUSD research series. [Experiment I](/v2/research/nut
 | Prediction (Taylor 3-term, source-derived, contract rounding) | 18 — exact |
 | Transaction | [`0xa6c0bd6d…a80993`](https://sepolia.basescan.org/tx/0xa6c0bd6d0c587350737258be83de9e142f2f8eb8b05668d13427e12634a80993) |
 
-The AdaptiveCurveIRM evaluates its curve as a three-term Taylor expansion. The offline model — the same expansion and the same share-conversion rounding as the contract — predicted 18; the chain accrued 18. Accrual is deterministic and reproducible offline to the base unit.
+The IRM sets the borrow rate through exponential adaptation (`wExp`); Morpho's accrual then compounds the debt with the three-term Taylor approximation (`wTaylorCompounded`). The offline model — the same approximation and the same share-conversion rounding as the contract — predicted 18; the chain accrued 18. Accrual is deterministic and reproducible offline to the base unit.
 
 ## The utilization wall
 

@@ -1,6 +1,6 @@
 # 🔬 Research — nutUSD Liquidation Envelope (Experiment III)
 
-Third experiment in the nutUSD research series. [Experiment I](/v2/research/nutusd-testnet.md) verified the boundary and the normal liquidation; [Experiment II](/v2/research/nutusd-adversarial.md) recorded the failure modes. This experiment completes the liquidation envelope across the oracle-state lattice — partial and full seizure branches, a feed stuck above the true price, both zero-feed states, and the nested ladder a market loss climbs from market to depositor. Every number is a measured on-chain value decoded from transaction receipts.
+Third experiment in the nutUSD research series. [Experiment I](/v2/research/nutusd-testnet.md) verified the boundary and the normal liquidation; [Experiment II](/v2/research/nutusd-adversarial.md) recorded the failure modes. This experiment maps the core liquidation branches and the oracle-zero states — partial and full seizure, a feed stuck above the true price, both zero-feed states, and the nested ladder a market loss climbs from market to depositor. Every number is a measured on-chain value decoded from transaction receipts.
 
 ## Questions
 
@@ -66,7 +66,7 @@ The base (WETH) feed was set to 0. The guard passes and the adapter serves price
 
 Measured: two borrowers, each 0.01 WETH seized for 0 repaid, each emitting 3.85 USDC of bad debt — [tx `0xfd4275ec…0bc6c3fa`](https://sepolia.basescan.org/tx/0xfd4275ec68e65c4aef893701d0a8377813d1cef42233aea4cf006c3c0bc6c3fa) and [tx `0xfd9a6c1c…d2c45dc1`](https://sepolia.basescan.org/tx/0xfd9a6c1cda81d9a92601aa301909644d5a56eb35bedf608720e4cb7bd2c45dc1). The final market state matched the offline prediction exactly: supply 492.928261 USDC, borrow 0.
 
-**A zero base price is the most severe oracle state in the series: it does not freeze the market — it turns liquidation into a drain.** The defense is unchanged and external to the adapter: feed quality. Zero passes the only guard the adapter has.
+**A zero base price is the most severe oracle state in the series: it does not freeze the market — it turns liquidation into a drain.** The defense is unchanged and external to the adapter: feed quality. Zero passes the only guard the adapter has — this is not a harness artifact; Morpho's Chainlink library accepts `answer >= 0` by design. Production therefore carries a hard monitoring invariant: every oracle leg used by nutUSD must remain strictly greater than zero.
 
 A borrower's own exit stays open at price 0: repayment reads no price, and after a full repay-by-shares the position is healthy and collateral withdrawal succeeds — measured with a fresh wallet at price 0 (repay by shares, then full collateral exit). The exit door for borrowers is self-repayment, not liquidation.
 

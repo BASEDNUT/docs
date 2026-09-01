@@ -1,16 +1,16 @@
 # 🔬 Research — nutUSD LLTV Ladder (Experiment VII)
 
-Seventh and closing experiment in the nutUSD research series. [Experiment I](/v2/research/nutusd-testnet.md) measured the boundary and the normal liquidation; [II](/v2/research/nutusd-adversarial.md) recorded the failure modes; [III](/v2/research/nutusd-liquidation-envelope.md) completed the seizure branches and the oracle-state lattice; [IV](/v2/research/nutusd-liquidity-rates.md) the rates and the utilization wall; [V](/v2/research/nutusd-vault-machinery.md) the vault machinery; [VI](/v2/research/nutusd-production-recipe.md) the production collateral shape. This one inverts the method: instead of studying the 38.5% market alone, it builds Morpho's eight nonzero standard LLTVs side by side — 38.5% through 98% — with everything else held constant. Same collateral, same oracle, same supply, same borrower shapes. Only the LLTV moves. Every number below is a measured on-chain receipt value; the offline prediction from source matched the measurement at every rung, every branch, to the base unit.
+Seventh experiment in the nutUSD research series — the closing comparative-parameter experiment; the assurance program (multi-user ordering, emergency machinery, stateful invariants, mainnet fork) remains open. [Experiment I](/v2/research/nutusd-testnet.md) measured the boundary and the normal liquidation; [II](/v2/research/nutusd-adversarial.md) recorded the failure modes; [III](/v2/research/nutusd-liquidation-envelope.md) mapped the seizure branches and the oracle-zero states; [IV](/v2/research/nutusd-liquidity-rates.md) the rates and the utilization wall; [V](/v2/research/nutusd-vault-machinery.md) the vault machinery; [VI](/v2/research/nutusd-production-recipe.md) the production collateral shape. This one inverts the method: instead of studying the 38.5% market alone, it builds Morpho's eight nonzero standard LLTVs side by side — 38.5% through 98% — with everything else held constant. Same collateral, same oracle, same supply, same borrower shapes. Only the LLTV moves. Executed values below are receipt-measured, and the offline prediction from source matched at every rung and branch to the base unit; entries derived from the measured geometry rather than executed are labelled.
 
 ## Questions
 
 | # | Question | Verdict |
 |---|---|---|
-| G1 | Is the borrowing wall LLTV-dependent? | No — the exact maximum is collateral × LLTV at every rung; one unit above reverts at all eight |
-| G2 | Is the liquidation trigger LLTV-dependent? | No — an exact-max borrower at any rung turns liquidatable under the same −10% move; LLTV cancels |
-| G3 | Where do the rungs diverge? | Three variables only: liquidation incentive, crash absorption, and the covered/full seizure branch |
+| G1 | Is the borrowing-wall rule LLTV-dependent? | No — the rule is invariant: max = collateral × LLTV, one unit above reverts at all eight; the wall's height scales with LLTV |
+| G2 | At equal utilization of each rung's own capacity, is the liquidation trigger LLTV-dependent? | No — LLTV cancels: exact-max borrowers flip under any downward move at all 8 rungs; half-max at exactly −50% |
+| G3 | Where does static liquidation geometry diverge? | Three variables: liquidation incentive, crash absorption, and the covered/full branch — downstream quantities (max borrow, utilization at fixed supply) scale with LLTV as consequences of capacity |
 | G4 | Is 38.5% unique among the standard rungs? | Yes — the only nonzero standard LLTV whose incentive is capped at 1.15×, and the only rung with zero bad debt at −50% |
-| G5 | What finally breaks 38.5%? | A −60% crash: all collateral seized, ⌈800 ÷ 1.15⌉ repaid, 74.347826 USDC bad debt |
+| G5 | What happens beyond the 38.5% recovery boundary? | The boundary is −55.725%; at the sampled −60% crash: all collateral seized, ⌈800 ÷ 1.15⌉ repaid, 74.347826 USDC bad debt |
 
 ## Environment
 
@@ -30,10 +30,10 @@ The eight markets, differing only in LLTV:
 
 | Rung | Market id |
 |---|---|
-| 38.5% | [`0xfe8a66e3…fec5e5e9`](https://sepolia.basescan.org/address/0xfe8a66e372a544f8fc2cb73def05674d6cf15d4cfc5aeffc1b3e330cfec5e5e9) |
-| 62.5% | [`0x164cb15f…647f0813`](https://sepolia.basescan.org/address/0x164cb15fabcad3a2b3949a0bd2065d6cfc7070eecf907d03d0088046647f0813) |
-| 77.0% | [`0xb9935485…6dcb4823`](https://sepolia.basescan.org/address/0xb993548581b4696fd79b7092eb3e6845eba79fb779bce9560fcb5a866dcb4823) |
-| 86.0% | [`0xeb05719b…8179c4d7`](https://sepolia.basescan.org/address/0xeb05719bb753a15e2d57f7ead4f55ec6f7ba8d4118c24394cbcd996d8179c4d7) |
+| 38.5% | `0xfe8a66e3…fec5e5e9` |
+| 62.5% | `0x164cb15f…647f0813` |
+| 77.0% | `0xb9935485…6dcb4823` |
+| 86.0% | `0xeb05719b…8179c4d7` |
 | 91.5% | [`0x75eb4841…3c38dce`](https://sepolia.basescan.org/address/0x75eb4841b4603cfcd191d0575fe58901c0e7210699c089d2ede9037683c38dce) |
 | 94.5% | [`0xbe2e2df3…005f000`](https://sepolia.basescan.org/address/0xbe2e2df3f4935c26a8b008604470750dc2931557362806573a40a9d31005f000) |
 | 96.5% | [`0xff85f8fe…30bc58a`](https://sepolia.basescan.org/address/0xff85f8fefd7822d640fb568b4eb968b6ab04ec2b91095b02d87865e6d30bc58a) |
@@ -79,6 +79,8 @@ Two formulas produce every entry:
 - **Incentive** — min(1.15, 1 ÷ (1 − 0.3 × (1 − LLTV))). The cap begins binding below ≈56.52% LLTV, which makes 38.5% the *only* nonzero standard rung that receives the full 1.15×.
 - **Absorption** — 1 − LLTV × incentive: how much of the collateral's value a crash can erase before an exact-max borrower slips past what a seizure can recover. 55.725% at 38.5%; 1.408% at 98%.
 
+The incentive and absorption columns are formulas verified against the measured receipts; the −50% branch column is derived from them — only the 38.5% rung was executed at −50%.
+
 ## Crash at −10% — receipts
 
 An independent wallet liquidated the exact-max borrower at every rung under the same corrected feed.
@@ -99,11 +101,20 @@ An independent wallet liquidated the exact-max borrower at every rung under the 
 
 ## Crash at −50% — 38.5% alone survives
 
-A second 38.5% borrower, opened at the exact maximum, was liquidated at feed 1000 — [tx `0x7f36ebf2…e210a25b`](https://sepolia.basescan.org/tx/0x7f36ebf2a489191da141ee733de6e0283d7eeab36b716555d55d34dae210a25b): covered branch, the full 770 USDC debt repaid, 0.8855 mockNUT seized, zero bad debt. The seizure is exactly the absorption boundary — 885.5 is the floor feed for a covered seizure at 38.5%, and 1000 sits above it. Every higher rung is already in the full branch at −50% (geometry table); 38.5% is the only standard rung whose depositors take nothing at a halving of the collateral price.
+A second 38.5% borrower, opened at the exact maximum, was liquidated at feed 1000 — [tx `0x7f36ebf2…e210a25b`](https://sepolia.basescan.org/tx/0x7f36ebf2a489191da141ee733de6e0283d7eeab36b716555d55d34dae210a25b): covered branch, the full 770 USDC debt repaid, 0.8855 mockNUT seized, zero bad debt. The seizure is exactly the absorption boundary — 885.5 is the floor feed for a covered seizure at 38.5%, and 1000 sits above it. Every higher rung is beyond its own recovery threshold at −50% — derived from the measured geometry, not separately executed; 38.5% is the only standard rung whose depositors take nothing at a halving of the collateral price.
 
-## Crash at −60% — the first 38.5% loss
+## Crash at −60% — beyond the recovery boundary
 
-At feed 800 the 38.5% market finally takes its loss — [tx `0x456b9a0d…648b6a34`](https://sepolia.basescan.org/tx/0x456b9a0d277a32183a5920660bde3ca697b512da59fbf369dcf217ee648b6a34): all collateral seized, 695.652174 USDC repaid (⌈800 ÷ 1.15⌉), 74.347826 USDC bad debt. The borrower is wiped out; suppliers absorb the remainder. Even here the number is the exact integer the source math predicts.
+At feed 800 — beyond the −55.725% recovery boundary — the 38.5% market takes its loss — [tx `0x456b9a0d…648b6a34`](https://sepolia.basescan.org/tx/0x456b9a0d277a32183a5920660bde3ca697b512da59fbf369dcf217ee648b6a34): all collateral seized, 695.652174 USDC repaid (⌈800 ÷ 1.15⌉), 74.347826 USDC bad debt. The borrower is wiped out; suppliers absorb the remainder. Even here the number is the exact integer the source math predicts.
+
+## Limitations
+
+- Borrowers are normalized to each rung's own borrowing capacity (exact-max and half-max); at the same absolute debt the liquidation price differs by LLTV — the LLTV-cancellation result holds at equal utilization, not absolutely.
+- The zero-rate IRM removes the utilization/rate feedback: results characterize static liquidation geometry, not production rate dynamics.
+- Price moves are instantaneous mock-feed repricings — no oracle latency, heartbeat, or deviation path.
+- One liquidator, mock collateral, one collateral size; liquidation gas, slippage, and competing-liquidator economics are outside this experiment.
+- The higher rungs at −50% are derived from the measured geometry, not separately executed.
+- Testnet geometry, not production-loss prediction.
 
 ## Verdict — what 38.5% is
 
@@ -111,13 +122,13 @@ At feed 800 the 38.5% market finally takes its loss — [tx `0x456b9a0d…648b6a
 
 **Different at 38.5%:**
 
-- the maximum 1.15× liquidation incentive — unique among nonzero standard rungs, so bad debt is cleared fastest exactly where it is hardest to create;
+- the maximum 1.15× liquidation incentive — unique among nonzero standard rungs: the strongest protocol-defined economic reward available to a liquidator, exactly where bad debt is hardest to create;
 - 55.725% crash absorption versus 29.6% at 62.5% and 1.4% at 98%;
 - covered seizures down to a −55.725% feed, versus −1.4% at 98%;
 - zero depositor loss at a −50% crash — alone in the set;
-- first loss only at −60%, and then 74.35 USDC per $2,000 collateral.
+- bad debt begins beyond the −55.725% recovery boundary — the sampled −60% crash measured 74.35 USDC per $2,000 collateral.
 
-**The trade, stated honestly:** 38.5% concedes capital efficiency — a borrower extracts 770 USDC per $2,000 collateral where a 98% borrower extracts 1,960, a 2.5× difference. The rungs are not safety-versus-risk in the abstract; they choose *whose* extreme day is protected. 38.5% protects the depositor's worst day and the market's deepest crash. 98% protects the borrower's best day. nutUSD picks the depositor — see [the credit layer](/v2/tokens/nutusd.md).
+**The trade, stated honestly:** 38.5% concedes capital efficiency — a borrower extracts 770 USDC per $2,000 collateral where a 98% borrower extracts 1,960, a 2.5× difference. 38.5% prioritizes solvency margin; 98% prioritizes capital efficiency. nutUSD picks the solvency margin — see [the credit layer](/v2/tokens/nutusd.md).
 
 > 🥜 Eight ladders, one wall-shape. The conservative rung does not climb highest — it is the one still standing when the price halves.
 
