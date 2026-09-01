@@ -28,7 +28,7 @@ All results were produced on Base Sepolia with live Chainlink price feeds and th
 | Credit markets | WETH/USDC and cbETH/USDC at 38.5% LLTV |
 | Vault (ERC-4626) | [0x998C1a0aF0009d695A430521E97303f61ffb8928](https://sepolia.basescan.org/address/0x998C1a0aF0009d695A430521E97303f61ffb8928) |
 | Liquidity adapter | [0x4eE61C2592a3B80A4324A7ce4F1be9541894b310](https://sepolia.basescan.org/address/0x4eE61C2592a3B80A4324A7ce4F1be9541894b310) |
-| Closure market (fresh salt) | [0x32085c90746d71fc4568e3c645b5badc86b733bebc0f65dda2f4b20d49c2db7a](https://sepolia.basescan.org/address/0x32085c90746d71fc4568e3c645b5badc86b733bebc0f65dda2f4b20d49c2db7a) |
+| Closure market (fresh salt) | `0x32085c90…c2db7a` |
 | Closure oracle | [0x32338F4e75E5f2a5C2AF3599aC5fbcdEa8248BA7](https://sepolia.basescan.org/address/0x32338F4e75E5f2a5C2AF3599aC5fbcdEa8248BA7) |
 | Independent liquidator | [0x7b2198D66DD6de5c3b4323AD84C2446c88BDBD7C](https://sepolia.basescan.org/address/0x7b2198D66DD6de5c3b4323AD84C2446c88BDBD7C) — ephemeral, single-purpose wallet |
 
