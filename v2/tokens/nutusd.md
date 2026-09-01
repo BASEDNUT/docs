@@ -2,7 +2,7 @@
 
 **Status: PROPOSED** — not deployed on Base mainnet; nutUSD does not exist as a live token yet. For the full asset map see [Token Catalog](/v2/tokens/catalog.md); for how the layers fit see [Multilayered Ecosystem](/v2/tokens/multilayered-ecosystem.md).
 
-> Research notes: [nutUSD Testnet Experiment](/v2/research/nutusd-testnet.md)
+> Research series: [Experiment I — Testnet](/v2/research/nutusd-testnet.md) · [II — Adversarial](/v2/research/nutusd-adversarial.md) · [III — Liquidation Envelope](/v2/research/nutusd-liquidation-envelope.md) · [IV — Liquidity & Rates](/v2/research/nutusd-liquidity-rates.md) · [V — Vault Machinery](/v2/research/nutusd-vault-machinery.md) · [VI — Production Recipe](/v2/research/nutusd-production-recipe.md)
 >
 > First designed application: [Agricultural Credit — RWA](/v2/rwa/credits.md)
 
