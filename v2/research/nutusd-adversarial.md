@@ -8,14 +8,14 @@ The product page ([nutUSD](/v2/tokens/nutusd.md)) states what the system is. Thi
 
 | # | Question | Verdict |
 |---|---|---|
-| A1 | How does a collateral crash propagate to depositors? | Bad debt socializes to market suppliers; the vault, as sole supplier, absorbs it; holders lose proportionally — exact math |
+| A1 | How does a collateral crash propagate to depositors? | Nested and exact — market dead shares, vault position, vault dead shares, depositor; pro-rata at every layer |
 | A2 | Can an oracle spike be used to print debt? | Yes against a controllable feed — bad debt 7.202173 USDC created; the defense is feed quality, not the adapter |
-| A3 | What does a minAnswer-style clamp do? | Vault safe; the borrower over-loses 6.50 USDC |
+| A3 | What does an underpriced (clamped-low) oracle do? | Vault safe; the borrower over-loses 6.50 USDC — the floor-stuck mirror direction is supplier bad debt (Experiment III) |
 | A4 | What happens on a broken (negative) feed? | Asymmetric freeze — borrow, collateral exit, and liquidation revert; supply, withdraw, and repay stay live |
 | A5 | Does a stale feed get served? | Yes — a 24-hour-old answer was served; the adapter discards `updatedAt` |
 | A6 | Can liquidation over-seize or repeat? | No — over-seize and double-liquidation revert (raw underflow, not a graceful error) |
 | A7 | Can rounding extract value? | No — exactly one base unit lost per odd cycle, floor rounding, favoring the vault |
-| A8 | Can donations move the share price? | No — gifts to the vault or adapter are invisible to `totalAssets` and unrecoverable |
+| A8 | Can donations move the share price? | No — never instantly; vault gifts drip in rate-limited, adapter gifts are unrecoverable |
 
 ## Environment
 
@@ -54,10 +54,10 @@ A borrower at the maximum boundary: 0.05 WETH collateral, 38.5 USDC debt. The fe
 | Seized | 0.05 WETH (all collateral) |
 | Bad debt | 21.108695 USDC — emitted as `badDebtAssets` and `badDebtShares` |
 | Market supply | 502 → 480.891305 USDC — suppliers absorbed the loss, exact |
-| Vault `totalAssets` | Dropped by the same 21.108695 — the vault is the sole supplier |
-| Depositor (500 USDC in) | Redeemed 478.975403 — loss 21.024597 = 21.108695 × 500/502, pro-rata to the unit |
+| Vault market position | Dropped 21.066645 = 21.108695 × 501/502 — the vault supplies 501 of the market's 502 |
+| Depositor (500 of the vault's 501) | Redeemed 478.975403 — loss 21.024597, the nested pro-rata product 500/501 × 501/502 = 500/502, within ≤ 2 base units |
 
-Nothing was hidden, shifted, or deferred — the loss landed on suppliers at the moment of liquidation, proportionally, and the vault ate all of it.
+Nothing was hidden, shifted, or deferred — the loss landed on suppliers at the moment of liquidation, proportionally at every layer: the market's direct dead supply absorbed 0.042050, the vault's position absorbed 21.066645, the vault's dead shares absorbed another 0.042048, and the depositor took 21.024597. The nested 501s cancel — the depositor's loss equals the market loss × 500/502. The full ladder, measured layer by layer, is in [Experiment III](/v2/research/nutusd-liquidation-envelope.md).
 
 ### A2 — Oracle spike → borrow → crash
 
@@ -65,17 +65,25 @@ The feed was spiked 50% ($2000 → $3000). The borrower drew 11.55 USDC against 
 
 This is the debt-printing path. It required moving the feed itself. Over live Chainlink feeds, this path is a feed failure, not an adapter failure — the adapter has no spike guard (see Oracle findings).
 
-### A3 — minAnswer-style clamp (LUNA class)
+### A3 — Clamped-low oracle — underpricing direction
 
-The feed was clamped to 1000 while the true price remained 2000. A position was liquidated at the clamped price: the liquidator repaid 5 USDC and seized 0.00575 WETH — worth 11.50 USDC at the true price. The borrower over-lost 6.50 USDC. The vault was unaffected (bad debt 0).
+The feed was clamped to 1000 while the true price remained 2000 — the oracle underprices the collateral. A position was liquidated at the clamped price: the liquidator repaid 5 USDC and seized 0.00575 WETH — worth 11.50 USDC at the true price. The borrower over-lost 6.50 USDC. The vault was unaffected (bad debt 0).
 
-A floor-broken feed is a borrower-side theft vector, not a depositor-side one.
+An underpriced oracle is a borrower-side loss vector: premature liquidation and excessive collateral seizure. It is not the full minAnswer picture — the floor-stuck direction is the mirror:
+
+### A3b — Floor-stuck oracle — overpricing direction
+
+The classic minAnswer failure leaves the oracle above the true price after a collapse: collateral is overvalued, borrowing enlarges at the inflated price, and liquidation is delayed until the loss lands on suppliers. This direction is measured in [Experiment III](/v2/research/nutusd-liquidation-envelope.md): debt sized at the stuck price, then the feed corrected — a 50% correction stayed covered, a 60% correction left 0.371739 USDC of bad debt on suppliers.
+
+The two directions split cleanly: underpriced oracle → borrower loss; overpriced (floor-stuck) oracle → supplier bad debt.
 
 ### A4 — Negative feed → asymmetric freeze
 
 The feed was set to −1. The oracle's `price()` reverts. Frozen operations: borrow, `withdrawCollateral`, liquidate. Still-live operations: supply, withdraw (loan-asset side), repay, `supplyCollateral`.
 
-A dead oracle traps borrowers — no collateral exit — but depositors keep the USDC exit door. The freeze is the adapter's only negative-answer defense (an answer ≥ 0 check); it is not a graceful per-operation error.
+A dead oracle traps borrowers — no collateral exit — but depositors keep the USDC exit door, bounded by market liquidity (the wall is measured in [Experiment IV](/v2/research/nutusd-liquidity-rates.md)). The freeze is the adapter's only negative-answer defense (an answer ≥ 0 check); it is not a graceful per-operation error.
+
+The answer lattice is now complete across the series. Zero passes the same guard the negative answer fails, and the two zero states diverge: a zero quote feed panics in the composed division (`Panic 0x12`) with this same asymmetric-freeze shape; a zero base feed serves price 0 cleanly and turns the seizure path of liquidation into a drain — all collateral out for zero repayment. Both are measured in [Experiment III](/v2/research/nutusd-liquidation-envelope.md). Oracle state is not binary valid-or-revert; each lattice state carries a distinct consequence.
 
 ### A5 — Stale feed served
 
@@ -93,10 +101,10 @@ Odd-amount deposit → redeem cycles: 1000001 → 1000000, 999999 → 999998, 12
 
 ### A8 — Donations
 
-- **Direct USDC gift to the vault:** `totalAssets` and share price unchanged — `totalAssets` counts only the adapter's Morpho position. The gift sits idle in the vault balance with no sweep path — locked.
-- **Gift to the adapter:** same class — invisible to `realAssets`, unrecoverable.
+- **Direct USDC gift to the vault:** invisible to `totalAssets` at the moment of transfer — `totalAssets` counts the adapter's Morpho position, and excess balance is recognized only through the vault's rate limiter. A gift never moves the share price instantly; it drips into `totalAssets` at at most maxRate per year (the drip is measured exactly in [Experiment V](/v2/research/nutusd-vault-machinery.md)). At a zero recognition rate it stays invisible indefinitely; in this experiment's configuration the recognized amount was zero throughout.
+- **Gift to the adapter:** same class, one step worse — invisible to `realAssets`, and outside the vault's recognition path entirely: no drip, no sweep, locked.
 
-Donation-dilution is impossible in this configuration; so is rescuing stray funds.
+Donation-dilution is impossible in this configuration: a gift cannot move the share price instantly, whether it is recognized later (vault — rate-limited) or never (adapter). Rescuing stray adapter funds remains impossible.
 
 ## Oracle findings
 
@@ -111,15 +119,17 @@ Measured consequences:
 | Clamped low (minAnswer) | Served — liquidation executes at the clamped price |
 | Spiked high | Served — borrowing enlarges at the spiked price |
 | Negative | `price()` reverts — asymmetric market freeze |
+| Zero quote | Guard passes — composed division panics (`Panic 0x12`), asymmetric freeze (Experiment III) |
+| Zero base | Guard passes — price 0 served; the seize path of liquidation drains collateral for zero repayment (Experiment III) |
 
-The trust stack for nutUSD oracles is therefore: Chainlink feed quality plus the V2 composition (base × quote). Nothing else guards the path — and the choice is immutable at market creation.
+The trust stack for nutUSD oracles is therefore: Chainlink feed quality plus the V2 composition (the product of the base feeds divided by the product of the quote feeds, scaled by token decimals). Nothing else guards the path — and the choice is immutable at market creation.
 
 ## What this means for nutUSD
 
-1. The one severe depositor scenario is a collateral crash deeper than 55.725% from a maximum-boundary borrow (collateral value below 44.275% of initial). At that point liquidation cannot cover the debt, and suppliers — the vault — absorb the difference, exactly and proportionally.
+1. The one severe depositor scenario is a collateral crash deeper than 55.725% from a maximum-boundary borrow (collateral value below 44.275% of initial). At that point liquidation cannot cover the debt, and suppliers — the vault's position plus the market's dead shares — absorb the difference, exactly and proportionally at every layer.
 2. Every other measured attack either reverts or hurts only the attacker or the borrower.
 3. Oracle safety is entirely external to the adapter: it is a property of the feeds chosen, locked in at market creation.
-4. A dead feed freezes borrowers but preserves the depositor exit.
+4. A dead feed freezes borrowers but preserves the depositor exit door (bounded by market liquidity).
 5. Rounding favors the vault; donations cannot dilute.
 
 ## Limitations
@@ -132,15 +142,18 @@ The trust stack for nutUSD oracles is therefore: Chainlink feed quality plus the
 
 ## Forward program
 
-Measured so far: boundary and normal liquidation (Experiment I); solvency, oracle failure, rounding, donations (this experiment). Remaining, in priority order:
+Measured so far: boundary and normal liquidation (Experiment I); solvency, oracle failure, rounding, donations (this experiment); the seizure envelope and the zero-feed lattice (Experiment III); rates and the utilization wall (Experiment IV); vault machinery and the inflation matrix (Experiment V); the production recipe — 8-decimal collateral and the composed oracle (Experiment VI). Remaining, in priority order:
 
 | Experiment | Surface |
 |---|---|
-| III | Liquidation envelope — LTV ladder 38.5% → 100%+, partial liquidations, self-liquidation, competing liquidators |
-| IV | Liquidity and rate dynamics — utilization ladder, AdaptiveCurveIRM response, liquidity recovery, interest-driven liquidation waves |
-| V | Vault emergency machinery — caps, timelocks, `forceDeallocate`, role matrix, adapter failure |
-| VI | Multi-user and adversarial composition — concurrent exits, ordering, flash-loan-funded sequences |
-| VII | Production equivalence — Base mainnet fork, real USDC/cbBTC/cbETH, composed oracle path, 8-decimal collateral |
+| [III](/v2/research/nutusd-liquidation-envelope.md) | Liquidation envelope — measured: seizure branches, the stuck-high feed, the zero-feed lattice, the nested loss ladder |
+| [IV](/v2/research/nutusd-liquidity-rates.md) | Liquidity and rates — measured: AdaptiveCurveIRM accrual exact, the utilization wall, liquidity recovery |
+| [V](/v2/research/nutusd-vault-machinery.md) | Vault machinery — measured: roles and timelock, the inflation matrix, the rate limiter |
+| [VI](/v2/research/nutusd-production-recipe.md) | Production recipe — measured: 8-decimal collateral, composed two-feed oracle, boundary and crash liquidation exact |
+| VII | Multi-user and adversarial composition — concurrent exits, ordering races, MEV, flash-loan-funded sequences |
+| VIII | Vault emergency surface — supply and deposit caps, adapter failure, `forceDeallocate`, timelock matrix at production configuration |
+| IX | Automated assurance — Foundry invariant testing, Echidna/Medusa property fuzzing, differential math, static analysis, formal properties |
+| X | Production equivalence — Base mainnet fork, real USDC, cbBTC, cbETH feeds and tokens |
 
 Tooling for the invariant layer: Foundry invariant testing, Echidna/Medusa property fuzzing, Slither/Aderyn static analysis, differential computation of core math.
 
