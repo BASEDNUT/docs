@@ -34,10 +34,10 @@ The eight markets, differing only in LLTV:
 | 62.5% | `0x164cb15f…647f0813` |
 | 77.0% | `0xb9935485…6dcb4823` |
 | 86.0% | `0xeb05719b…8179c4d7` |
-| 91.5% | [`0x75eb4841…3c38dce`](https://sepolia.basescan.org/address/0x75eb4841b4603cfcd191d0575fe58901c0e7210699c089d2ede9037683c38dce) |
-| 94.5% | [`0xbe2e2df3…005f000`](https://sepolia.basescan.org/address/0xbe2e2df3f4935c26a8b008604470750dc2931557362806573a40a9d31005f000) |
-| 96.5% | [`0xff85f8fe…30bc58a`](https://sepolia.basescan.org/address/0xff85f8fefd7822d640fb568b4eb968b6ab04ec2b91095b02d87865e6d30bc58a) |
-| 98.0% | [`0x5f57f3c2…9e895b6`](https://sepolia.basescan.org/address/0x5f57f3c2cd6e4e8ecd42a056de6b02ac2cab26694e26dc286261318079e895b6) |
+| 91.5% | `0x75eb4841…83c38dce` |
+| 94.5% | `0xbe2e2df3…1005f000` |
+| 96.5% | `0xff85f8fe…d30bc58a` |
+| 98.0% | `0x5f57f3c2…79e895b6` |
 
 ## The invariants — identical at every rung
 

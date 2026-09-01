@@ -17,7 +17,7 @@ Sixth experiment in the nutUSD research series. [Experiment I](/v2/research/nutu
 |---|---|
 | Chain | Base Sepolia (84532) |
 | Protocol | Morpho Blue, canonical deployment |
-| Credit market | Fresh 38.5% LLTV market, id [`0x1efd4ca2…05a923a9`](https://sepolia.basescan.org/address/0x1efd4ca2085649445b34ef266265f194d5159515459425c4816adcb205a923a9) |
+| Credit market | Fresh 38.5% LLTV market, id `0x1efd4ca2…05a923a9` |
 | Collateral | mockBTC — 8 decimals, 1:1 stand-in for cbBTC — [`0x1D5bA143…64DeBbce`](https://sepolia.basescan.org/address/0x1D5bA143625843226F93BA536CCCC51a64DeBbce) |
 | Oracle | `MorphoChainlinkOracleV2` [`0xF6Fd5307…3342aafB`](https://sepolia.basescan.org/address/0xF6Fd5307791461b21148e825aa5fab5E3342aafB) — composed |
 | Base feed 1 | mockBTC/BTC = 1.0 — [`0x42413E54…088b6f44`](https://sepolia.basescan.org/address/0x42413E54BBba9696Fa646a718982c4cD088b6f44) |

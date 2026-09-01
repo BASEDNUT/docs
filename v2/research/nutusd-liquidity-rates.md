@@ -16,7 +16,7 @@ Fourth experiment in the nutUSD research series. [Experiment I](/v2/research/nut
 |---|---|
 | Chain | Base Sepolia (84532) |
 | Protocol | Morpho Blue, canonical deployment |
-| Credit market | Fresh 38.5% LLTV market, id [`0x7b976f12…e0a79fb3`](https://sepolia.basescan.org/address/0x7b976f12877f665876126a328f1b01ecd34930a812f2e34d9ee36b41e0a79fb3) |
+| Credit market | Fresh 38.5% LLTV market, id `0x7b976f12…e0a79fb3` |
 | Oracle | `MorphoChainlinkOracleV2` [`0x067d1BcF…39dF34aA`](https://sepolia.basescan.org/address/0x067d1BcF9aF5E60E57e090F4feB996Ac39dF34aA) — WETH base feed at 2000, USDC quote at 1 |
 | IRM | AdaptiveCurveIRM [`0x46415998764C29aB2a25CbeA6254146D50D22687`](https://sepolia.basescan.org/address/0x46415998764C29aB2a25CbeA6254146D50D22687) — canonical deployment |
 | Borrower | 0.05 WETH collateral at the exact maximum — 38.5 USDC debt |

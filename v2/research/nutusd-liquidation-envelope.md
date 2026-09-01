@@ -18,7 +18,7 @@ Third experiment in the nutUSD research series. [Experiment I](/v2/research/nutu
 |---|---|
 | Chain | Base Sepolia (84532) |
 | Protocol | Morpho Blue, canonical deployment |
-| Credit market | Fresh 38.5% LLTV market, id [`0xc54c7a99…f305ebc`](https://sepolia.basescan.org/address/0xc54c7a998cf9f38abcc60049f21532a744f71f11d1ade3b332292a0bbf305ebc) |
+| Credit market | Fresh 38.5% LLTV market, id `0xc54c7a99…bf305ebc` |
 | Oracle adapter | `MorphoChainlinkOracleV2` [`0x0577410f…36f9Ba`](https://sepolia.basescan.org/address/0x0577410feAB091718C1E7FecaFe67bfa0836f9Ba) |
 | Base feed (WETH) | Mock, 8 decimals, controllable — [`0x53ebD058…7C96D5`](https://sepolia.basescan.org/address/0x53ebD05880442f45160B7f72175d1dD7547C96D5) |
 | Quote feed (USDC) | Mock, 8 decimals, controllable — [`0x77D30fc5…D03bEeD`](https://sepolia.basescan.org/address/0x77D30fc564e3066Cc48c5AB35b4d082D8D03bEeD) |

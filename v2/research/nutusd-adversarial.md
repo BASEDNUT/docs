@@ -25,7 +25,7 @@ Same stack as Experiment I, with two deliberate substitutions — mock price fee
 |---|---|
 | Chain | Base Sepolia (84532) |
 | Protocol | Morpho Blue, canonical deployment |
-| Credit market | Fresh 38.5% LLTV market, id [`0xf38bfb2a…57057cc`](https://sepolia.basescan.org/address/0xf38bfb2a57d3882268518b364e4c4ac4978e1e1f77014f56f5bda33bd17057cc) |
+| Credit market | Fresh 38.5% LLTV market, id `0xf38bfb2a…d17057cc` |
 | Oracle adapter | `MorphoChainlinkOracleV2` [`0x72a389fd…36C70`](https://sepolia.basescan.org/address/0x72a389fd35E755CD7cb30B5387cb36c8f6a36C70) |
 | Base feed (WETH) | Mock, 8 decimals, controllable — [`0x6C8a6786…e4de3`](https://sepolia.basescan.org/address/0x6C8a67866Fb1f2ac2aaa45bBB5c38c07C3Fe4de3) |
 | Quote feed (USDC) | Mock, 8 decimals, controllable — [`0xcdcc8B5E…cCea`](https://sepolia.basescan.org/address/0xcdcc8B5E6e7cD4894EE957a3B13C992d20facCea) |
