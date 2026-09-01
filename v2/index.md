@@ -103,6 +103,10 @@ Three doors into the Orchard. Pick yours — every path leads back to the same N
 |---|---|
 | [nutUSD Testnet Experiment](/v2/research/nutusd-testnet.md) | The controlled experiment behind the credit layer — boundary sweep, real liquidation, incentive measurement, protection proofs |
 | [nutUSD Adversarial Experiment](/v2/research/nutusd-adversarial.md) | The failure-mode record — bad-debt propagation, oracle misbehavior, liquidation overreach, rounding, donations |
+| [nutUSD Liquidation Envelope](/v2/research/nutusd-liquidation-envelope.md) | Experiment III — seizure branches, the stuck-high feed, the zero-feed lattice, the nested loss ladder |
+| [nutUSD Liquidity & Rates](/v2/research/nutusd-liquidity-rates.md) | Experiment IV — AdaptiveCurveIRM accrual, the utilization wall, liquidity recovery |
+| [nutUSD Vault Machinery](/v2/research/nutusd-vault-machinery.md) | Experiment V — roles and timelock, the inflation matrix, the rate limiter |
+| [nutUSD Production Recipe](/v2/research/nutusd-production-recipe.md) | Experiment VI — 8-decimal collateral, the composed two-feed oracle, boundary and crash liquidation exact |
 
 ## 🏰 The Orchard Extras
 
