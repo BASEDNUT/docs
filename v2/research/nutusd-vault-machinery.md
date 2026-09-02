@@ -6,7 +6,7 @@ Fifth experiment in the nutUSD research series. [Experiment I](/v2/research/nutu
 
 | # | Question | Verdict |
 |---|---|---|
-| V1 | Does the role and timelock machinery execute as documented? | Yes — setCurator → submit → execute proven; timelock for `setIsAllocator` defaults to zero |
+| V1 | Does the role and timelock machinery execute as documented? | Yes — setCurator → submit → execute proven at the fresh-vault zero-default timelock; production-delay enforcement is forward work (IX) |
 | V2 | Is the classic inflation attack viable at zero recognition rate? | No — victim shares equal fair shares exactly; the gift is invisible |
 | V3 | Is it viable at the maximum recognition rate? | Not in the immediate and same-block sequences tested — recognized gain is zero at the moment of the victim deposit; the timed sequence (gift, wait, repeated accrual, victim deposit) is unmeasured |
 | V4 | Is a gift to a never-touched vault recognized? | No — `totalAssets` stays zero with 100 USDC sitting in the vault |
@@ -43,10 +43,10 @@ The classic first-depositor sequence — seed a microscopic position, gift asset
 | Empty | 200%/year | — (no victim) | — | 0 — `totalAssets` reads zero with 100 USDC inside |
 
   - **Frozen vault** — `totalAssets` reads 10.000001 USDC after both deposits — exactly attacker (1 base unit) + victim (10 USDC); the 100 USDC gift does not exist in share math. The victim's shares equal the fair-share prediction exactly.
-- **Maximum-rate vault** — the victim deposit lands with recognized assets still at 10.000001 USDC; the 100 USDC gift sits in the real balance (110.000001 USDC) but recognition is zero at the deposit block. The attack needs the gift recognized *before* the victim — the rate limiter forbids exactly that.
+- **Maximum-rate vault** — the victim deposit lands with recognized assets still at 10.000001 USDC; the 100 USDC gift sits in the real balance (110.000001 USDC) but recognition is zero at the deposit block. The attack needs the gift recognized *before* the victim — the rate limiter forbids exactly that, in the immediate sequence.
 - **Empty vault** — 100 USDC gifted to a vault with no history: `totalAssets` reads zero. A 1-base-unit deposit opens the share ledger at the virtual floor, raw assets 1 base unit.
 
-The virtual-share shield (10¹²) and the rate limiter compose: the shield blocks the rounding attack on an empty or near-empty vault, and the limiter blocks the recognition-timing attack on an active one. The classic attack is structurally dead in both configurations measured.
+The virtual-share shield (10¹²) and the rate limiter compose: the shield blocks the rounding attack on an empty or near-empty vault, and the limiter blocks the recognition-timing attack on an active one. The classic attack is structurally dead in the immediate sequences measured, in both configurations.
 
 ## Rate limiter — drip measured
 
@@ -72,13 +72,14 @@ The drip equals the cap exactly: each accrual recognizes at most recognized-base
 | F3 | The same-block and immediate inflation sequences are dead at the 200%/year cap: the gift is unrecognized at the victim's deposit — the recognition-timing window those sequences need does not open. |
 | F4 | A gift to an untouched vault is invisible: `totalAssets` reads zero with 100 USDC inside; the first deposit opens at the virtual-share floor. |
 | F5 | Gain recognition is rate-limited and exact: the drip equals old × maxRate × elapsed to the base unit; losses bind immediately. |
-| F6 | The virtual-share shield (10¹²) and the rate limiter compose into a two-layer inflation defense — rounding window and recognition timing both closed. |
+| F6 | The virtual-share shield (10¹²) and the rate limiter compose into a two-layer inflation defense — the rounding window closed, and the recognition-timing window closed in the immediate sequences measured. |
 
 ## Limitations
 
 - Three vault sizes on the scale of the experiment wallets; the shield and limiter behavior at production scale with continuous deposits is not measured here.
 - The 200%/year cap is the ceiling of the parameter space, chosen to stress the limiter; production caps will sit far lower, which only lengthens the drip.
 - The timed inflation sequence — gift, wait, repeated accrual, victim deposit, attacker redeem — is unmeasured; the rate limiter delays recognition, it does not permanently prohibit it.
+- The timelock ran at the fresh-vault zero default; submit → pre-expiry revert → expiry execute at the production delay (Morpho's listing guidance calls for ≥ 3-day timelocks on vault and adapter) is forward work — Experiment IX.
 - No fuzzing of share arithmetic in this experiment — dust and rounding behavior is measured in Experiment II; a stateful fuzz campaign remains forward work.
 - Allocator misuse — a malicious or compromised allocator reallocating depositors' funds across markets — is not exercised; the production design's guardrails are documented in the product page.
 

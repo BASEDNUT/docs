@@ -149,9 +149,9 @@ All state below is on-chain and immutable; the parameter set is sufficient to re
 | Adapter factory | [`0xa24674Cc2c603FBA8AE6b442E3dB05f3dDaAa3D5`](https://sepolia.basescan.org/address/0xa24674Cc2c603FBA8AE6b442E3dB05f3dDaAa3D5) |
 | AdaptiveCurve IRM | [`0x46415998764C29aB2a25CbeA6254146D50D22687`](https://sepolia.basescan.org/address/0x46415998764C29aB2a25CbeA6254146D50D22687) |
 | LLTV (raw) | 385000000000000000000000000 (38.5%) |
-| Rehearsal market ID | `0x3988b77d0eb64930b443ca506ab855a0f379cd7af19a7e2aba6a71ef23aa02ba` |
-| Closure market | ID `0x32085c90746d71fc4568e3c645b5badc86b733bebc0f65dda2f4b20d49c2db7a`, CREATE2 salt 1788054426 |
-| Adversarial market ID | `0xf38bfb2a57d3882268518b364e4c4ac4978e1e1f77014f56f5bda33bd17057cc` (Experiment II) |
+| Rehearsal market ID | `0x3988b77d…23aa02ba` |
+| Closure market | ID `0x32085c90…c2db7a`, CREATE2 salt 1788054426 |
+| Adversarial market ID | `0xf38bfb2a…d17057cc` (Experiment II) |
 | Dead deposits | Burn address `0x…dEaD`, seeded before user deposits — 10^6 base units (1 USDC) in the closure and adversarial markets/vaults; 10^12 base units in the original market-and-vault rehearsal (larger seed, same purpose) |
 | Run windows (UTC) | 2026-08-29 06:43–15:35 (market + vault) · 2026-08-30 01:47–01:56 (closure) · 2026-08-30 05:58–07:16 (adversarial) |
 | Closure block range | 46143070–46143350 |

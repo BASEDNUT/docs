@@ -69,13 +69,13 @@ The production mainnet step swaps mockBTC for cbBTC and the mock feeds for the r
 
 | Artifact | Value |
 |---|---|
-| Market id | `0x1efd4ca2085649445b34ef266265f194d5159515459425c4816adcb205a923a9` |
+| Market id | `0x1efd4ca2…05a923a9` |
 | Oracle | [`0xF6Fd5307791461b21148e825aa5fab5E3342aafB`](https://sepolia.basescan.org/address/0xF6Fd5307791461b21148e825aa5fab5E3342aafB) |
 | mockBTC | [`0x1D5bA143625843226F93BA536CCCC51a64DeBbce`](https://sepolia.basescan.org/address/0x1D5bA143625843226F93BA536CCCC51a64DeBbce) — 8 decimals |
 | Base feed 1 | [`0x42413E54BBba9696Fa646a718982c4cD088b6f44`](https://sepolia.basescan.org/address/0x42413E54BBba9696Fa646a718982c4cD088b6f44) — 1.0 |
 | Base feed 2 | [`0x239008a84b8181Bd07bcd8f8BA3815f7E133CFe8`](https://sepolia.basescan.org/address/0x239008a84b8181Bd07bcd8f8BA3815f7E133CFe8) — 100,000 |
 | Quote feed | [`0x648969d24E04f5a6264cc4f68C264933FEb5b6c3`](https://sepolia.basescan.org/address/0x648969d24E04f5a6264cc4f68C264933FEb5b6c3) — 1.0 |
-| Crash liquidation | [`0xb8a1cb3893c3ce2ce71abb3e3afae2c5dd4e0dc4efc79914dd75735b1a2cc28a`](https://sepolia.basescan.org/tx/0xb8a1cb3893c3ce2ce71abb3e3afae2c5dd4e0dc4efc79914dd75735b1a2cc28a) |
+| Crash liquidation | [`0xb8a1cb38…1a2cc28a`](https://sepolia.basescan.org/tx/0xb8a1cb3893c3ce2ce71abb3e3afae2c5dd4e0dc4efc79914dd75735b1a2cc28a) |
 | Run window (UTC) | 2026-08-30 – 2026-08-31 |
 
 ## References

@@ -1,6 +1,6 @@
 # 🔬 Research — nutUSD LLTV Ladder (Experiment VII)
 
-Seventh experiment in the nutUSD research series — the closing comparative-parameter experiment; the assurance program (multi-user ordering, emergency machinery, stateful invariants, mainnet fork) remains open. [Experiment I](/v2/research/nutusd-testnet.md) measured the boundary and the normal liquidation; [II](/v2/research/nutusd-adversarial.md) recorded the failure modes; [III](/v2/research/nutusd-liquidation-envelope.md) mapped the seizure branches and the oracle-zero states; [IV](/v2/research/nutusd-liquidity-rates.md) the rates and the utilization wall; [V](/v2/research/nutusd-vault-machinery.md) the vault machinery; [VI](/v2/research/nutusd-production-recipe.md) the production collateral shape. This one inverts the method: instead of studying the 38.5% market alone, it builds Morpho's eight nonzero standard LLTVs side by side — 38.5% through 98% — with everything else held constant. Same collateral, same oracle, same supply, same borrower shapes. Only the LLTV moves. Executed values below are receipt-measured, and the offline prediction from source matched at every rung and branch to the base unit; entries derived from the measured geometry rather than executed are labelled.
+Seventh experiment in the nutUSD research series — the closing comparative-parameter experiment; the assurance program (multi-user ordering, emergency machinery, stateful invariants, rate surface, mainnet fork) remains open. [Experiment I](/v2/research/nutusd-testnet.md) measured the boundary and the normal liquidation; [II](/v2/research/nutusd-adversarial.md) recorded the failure modes; [III](/v2/research/nutusd-liquidation-envelope.md) mapped the seizure branches and the oracle-zero states; [IV](/v2/research/nutusd-liquidity-rates.md) the rates and the utilization wall; [V](/v2/research/nutusd-vault-machinery.md) the vault machinery; [VI](/v2/research/nutusd-production-recipe.md) the production collateral shape. This one inverts the method: instead of studying the 38.5% market alone, it builds Morpho's eight nonzero standard LLTVs side by side — 38.5% through 98% — with everything else held constant. Same collateral, same oracle, same supply, same borrower shapes. Only the LLTV moves. Executed values below are receipt-measured, and the offline prediction from source matched at every rung and branch to the base unit; entries derived from the measured geometry rather than executed are labelled.
 
 ## Questions
 
@@ -23,7 +23,7 @@ Seventh experiment in the nutUSD research series — the closing comparative-par
 | Base feed | Mock, 8 decimals, controllable — [`0x0C5e0941…238A05`](https://sepolia.basescan.org/address/0x0C5e0941910551c1B6709f14b487ea6836238A05) |
 | Quote feed | Mock, 8 decimals, pinned at 1 — [`0x37968348…6862e4`](https://sepolia.basescan.org/address/0x379683481214aE5ab582ae782a4115781F6862e4) |
 | IRM | Zero — debt is static between measurement points, so every prediction is exact integer math |
-| Market supply | 5,001 USDC per market — 5,000 from the experiment wallet + 1 dead share |
+| Market supply | 5,001 USDC per market — 5,000 USDC from the experiment wallet + a 1 USDC dead deposit at the burn address |
 | Borrowers | One exact-max wallet across all eight markets, one half-max wallet across all eight, two 38.5%-only extras, one independent liquidator |
 
 The eight markets, differing only in LLTV:
@@ -110,7 +110,7 @@ At feed 800 — beyond the −55.725% recovery boundary — the 38.5% market tak
 ## Limitations
 
 - Borrowers are normalized to each rung's own borrowing capacity (exact-max and half-max); at the same absolute debt the liquidation price differs by LLTV — the LLTV-cancellation result holds at equal utilization, not absolutely.
-- The zero-rate IRM removes the utilization/rate feedback: results characterize static liquidation geometry, not production rate dynamics.
+- The zero-rate IRM removes the utilization/rate feedback: results characterize static liquidation geometry, not production rate dynamics — the rate surface is forward work (Experiment XII).
 - Price moves are instantaneous mock-feed repricings — no oracle latency, heartbeat, or deviation path.
 - One liquidator, mock collateral, one collateral size; liquidation gas, slippage, and competing-liquidator economics are outside this experiment.
 - The higher rungs at −50% are derived from the measured geometry, not separately executed.
@@ -122,10 +122,10 @@ At feed 800 — beyond the −55.725% recovery boundary — the 38.5% market tak
 
 **Different at 38.5%:**
 
-- the maximum 1.15× liquidation incentive — unique among nonzero standard rungs: the strongest protocol-defined economic reward available to a liquidator, exactly where bad debt is hardest to create;
+- the maximum 1.15× liquidation incentive — unique among nonzero standard rungs: the highest liquidation incentive factor the protocol defines, exactly where bad debt is hardest to create;
 - 55.725% crash absorption versus 29.6% at 62.5% and 1.4% at 98%;
 - covered seizures down to a −55.725% feed, versus −1.4% at 98%;
-- zero depositor loss at a −50% crash — alone in the set;
+- zero depositor loss at a −50% crash — alone in the set, in this normalized exact-max, zero-rate geometry;
 - bad debt begins beyond the −55.725% recovery boundary — the sampled −60% crash measured 74.35 USDC per $2,000 collateral.
 
 **The trade, stated honestly:** 38.5% concedes capital efficiency — a borrower extracts 770 USDC per $2,000 collateral where a 98% borrower extracts 1,960, a 2.5× difference. 38.5% prioritizes solvency margin; 98% prioritizes capital efficiency. nutUSD picks the solvency margin — see [the credit layer](/v2/tokens/nutusd.md).

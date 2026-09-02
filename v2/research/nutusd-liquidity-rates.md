@@ -8,7 +8,7 @@ Fourth experiment in the nutUSD research series. [Experiment I](/v2/research/nut
 |---|---|---|
 | R1 | Does the production IRM accrue exactly? | Yes — the source-derived Taylor 3-term prediction matched the on-chain accrual to the base unit |
 | R2 | What stops a withdrawal at near-full utilization? | Market liquidity — `InsufficientLiquidity` the moment the request exceeds idle |
-| R3 | How does liquidity come back? | Repayment — a repaid base unit is a withdrawable base unit, immediately |
+| R3 | How does liquidity come back? | Repayment — a repaid unit becomes withdrawable immediately; the repaid 1 USDC was withdrawn in the next transaction |
 
 ## Environment
 
@@ -45,22 +45,22 @@ Idle liquidity was drawn down to 1.000018 USDC (1 USDC plus the accrued interest
 | Repay 1 USDC | Borrow 38.500018 → 37.500018; idle 1.000018 → 2.000018 USDC |
 | Withdraw the freed 1 USDC | Executes |
 
-Final state: supply 38.500018 USDC, borrow 37.500018 — utilization 97%. The wall is exact: asset withdrawal is bounded by idle supply, to the base unit, and repayment is the recovery path — a repaid unit is withdrawable immediately. Collateral withdrawal for the indebted borrower remains bounded by health (Experiment I).
+Final state: supply 38.500018 USDC, borrow 37.500018 — utilization 97%. The wall is exact: asset withdrawal is bounded by idle supply exactly, and repayment is the recovery path — a repaid unit is withdrawable immediately. Collateral withdrawal for the indebted borrower remains bounded by health (Experiment I).
 
-At full utilization the depositors' exit is the borrowers' repayment stream — the same coupling measured from the liquidator side in Experiment I, where the liquidator's repayment funded the supplier's exit to the base unit.
+At full utilization the depositors' USDC exit is the borrowers' repayment stream — the same coupling measured from the liquidator side in Experiment I, where the liquidator's repayment funded the supplier's exit to the base unit. The vault's `forceDeallocate` — a permissionless path that reclaims market allocation when vault liquidity runs short (Morpho-documented, unmeasured here) — is forward work in Experiment IX.
 
 ## Findings
 
 | # | Finding |
 |---|---|
 | F1 | The canonical AdaptiveCurveIRM accrues exactly: source-derived Taylor 3-term prediction == on-chain accrual — 18 base units over 1236 s at rate 396,840,627 (≈ 1.25%/yr at 7.7% utilization). |
-| F2 | The utilization wall is exact: withdrawal reverts the moment it exceeds idle supply; at 1 base unit idle, a 2 USDC withdrawal reverts `InsufficientLiquidity`. |
-| F3 | Liquidity recovery is immediate: a repaid base unit is a withdrawable base unit — no unlock delay, no queue. |
+| F2 | The utilization wall is exact: withdrawal reverts the moment it exceeds idle supply; at 1.000018 USDC idle, a 2 USDC withdrawal reverts `InsufficientLiquidity`. |
+| F3 | Liquidity recovery is immediate: the repaid 1 USDC became withdrawable at once — no unlock delay, no queue. |
 | F4 | Rate dynamics and boundary mechanics compose cleanly: the exact-max borrower of the Experiment I shape accrues interest deterministically under the production IRM. |
 
 ## Limitations
 
-- One accrual window at one utilization point (7.7%); the full curve response — utilization ladder, rate bounds, interest-driven liquidation waves — remains open.
+- One accrual window at one utilization point (7.7%); the full curve response — utilization ladder, rate bounds, interest-driven liquidation waves — is forward work (Experiment XII).
 - Testnet liquidity: the wall is a mechanism property, not a market-depth statement.
 - Single borrower, single supplier of record; concurrent exit races belong to the multi-user program.
 
@@ -68,12 +68,12 @@ At full utilization the depositors' exit is the borrowers' repayment stream — 
 
 | Artifact | Value |
 |---|---|
-| Market id | `0x7b976f12877f665876126a328f1b01ecd34930a812f2e34d9ee36b41e0a79fb3` |
+| Market id | `0x7b976f12…e0a79fb3` |
 | Oracle | [`0x067d1BcF9aF5E60E57e090F4feB996Ac39dF34aA`](https://sepolia.basescan.org/address/0x067d1BcF9aF5E60E57e090F4feB996Ac39dF34aA) |
 | Base feed (WETH) | [`0xFC5A3C6f…071D3DE`](https://sepolia.basescan.org/address/0xFC5A3C6fA34eaA8ed00E51E056F92D2e5071D3DE) — 2000.00 |
 | Quote feed (USDC) | [`0x4879b280…2AbBbcEA`](https://sepolia.basescan.org/address/0x4879b280a317b584694c2C618f7704332AbBbcEA) — 1.00 |
 | IRM | AdaptiveCurveIRM [`0x46415998764C29aB2a25CbeA6254146D50D22687`](https://sepolia.basescan.org/address/0x46415998764C29aB2a25CbeA6254146D50D22687) |
-| Accrual transaction | [`0xa6c0bd6d0c587350737258be83de9e142f2f8eb8b05668d13427e12634a80993`](https://sepolia.basescan.org/tx/0xa6c0bd6d0c587350737258be83de9e142f2f8eb8b05668d13427e12634a80993) |
+| Accrual transaction | [`0xa6c0bd6d…34a80993`](https://sepolia.basescan.org/tx/0xa6c0bd6d0c587350737258be83de9e142f2f8eb8b05668d13427e12634a80993) |
 | Run window (UTC) | 2026-08-30 – 2026-08-31 |
 
 ## References

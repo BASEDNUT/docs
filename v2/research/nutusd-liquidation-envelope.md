@@ -66,7 +66,7 @@ The base (WETH) feed was set to 0. The guard passes and the adapter serves price
 
 Measured: two borrowers, each 0.01 WETH seized for 0 repaid, each emitting 3.85 USDC of bad debt — [tx `0xfd4275ec…0bc6c3fa`](https://sepolia.basescan.org/tx/0xfd4275ec68e65c4aef893701d0a8377813d1cef42233aea4cf006c3c0bc6c3fa) and [tx `0xfd9a6c1c…d2c45dc1`](https://sepolia.basescan.org/tx/0xfd9a6c1cda81d9a92601aa301909644d5a56eb35bedf608720e4cb7bd2c45dc1). The final market state matched the offline prediction exactly: supply 492.928261 USDC, borrow 0.
 
-**A zero base price is the most severe oracle state in the series: it does not freeze the market — it turns liquidation into a drain.** The defense is unchanged and external to the adapter: feed quality. Zero passes the only guard the adapter has — this is not a harness artifact; Morpho's Chainlink library accepts `answer >= 0` by design. Production therefore carries a hard monitoring invariant: every oracle leg used by nutUSD must remain strictly greater than zero.
+**A zero base price is the most severe oracle state in the series: it does not freeze the market — it turns liquidation into a drain.** The defense is unchanged and external to the adapter: feed quality. Zero passes the only guard the adapter has — this is not a harness artifact; Morpho's Chainlink library accepts `answer >= 0` by design. Production therefore carries a hard monitoring invariant: every oracle leg used by nutUSD must remain strictly greater than zero. The invariant must be enforced — monitoring wired to an enforced response — because the adapter itself carries no such guard; a documented assumption does not stop the drain.
 
 A borrower's own exit stays open at price 0: repayment reads no price, and after a full repay-by-shares the position is healthy and collateral withdrawal succeeds — measured with a fresh wallet at price 0 (repay by shares, then full collateral exit). The exit door for borrowers is self-repayment, not liquidation.
 
@@ -107,7 +107,7 @@ All state is on-chain and immutable; the parameter set reproduces every scenario
 
 | Artifact | Value |
 |---|---|
-| Market id | `0xc54c7a998cf9f38abcc60049f21532a744f71f11d1ade3b332292a0bbf305ebc` |
+| Market id | `0xc54c7a99…bf305ebc` |
 | Oracle | [`0x0577410feAB091718C1E7FecaFe67bfa0836f9Ba`](https://sepolia.basescan.org/address/0x0577410feAB091718C1E7FecaFe67bfa0836f9Ba) |
 | Base feed | [`0x53ebD05880442f45160B7f72175d1dD7547C96D5`](https://sepolia.basescan.org/address/0x53ebD05880442f45160B7f72175d1dD7547C96D5) — 8 decimals, `latestRoundData` controllable |
 | Quote feed | [`0x77D30fc564e3066Cc48c5AB35b4d082D8D03bEeD`](https://sepolia.basescan.org/address/0x77D30fc564e3066Cc48c5AB35b4d082D8D03bEeD) |
