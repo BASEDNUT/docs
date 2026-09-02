@@ -62,7 +62,7 @@ The production mainnet step swaps mockBTC for cbBTC and the mock feeds for the r
 
 - Mock feeds stand in for Chainlink — real aggregator heartbeats, deviation tolerance, and answer lifecycle are external to this measurement.
 - One borrower at one collateral size; the boundary sweep (50/90/99.9/100/101%) was measured on the rehearsal shape, not repeated here.
-- The composed oracle's failure lattice (zero quote, zero base) was measured on the single-feed shape in Experiment III; the composed division structure is identical, but the two-feed product was not separately zeroed.
+- The composed oracle's failure lattice (zero quote, zero base) was measured on the single-feed shape in Experiment III; the composed division structure is identical, but the two-leg base-feed product was not separately zeroed.
 - The measured oracle is the three-leg composed shape; the production candidate (cbBTC/USD ÷ USDC/USD, two legs) is structurally simpler and unmeasured here.
 
 ## Artifacts

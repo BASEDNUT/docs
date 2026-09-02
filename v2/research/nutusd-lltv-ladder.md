@@ -41,7 +41,7 @@ The eight markets, differing only in LLTV:
 
 ## The invariants — identical at every rung
 
-Three walls were probed at all eight rungs. None of them depends on the LLTV.
+Three walls were probed at all eight rungs. Their rules are invariant — the same formula at every rung — while their heights scale with the LLTV.
 
 ```
  $2000 ── origin price

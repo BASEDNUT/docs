@@ -137,23 +137,24 @@ The trust stack for nutUSD oracles is therefore: Chainlink feed quality plus the
 - Mock feeds stand in for Chainlink; live feeds add failure modes (sequencer uptime, L1 finality) not measured here.
 - Zero-interest scenarios (the IRM is enabled but no accrual window elapsed); interest-driven liquidation waves are untested.
 - One executor plus adversarial wallets — no concurrent multi-user races, no MEV simulation.
-- Collateral is 18-decimal WETH; production cbBTC (8 decimals) and the composed cbBTC/BTC × BTC/USD path are outside this experiment.
+- Collateral is 18-decimal WETH; production cbBTC (8 decimals) and the two-leg cbBTC/USD ÷ USDC/USD oracle candidate are outside this experiment.
 - Base Sepolia establishes behavior, not production liquidity.
 
 ## Forward program
 
-Measured so far: boundary and normal liquidation (Experiment I); solvency, oracle failure, rounding, donations (this experiment); the seizure envelope and the zero-feed lattice (Experiment III); rates and the utilization wall (Experiment IV); vault machinery and the inflation matrix (Experiment V); the production recipe — 8-decimal collateral and the composed oracle (Experiment VI). Remaining, in priority order:
+Measured so far: boundary and normal liquidation (Experiment I); solvency, oracle failure, rounding, donations (this experiment); the seizure branches and the oracle-zero states (Experiment III); rates and the utilization wall (Experiment IV); vault machinery and the inflation matrix (Experiment V); the production-shaped rehearsal — 8-decimal collateral and the composed oracle (Experiment VI); the LLTV ladder — all eight standard rungs (Experiment VII). Remaining, in priority order:
 
 | Experiment | Surface |
 |---|---|
 | [III](/v2/research/nutusd-liquidation-envelope.md) | Liquidation envelope — measured: seizure branches, the stuck-high feed, the zero-feed lattice, the nested loss ladder |
 | [IV](/v2/research/nutusd-liquidity-rates.md) | Liquidity and rates — measured: AdaptiveCurveIRM accrual exact, the utilization wall, liquidity recovery |
 | [V](/v2/research/nutusd-vault-machinery.md) | Vault machinery — measured: roles and timelock, the inflation matrix, the rate limiter |
-| [VI](/v2/research/nutusd-production-recipe.md) | Production recipe — measured: 8-decimal collateral, composed two-feed oracle, boundary and crash liquidation exact |
-| VII | Multi-user and adversarial composition — concurrent exits, ordering races, MEV, flash-loan-funded sequences |
-| VIII | Vault emergency surface — supply and deposit caps, adapter failure, `forceDeallocate`, timelock matrix at production configuration |
-| IX | Automated assurance — Foundry invariant testing, Echidna/Medusa property fuzzing, differential math, static analysis, formal properties |
-| X | Production equivalence — Base mainnet fork, real USDC, cbBTC, cbETH feeds and tokens |
+| [VI](/v2/research/nutusd-production-recipe.md) | Production-shaped rehearsal — measured: 8-decimal collateral, three-leg composed oracle, boundary and crash liquidation exact |
+| [VII](/v2/research/nutusd-lltv-ladder.md) | LLTV ladder — measured: all eight standard rungs, incentive and absorption geometry, the −55.725% recovery boundary |
+| VIII | Multi-user and adversarial composition — concurrent exits, ordering races, MEV, flash-loan-funded sequences |
+| IX | Vault emergency surface — supply and deposit caps, adapter failure, `forceDeallocate`, timelock matrix at production configuration |
+| X | Automated assurance — Foundry invariant testing, Echidna/Medusa property fuzzing, differential math, static analysis, formal properties |
+| XI | Production equivalence — Base mainnet fork, real USDC, cbBTC, cbETH feeds and tokens |
 
 Tooling for the invariant layer: Foundry invariant testing, Echidna/Medusa property fuzzing, Slither/Aderyn static analysis, differential computation of core math.
 

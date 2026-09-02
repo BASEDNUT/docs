@@ -8,9 +8,9 @@ Fifth experiment in the nutUSD research series. [Experiment I](/v2/research/nutu
 |---|---|---|
 | V1 | Does the role and timelock machinery execute as documented? | Yes — setCurator → submit → execute proven; timelock for `setIsAllocator` defaults to zero |
 | V2 | Is the classic inflation attack viable at zero recognition rate? | No — victim shares equal fair shares exactly; the gift is invisible |
-| V3 | Is it viable at the maximum recognition rate? | No — recognized gain is zero at the moment of the victim deposit; the gift only drips in later, bounded by the cap |
+| V3 | Is it viable at the maximum recognition rate? | Not in the immediate and same-block sequences tested — recognized gain is zero at the moment of the victim deposit; the timed sequence (gift, wait, repeated accrual, victim deposit) is unmeasured |
 | V4 | Is a gift to a never-touched vault recognized? | No — `totalAssets` stays zero with 100 USDC sitting in the vault |
-| V5 | How does the vault recognize a large external gain? | Rate-limited drip toward the real balance, at most maxRate per year — measured exactly |
+| V5 | How does the vault recognize a large external gain? | Rate-limited drip toward the real balance — capped per accrual at the recognized base × maxRate × elapsed, compounding across accruals — measured exactly |
 
 ## Environment
 
