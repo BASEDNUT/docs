@@ -1,6 +1,6 @@
 # 🔬 Research — nutUSD LLTV Ladder (Experiment VII)
 
-Seventh experiment in the nutUSD research series — the closing comparative-parameter experiment; the assurance program (multi-user ordering, emergency machinery, stateful invariants, rate surface, mainnet fork) remains open. [Experiment I](/v2/research/nutusd-testnet.md) measured the boundary and the normal liquidation; [II](/v2/research/nutusd-adversarial.md) recorded the failure modes; [III](/v2/research/nutusd-liquidation-envelope.md) mapped the seizure branches and the oracle-zero states; [IV](/v2/research/nutusd-liquidity-rates.md) the rates and the utilization wall; [V](/v2/research/nutusd-vault-machinery.md) the vault machinery; [VI](/v2/research/nutusd-production-recipe.md) the production collateral shape. This one inverts the method: instead of studying the 38.5% market alone, it builds Morpho's eight nonzero standard LLTVs side by side — 38.5% through 98% — with everything else held constant. Same collateral, same oracle, same supply, same borrower shapes. Only the LLTV moves. Executed values below are receipt-measured, and the offline prediction from source matched at every rung and branch to the base unit; entries derived from the measured geometry rather than executed are labelled.
+Seventh experiment in the nutUSD research series — the closing comparative-parameter experiment; the assurance program (multi-user ordering, stateful invariants, mainnet fork) remains open — the emergency machinery and the rate surface are closed in [Experiment IX](/v2/research/nutusd-emergency-machinery.md) and [Experiment XII](/v2/research/nutusd-rate-surface.md). [Experiment I](/v2/research/nutusd-testnet.md) measured the boundary and the normal liquidation; [II](/v2/research/nutusd-adversarial.md) recorded the failure modes; [III](/v2/research/nutusd-liquidation-envelope.md) mapped the seizure branches and the oracle-zero states; [IV](/v2/research/nutusd-liquidity-rates.md) the rates and the utilization wall; [V](/v2/research/nutusd-vault-machinery.md) the vault machinery; [VI](/v2/research/nutusd-production-recipe.md) the production collateral shape. This one inverts the method: instead of studying the 38.5% market alone, it builds Morpho's eight nonzero standard LLTVs side by side — 38.5% through 98% — with everything else held constant. Same collateral, same oracle, same supply, same borrower shapes. Only the LLTV moves. Executed values below are receipt-measured, and the offline prediction from source matched at every rung and branch to the base unit; entries derived from the measured geometry rather than executed are labelled.
 
 ## Questions
 
@@ -55,7 +55,7 @@ Three walls were probed at all eight rungs. Their rules are invariant — the sa
     └── one feed unit below −50%: all 8 flip liquidatable
 ```
 
-- **Borrowing wall** — the exact executable maximum is 770 USDC at 38.5% up to 1,960 USDC at 98% (rung × 2 per $2,000 collateral). A borrow one base unit above the maximum reverts at every rung — 8 of 8 probes.
+- **Borrowing wall** — the exact executable maximum is 770 USDC at 38.5% up to 1,960 USDC at 98% (rung × 2 per $2,000 collateral). A borrow one base unit above the maximum reverts at every rung — 8 of 8 probes. The maximum is origination-exact — in a market with accrued state the passable maximum sits one base unit below the cap, the double share-conversion rounding [Experiment XII](/v2/research/nutusd-rate-surface.md) measured.
 - **Liquidation trigger at −10%** — debt and ceiling scale with the same LLTV, so it cancels: an exact-max borrower at any rung is unhealthy under the same −10% price move. 8 of 8 rungs liquidatable.
 - **Half-max boundary at −50%** — a borrower at exactly half the maximum is healthy at exactly half the origin price, at every rung. One feed unit lower — 999 instead of 1000 — flips all eight to liquidatable. The prudent wall is LLTV-invariant too.
 
@@ -110,7 +110,7 @@ At feed 800 — beyond the −55.725% recovery boundary — the 38.5% market tak
 ## Limitations
 
 - Borrowers are normalized to each rung's own borrowing capacity (exact-max and half-max); at the same absolute debt the liquidation price differs by LLTV — the LLTV-cancellation result holds at equal utilization, not absolutely.
-- The zero-rate IRM removes the utilization/rate feedback: results characterize static liquidation geometry, not production rate dynamics — the rate surface is forward work (Experiment XII).
+- The zero-rate IRM removes the utilization/rate feedback: results characterize static liquidation geometry, not production rate dynamics — the rate surface is measured in [Experiment XII](/v2/research/nutusd-rate-surface.md).
 - Price moves are instantaneous mock-feed repricings — no oracle latency, heartbeat, or deviation path.
 - One liquidator, mock collateral, one collateral size; liquidation gas, slippage, and competing-liquidator economics are outside this experiment.
 - The higher rungs at −50% are derived from the measured geometry, not separately executed.

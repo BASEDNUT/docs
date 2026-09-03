@@ -6,7 +6,7 @@ Fifth experiment in the nutUSD research series. [Experiment I](/v2/research/nutu
 
 | # | Question | Verdict |
 |---|---|---|
-| V1 | Does the role and timelock machinery execute as documented? | Yes — setCurator → submit → execute proven at the fresh-vault zero-default timelock; production-delay enforcement is forward work (IX) |
+| V1 | Does the role and timelock machinery execute as documented? | Yes — setCurator → submit → execute proven at the fresh-vault zero-default timelock here; the production 3-day wall, the self-wall, and the full submit → pre-expiry revert → expiry execute cycle in [Experiment IX](/v2/research/nutusd-emergency-machinery.md) |
 | V2 | Is the classic inflation attack viable at zero recognition rate? | No — victim shares equal fair shares exactly; the gift is invisible |
 | V3 | Is it viable at the maximum recognition rate? | Not in the immediate and same-block sequences tested — recognized gain is zero at the moment of the victim deposit; the timed sequence (gift, wait, repeated accrual, victim deposit) is unmeasured |
 | V4 | Is a gift to a never-touched vault recognized? | No — `totalAssets` stays zero with 100 USDC sitting in the vault |
@@ -79,7 +79,7 @@ The drip equals the cap exactly: each accrual recognizes at most recognized-base
 - Three vault sizes on the scale of the experiment wallets; the shield and limiter behavior at production scale with continuous deposits is not measured here.
 - The 200%/year cap is the ceiling of the parameter space, chosen to stress the limiter; production caps will sit far lower, which only lengthens the drip.
 - The timed inflation sequence — gift, wait, repeated accrual, victim deposit, attacker redeem — is unmeasured; the rate limiter delays recognition, it does not permanently prohibit it.
-- The timelock ran at the fresh-vault zero default; submit → pre-expiry revert → expiry execute at the production delay (Morpho's listing guidance calls for ≥ 3-day timelocks on vault and adapter) is forward work — Experiment IX.
+- The timelock ran at the fresh-vault zero default here; the production-delay wall (Morpho's listing guidance calls for ≥ 3-day timelocks on vault and adapter) and the full dance are measured in [Experiment IX](/v2/research/nutusd-emergency-machinery.md).
 - No fuzzing of share arithmetic in this experiment — dust and rounding behavior is measured in Experiment II; a stateful fuzz campaign remains forward work.
 - Allocator misuse — a malicious or compromised allocator reallocating depositors' funds across markets — is not exercised; the production design's guardrails are documented in the product page.
 

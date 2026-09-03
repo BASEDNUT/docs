@@ -47,7 +47,7 @@ Idle liquidity was drawn down to 1.000018 USDC (1 USDC plus the accrued interest
 
 Final state: supply 38.500018 USDC, borrow 37.500018 — utilization 97%. The wall is exact: asset withdrawal is bounded by idle supply exactly, and repayment is the recovery path — a repaid unit is withdrawable immediately. Collateral withdrawal for the indebted borrower remains bounded by health (Experiment I).
 
-At full utilization the depositors' USDC exit is the borrowers' repayment stream — the same coupling measured from the liquidator side in Experiment I, where the liquidator's repayment funded the supplier's exit to the base unit. The vault's `forceDeallocate` — a permissionless path that reclaims market allocation when vault liquidity runs short (Morpho-documented, unmeasured here) — is forward work in Experiment IX.
+At full utilization the depositors' USDC exit is the borrowers' repayment stream — the same coupling measured from the liquidator side in Experiment I, where the liquidator's repayment funded the supplier's exit to the base unit. The vault's `forceDeallocate` — a permissionless path that reclaims market allocation when vault liquidity runs short — is measured, with its allowance gate, penalty tiers, and sentinel counterpart, in [Experiment IX](/v2/research/nutusd-emergency-machinery.md).
 
 ## Findings
 
@@ -60,7 +60,7 @@ At full utilization the depositors' USDC exit is the borrowers' repayment stream
 
 ## Limitations
 
-- One accrual window at one utilization point (7.7%); the full curve response — utilization ladder, rate bounds, interest-driven liquidation waves — is forward work (Experiment XII).
+- One accrual window at one utilization point (7.7%); the full curve response — utilization ladder, saturation, adaptation, interest-driven liquidation waves — is measured in [Experiment XII](/v2/research/nutusd-rate-surface.md).
 - Testnet liquidity: the wall is a mechanism property, not a market-depth statement.
 - Single borrower, single supplier of record; concurrent exit races belong to the multi-user program.
 

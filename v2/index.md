@@ -108,6 +108,8 @@ Three doors into the Orchard. Pick yours — every path leads back to the same N
 | [nutUSD Vault Machinery](/v2/research/nutusd-vault-machinery.md) | Experiment V — roles and timelock, the inflation matrix, the rate limiter |
 | [nutUSD Production Recipe](/v2/research/nutusd-production-recipe.md) | Experiment VI — 8-decimal collateral, the three-leg composed oracle, boundary and crash liquidation exact |
 | [nutUSD LLTV Ladder](/v2/research/nutusd-lltv-ladder.md) | Experiment VII — all eight standard LLTVs side by side: what is identical, what 38.5% uniquely holds |
+| [nutUSD Emergency & Timelock Machinery](/v2/research/nutusd-emergency-machinery.md) | Experiment IX — the production-delay timelock and self-wall, permissionless forceDeallocate with its priced gate, the sentinel, the max* family |
+| [nutUSD Rate Surface](/v2/research/nutusd-rate-surface.md) | Experiment XII — the AdaptiveCurve walked 0–100%, rateAtTarget adaptation, the interest-driven breach, the full unwind |
 
 ## 🏰 The Orchard Extras
 

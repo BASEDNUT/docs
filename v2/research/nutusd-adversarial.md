@@ -152,10 +152,10 @@ Measured so far: boundary and normal liquidation (Experiment I); solvency, oracl
 | [VI](/v2/research/nutusd-production-recipe.md) | Production-shaped rehearsal — measured: 8-decimal collateral, three-leg composed oracle, boundary and crash liquidation exact |
 | [VII](/v2/research/nutusd-lltv-ladder.md) | LLTV ladder — measured: all eight standard rungs, incentive and absorption geometry, the −55.725% recovery boundary |
 | VIII | Planned: multi-user and adversarial composition — concurrent exits, ordering races, MEV, flash-loan-funded sequences, liquidator economics (gas, slippage, competing liquidators) |
-| IX | Planned: vault emergency and integration surface — supply and deposit caps, adapter failure, `forceDeallocate`, timelock matrix at production configuration, `maxDeposit`/`maxMint`/`maxWithdraw`/`maxRedeem` behavior, Bundler share-price and slippage protection |
+| IX | Done — [Experiment IX](/v2/research/nutusd-emergency-machinery.md): `forceDeallocate` with its allowance gate and penalty tiers, the production-delay timelock and the self-wall, the sentinel, the `max*` family. Remainders folded forward: supply and deposit caps, adapter failure, Bundler share-price and slippage protection |
 | X | Planned: automated assurance — Foundry invariant testing, Echidna/Medusa property fuzzing, differential math, static analysis, formal properties |
 | XI | Planned: production equivalence — Base mainnet fork, real USDC, cbBTC, cbETH feeds and tokens |
-| XII | Planned: rate surface — AdaptiveCurveIRM utilization ladder (0–100%), rate-at-target adaptation, prolonged saturation, interest-driven liquidation waves |
+| XII | Done — [Experiment XII](/v2/research/nutusd-rate-surface.md): the AdaptiveCurveIRM utilization ladder 0–100%, `rateAtTarget` adaptation under saturation and repayment, the interest-driven liquidation wave, the full unwind |
 
 Tooling for the invariant layer: Foundry invariant testing, Echidna/Medusa property fuzzing, Slither/Aderyn static analysis, differential computation of core math.
 
