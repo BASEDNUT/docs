@@ -16,12 +16,12 @@ Eleventh experiment in the nutUSD research series — production equivalence. Th
 
 | Item | Value |
 |---|---|
-| Chain | Base mainnet fork — anvil, chainId 0x2105 |
+| Chain | Base mainnet fork — anvil at block 50852765, chainId 0x2105 |
 | Morpho singleton | [`0xBBBBBbbB…37EEFFCb`](https://basescan.org/address/0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb) canonical |
 | Market | Live cbBTC/USDC 38.5% — id `0x42b1be56…d5398e0f` · oracle V1 [`0x663BECd1…199639B9`](https://basescan.org/address/0x663BECd10daE6C4A3Dcd89F1d76c1174199639B9) · IRM [`0x46415998…50D22687`](https://basescan.org/address/0x46415998764C29aB2a25CbeA6254146D50D22687) AdaptiveCurve |
 | Tokens | USDC [`0x833589fC…bdA02913`](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913) 6-dec · cbBTC [`0xcbB7C000…0eed33Bf`](https://basescan.org/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf) 8-dec |
 | Candidate oracle | `0xe1cc5c35…6717660c` — cbBTC/USD base · USDC/USD quote · 1e34 scale · deployed via factory [`0x2DC205F2…48Aebd3d`](https://basescan.org/address/0x2DC205F24BCb6B311E5cdf0745B0741648Aebd3d) |
-| Feeds at read | cbBTC/USD $80,912.09 (3,852 s old) · USDC/USD $0.99983065 (58,372 s) |
+| Feeds at read | cbBTC/USD proxy [`0x07DA0E54…3aA59f9D`](https://basescan.org/address/0x07DA0E54543a844a80ABE69c8A12F22B3aA59f9D) (8-dec) $80,912.09 (3,852 s old) · USDC/USD proxy [`0x7e860098…9a2bc6B`](https://basescan.org/address/0x7e860098F58bBFC8648a4311b374B1D669a2bc6B) (8-dec) $0.99983065 (58,372 s) |
 | Whale | fork-funded — supplies 10,000 USDC, collateralizes 0.05 cbBTC |
 
 ## The candidate — the 2-leg price
@@ -76,7 +76,7 @@ Seven transactions, each receipted on the fork (below). The market ends where it
 
 | Artifact | Value |
 |---|---|
-| Fork | anvil, Base mainnet state, chainId 0x2105 |
+| Fork | anvil, Base mainnet state at block 50852765 — hash `0x8a13e0596ac029e83af655b4cbfe1ce19b96ee2bdd1ca1bd0bf5af58ca5f8c22`, endpoint base.publicnode.com, state timestamp 2026-09-04T04:07:59Z, chainId 0x2105 |
 | Market id | `0x42b1be56…d5398e0f` — live cbBTC/USDC 38.5% |
 | Candidate oracle | `0xe1cc5c35…6717660c` — fork-deployed via the real factory |
 | Roundtrip txs (fork-local) | supply `0x22edd2a1…a3c29209` · collateral `0x2d5a0251…67db9cd4` · borrow `0xdd281084…69a23321` · repay `0x86c5806c…675a1f3d` · withdraw `0x8b9ed34c…8844311e` · supplier exit `0x282477e2…85922ce1` · pre-clean `0xf4a3dee5…9f3881c0` |

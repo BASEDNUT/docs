@@ -142,7 +142,7 @@ The trust stack for nutUSD oracles is therefore: Chainlink feed quality plus the
 
 ## Forward program
 
-Measured so far: boundary and normal liquidation (Experiment I); solvency, oracle failure, rounding, donations (this experiment); the seizure branches and the oracle-zero states (Experiment III); rates and the utilization wall (Experiment IV); vault machinery and the inflation matrix (Experiment V); the production-shaped rehearsal — 8-decimal collateral and the composed oracle (Experiment VI); the LLTV ladder — all eight standard rungs (Experiment VII). Remaining, in priority order:
+Measured across the series: boundary and normal liquidation (Experiment I); solvency, oracle failure, rounding, donations (this experiment); the seizure branches and the oracle-zero states (Experiment III); rates and the utilization wall (Experiment IV); vault machinery and the inflation matrix (Experiment V); the production-shaped rehearsal — 8-decimal collateral and the composed oracle (Experiment VI); the LLTV ladder — all eight standard rungs (Experiment VII). The full series map, all twelve measured:
 
 | Experiment | Surface |
 |---|---|
@@ -151,7 +151,7 @@ Measured so far: boundary and normal liquidation (Experiment I); solvency, oracl
 | [V](/v2/research/nutusd-vault-machinery.md) | Vault machinery — measured: roles and timelock, the inflation matrix, the rate limiter |
 | [VI](/v2/research/nutusd-production-recipe.md) | Production-shaped rehearsal — measured: 8-decimal collateral, three-leg composed oracle, boundary and crash liquidation exact |
 | [VII](/v2/research/nutusd-lltv-ladder.md) | LLTV ladder — measured: all eight standard rungs, incentive and absorption geometry, the −55.725% recovery boundary |
-| VIII | Done — [Experiment VIII](/v2/research/nutusd-mev-races.md): liquidity races and liquidation duels — exactly one winner each; split closes reconcile to the single-winner shape; ordering decides escape; the crash wave closes atomically, zero bad debt; the contract liquidator an EOA plus gas; wiped-key positions recovered by address; every measured shape profitable |
+| VIII | Done — [Experiment VIII](/v2/research/nutusd-mev-races.md): liquidity races and liquidation duels — exactly one winner each; split closes reconcile to the single-winner shape; ordering decides escape; the crash wave closes atomically, zero bad debt; the contract liquidator an EOA plus gas; wiped-key positions recovered by address; every measured shape gross-positive at oracle valuation |
 | IX | Done — [Experiment IX](/v2/research/nutusd-emergency-machinery.md): `forceDeallocate` with its allowance gate and penalty tiers, the production-delay timelock and the self-wall, the sentinel, the `max*` family. Remainders folded forward: supply and deposit caps, adapter failure, Bundler share-price and slippage protection |
 | X | Done — [Experiment X](/v2/research/nutusd-invariants.md): the Foundry invariant suite over canonical Morpho source — twelve handlers, four actors, seven invariants plus two static proofs, 44,800 calls, zero violations; Echidna/Medusa and static analysis unexecuted |
 | XI | Done — [Experiment XI](/v2/research/nutusd-production-fork.md): production equivalence on a Base mainnet fork — real USDC and cbBTC, live Chainlink feeds, the 2-leg oracle candidate formula-exact, the exact-max roundtrip closing to zero |

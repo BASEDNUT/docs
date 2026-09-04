@@ -6,13 +6,13 @@ Tenth experiment in the nutUSD research series — a method shift from receipts 
 
 | # | Question | Verdict |
 |---|---|---|
-| I1 | Can a random sequence break solvency? | No — total supply assets ≥ total borrow assets after every call |
+| I1 | Can a random sequence break the aggregate accounting? | No — total supply assets ≥ total borrow assets after every call |
 | I2 | Is a healthy position ever liquidatable? | No — a ghost ledger tracks health at every liquidation attempt; zero healthy seizures across all attempts |
 | I3 | Does the 1.15× cap hold under fuzz? | Yes — every recorded seizure respects the cap at 38.5% |
 | I4 | Are shares conserved on both sides? | Yes — supply and borrow share ledgers track mint and burn exactly |
 | I5 | Is the collateral ledger exact? | Yes — the ledger equals the collateral token balance held by Morpho |
 | I6 | Does idle cover the ledger? | Yes — the idle balance covers the withdrawable cushion at every step |
-| I7 | Do the static proofs hold? | Yes — a healthy position is not liquidatable at the source level, and a full close seizes exactly the incentive formula |
+| I7 | Do the static proofs hold? | Yes — a healthy position is not liquidatable at the source level, and a covered full-debt close seizes exactly the incentive formula |
 
 ## Environment
 
@@ -45,7 +45,7 @@ Base run: 6,400 calls, 131 reverts. Deep run: 38,400 calls, 983 reverts, 23.4 s.
 
 ## The invariants — what holds after every call
 
-1. **Solvency** — total supply assets ≥ total borrow assets: the market never lends more than it holds.
+1. **Aggregate liquidity accounting** — total supply assets ≥ total borrow assets: the market never lends more than it holds. This is a liquidity invariant, not collateral recoverability — a borrower can be economically unrecoverable while the aggregate holds; the loss ladder is [Experiment II](/v2/research/nutusd-adversarial.md)’s.
 2. **Healthy-never-liquidated** — a ghost ledger records whether a position was healthy at the moment of each liquidation attempt, read post-accrual the way the contract itself reads it; a seizure on a healthy-at-attempt position would fail the invariant. None did.
 3. **LIF cap at 38.5%** — every recorded seizure stays within the 1.15× incentive bound.
 4. **Supply share conservation** — shares minted minus shares burned equal the market’s total supply shares.
@@ -55,7 +55,7 @@ Base run: 6,400 calls, 131 reverts. Deep run: 38,400 calls, 983 reverts, 23.4 s.
 
 ## The static proofs
 
-Two source-level proofs anchor the fuzzed claims: a constructed healthy position is not liquidatable — the health check is the same `maxBorrow ≥ borrowed` comparison the boundary receipts of [Experiment I](/v2/research/nutusd-testnet.md) walked — and a full close seizes exactly the incentive formula, the cap the ladder of [Experiment VII](/v2/research/nutusd-lltv-ladder.md) measured rung by rung.
+Two source-level proofs anchor the fuzzed claims: a constructed healthy position is not liquidatable — the health check is the same `maxBorrow ≥ borrowed` comparison the boundary receipts of [Experiment I](/v2/research/nutusd-testnet.md) walked — and a covered full-debt close seizes exactly the incentive formula. The collateral-exhaustion branch — collateral caps the seizure below the formula — is outside this static fixture; the ladder of [Experiment VII](/v2/research/nutusd-lltv-ladder.md) measured it rung by rung.
 
 ## Findings
 
@@ -87,7 +87,7 @@ Two source-level proofs anchor the fuzzed claims: a constructed healthy position
 
 ## References
 
-- [Experiment I](/v2/research/nutusd-testnet.md) — the boundary the solvency and health invariants formalize
+- [Experiment I](/v2/research/nutusd-testnet.md) — the boundary the aggregate-accounting and health invariants formalize
 - [Experiment II](/v2/research/nutusd-adversarial.md) — the failure modes the ghost ledger guards
 - [Experiment VII](/v2/research/nutusd-lltv-ladder.md) — the incentive cap, measured rung by rung
 - [Experiment XI](/v2/research/nutusd-production-fork.md) — the production decimal mix on a mainnet fork

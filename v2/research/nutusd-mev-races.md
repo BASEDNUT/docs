@@ -11,9 +11,9 @@ Eighth experiment in the nutUSD research series — the multi-user composition t
 | M3 | Does a split close reconcile? | Yes: part A repaid 382.608696 / seized 0.5, part B repaid 377.391304 / seized 0.493181817045454545 — totals exact, 1,136,363,636 wei rounding loss at the seam |
 | M4 | Does ordering decide? | Yes: one debtor repaid and withdrew ahead of the crash-closure, untouched; the other was liquidated first and the identical repay then reverted `Panic 0x11` — share underflow on a closed position |
 | M5 | Does a crash wave propagate bad debt? | No: the whole field went unhealthy at 880; closures proceeded position by position, re-attempts reverted `position is healthy`, zero bad debt |
-| M6 | Can a contract liquidate? | Yes — same seizure, same profit, 152,023 gas vs 130,749 EOA; the contract shape costs gas and changes nothing else |
-| M7 | Are wiped-key positions recoverable? | Yes — fresh signers closed three of them by address: repay and collateral claim are permissionless |
-| M8 | Is liquidation profitable? | Yes at every measured shape — 113.999999 USDC quoted profit per full close, 59.999999 partial, 113.999998 split |
+| M6 | Can a contract liquidate? | Yes — same seizure, same gross bonus, 152,023 gas vs 130,749 EOA; the contract shape costs gas and changes nothing else |
+| M7 | Are wiped-key positions recoverable? | Yes — fresh signers closed three of them by address: repay and liquidation are permissionless; residual collateral remains withdrawable only by the borrower or an authorized account |
+| M8 | Is liquidation gross-positive at oracle valuation? | Yes at every measured shape — 113.999999 USDC quoted bonus per full close, 59.999999 partial, 113.999998 split; net realized profit — conversion, slippage, competition — was not measured |
 
 ## Environment
 
@@ -51,15 +51,15 @@ At 880 every debtor in the field went unhealthy — the executable maximum per u
 
 ## The contract liquidator
 
-A liquidating contract, [`0x2b5477B0…58B1E163`](https://sepolia.basescan.org/address/0x2b5477B040e618aDEEdC67F5b1137d7158B1E163), closed the same shape an EOA closes: repaid 760 USDC, seized 0.993181818181818181 mockNUT, profit identical — [`0x86cca187…8756b263`](https://sepolia.basescan.org/tx/0x86cca187275794d7c4fbf6b5bcaa5d70f8a3552334f1e775ce7ffd468756b263). The cost is gas: 152,023 vs 130,749 for the EOA full close. Nothing else differs — the protocol does not distinguish the caller’s shape.
+A liquidating contract, [`0x2b5477B0…58B1E163`](https://sepolia.basescan.org/address/0x2b5477B040e618aDEEdC67F5b1137d7158B1E163), closed the same shape an EOA closes: repaid 760 USDC, seized 0.993181818181818181 mockNUT, gross bonus identical — [`0x86cca187…8756b263`](https://sepolia.basescan.org/tx/0x86cca187275794d7c4fbf6b5bcaa5d70f8a3552334f1e775ce7ffd468756b263). The cost is gas: 152,023 vs 130,749 for the EOA full close. Nothing else differs — the protocol does not distinguish the caller’s shape.
 
 ## The unstuck — permissionless recovery
 
-Key material was wiped twice mid-run. The orphaned positions — unhealthy since the crash — were closed by fresh signers acting by address: repayment and liquidation are permissionless, so no key material is needed to act on a position. Three recoveries, each a full close at the standard shape — r3 [`0x771937b1…ec6b5e06`](https://sepolia.basescan.org/tx/0x771937b1b6beeeee09e0de1b0eb86293c76d491ef4f98f009a00158aec6b5e06), r4 [`0xb0a95c4a…4ec77594`](https://sepolia.basescan.org/tx/0xb0a95c4ae29a0c1a05a61ef168a1fe39c3c02f90a767ebadd0129dda4ec77594), r7 [`0x9f4d3eea…d2278a7b`](https://sepolia.basescan.org/tx/0x9f4d3eea559551a855a325278b56a47913c06221797a20de2ca7f9edd2278a7b). The closer earns the incentive; the borrower’s residual collateral remains claimable by address.
+Key material was wiped twice mid-run. The orphaned positions — unhealthy since the crash — were closed by fresh signers acting by address: repayment and liquidation are permissionless, so no key material is needed to act on a position. Three recoveries, each a full close at the standard shape — r3 [`0x771937b1…ec6b5e06`](https://sepolia.basescan.org/tx/0x771937b1b6beeeee09e0de1b0eb86293c76d491ef4f98f009a00158aec6b5e06), r4 [`0xb0a95c4a…4ec77594`](https://sepolia.basescan.org/tx/0xb0a95c4ae29a0c1a05a61ef168a1fe39c3c02f90a767ebadd0129dda4ec77594), r7 [`0x9f4d3eea…d2278a7b`](https://sepolia.basescan.org/tx/0x9f4d3eea559551a855a325278b56a47913c06221797a20de2ca7f9edd2278a7b). The closer earns the incentive; the borrower’s residual collateral remains the borrower’s — withdrawable only by the borrower or an authorized account.
 
 ## The economics
 
-| Shape | Repaid (USDC) | Seized quoted (USDC) | Gas used | Profit (USDC) |
+| Shape | Repaid (USDC) | Seized quoted (USDC) | Gas used | Gross bonus (USDC) |
 |---|---|---|---|---|
 | EOA full close | 760.000000 | 873.999999 | 130,749 | 113.999999 |
 | Duel winner | 760.000000 | 873.999999 | 130,749 | 113.999999 |
@@ -68,7 +68,7 @@ Key material was wiped twice mid-run. The orphaned positions — unhealthy since
 | Partial close | 400.000000 | 459.999999 | 113,637 | 59.999999 |
 | Recovery close | 760.000000 | 873.999999 | 130,749 | 113.999999 |
 
-Gas price 0.016 gwei throughout — the testnet floor; the ETH leg of a full close is 0.000002092 ETH, six orders below the quoted profit. Every shape is profitable: the 1.15× incentive outpaces repayment by 15% of the debt value, and no measured execution came close to inverting it.
+Gas price 0.016 gwei throughout — the testnet floor; the ETH leg of a full close is 0.000002092 ETH, six orders below the quoted bonus. Every shape is gross-positive at the oracle’s valuation: the 1.15× incentive outpaces repayment by 15% of the debt value. Net realized profit — collateral conversion, swap fees, slippage, failed attempts, competition — was not measured.
 
 ## Findings
 
@@ -79,14 +79,14 @@ Gas price 0.016 gwei throughout — the testnet floor; the ETH leg of a full clo
 | F3 | Split closes reconcile to the single-winner shape exactly, with a 1,136,363,636 wei rounding seam |
 | F4 | Ordering decides escape: repay-then-withdraw succeeds ahead of a liquidator; behind one, the same repay reverts `Panic 0x11` |
 | F5 | The crash wave closes position by position — atomic closures, healthy-side re-reads, zero bad debt |
-| F6 | A contract liquidator is an EOA plus gas: same seizure, same profit, +21,274 gas |
+| F6 | A contract liquidator is an EOA plus gas: same seizure, same gross bonus, +21,274 gas |
 | F7 | Wiped-key positions remain actionable — permissionless closes recovered three of them by address |
-| F8 | Every measured liquidation shape is profitable — 113.999999 USDC per full close at the 0.016 gwei floor |
+| F8 | Every measured liquidation shape is gross-positive at oracle valuation — 113.999999 USDC per full close at the 0.016 gwei floor; net economics unmeasured |
 
 ## Limitations
 
 - Sequencer-ordered, not mempool-raced: the orderings here are receipt reconstructions — no bundle competition, no priority-fee warfare, no real MEV adversary; flash-loan-funded sequences were not exercised.
-- Testnet gas floor (0.016 gwei): the quoted profit is receipted; the mainnet gas leg is inference, not receipt.
+- Testnet gas floor (0.016 gwei): the quoted gross bonus is receipted; the mainnet gas leg is inference, not receipt; net realized profit — conversion, slippage, competition — was not measured.
 - Zero-IRM market: the wave’s debts are static — the interest-driven breach is [Experiment XII](/v2/research/nutusd-rate-surface.md).
 - Mock feeds under the real adapter: controlled-crash geometry — live-feed pricing is [Experiment XI](/v2/research/nutusd-production-fork.md).
 - Post-sweep, 1.531818182954545461 mockNUT of collateral remains in the market — unclaimed remains claimable by their owners; actor-side balances were swept where key material allowed.
