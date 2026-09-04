@@ -27,3 +27,11 @@ Requires Python 3 with `web3` + `eth_abi`. All account access is anvil impersona
 | `exp11_oracle_candidate.json` | Oracle deployment results (feed raws, scale factor, parity) |
 | `exp11_market_roundtrip.json` | Roundtrip results (all tx hashes, exact-max math, final zero state) |
 | `sources/` | Upstream Solidity sources (Morpho, V2 factory, oracle, adapters, VaultV2) |
+
+## Liquidation leg (XI-O9)
+
+- Driver: `exp11_liquidation.py` — anvil impersonation only, no key material.
+- Result: `exp11_liquidation.json` — fork pin, rate derivation (from the accrual event), liquidation receipt, unwind state, dust-floor disclosure.
+- Repro: `anvil --fork-url https://base.publicnode.com --port 8546 --chain-id 8453 --fork-block-number 50852765`, then `python3 exp11_liquidation.py` (stdlib urllib JSON-RPC + web3/eth_abi for encoding).
+- Fork-pin note: the original instance was started without an explicit block pin; the pin (block 50852765 / hash `0x8a13e059…ca5f8c22`) was recovered from the anvil log banner and a header readback. Reproducers should pass `--fork-block-number 50852765` explicitly.
+- Dust floor: full-share exits leave a structural micro floor (+1 micro per exit — SharesMathLib virtual offsets); the driver asserts and discloses it. No storage edits are used anywhere in the bundle.

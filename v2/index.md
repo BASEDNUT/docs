@@ -111,7 +111,7 @@ Three doors into the Orchard. Pick yours — every path leads back to the same N
 | [nutUSD MEV Races](/v2/research/nutusd-mev-races.md) | Experiment VIII — liquidity races, liquidation duels, split relays, ordering, the crash wave, the contract liquidator, permissionless recovery |
 | [nutUSD Emergency & Timelock Machinery](/v2/research/nutusd-emergency-machinery.md) | Experiment IX — the production-delay timelock and self-wall, permissionless forceDeallocate with its priced gate, the sentinel, the max* family |
 | [nutUSD Invariant Suite](/v2/research/nutusd-invariants.md) | Experiment X — the Foundry fuzz over canonical Morpho source: seven invariants, two static proofs, 44,800 calls, zero violations |
-| [nutUSD Mainnet Fork](/v2/research/nutusd-production-fork.md) | Experiment XI — production equivalence on a Base mainnet fork: real tokens, live feeds, the 2-leg oracle candidate, the exact-max roundtrip |
+| [nutUSD Mainnet Fork](/v2/research/nutusd-production-fork.md) | Experiment XI — production equivalence on a Base mainnet fork: real tokens, live feeds, the 2-leg oracle candidate, the exact-max roundtrip , and a live-feed liquidation crossed by real interest |
 | [nutUSD Rate Surface](/v2/research/nutusd-rate-surface.md) | Experiment XII — the AdaptiveCurve walked 0–100%, rateAtTarget adaptation, the interest-driven breach, the full unwind |
 
 ## 🏰 The Orchard Extras

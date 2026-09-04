@@ -1,6 +1,6 @@
 🔬 Research — nutUSD Mainnet Fork (Experiment XI)
 
-Eleventh experiment in the nutUSD research series — production equivalence. The preceding series ran on Sepolia against mock tokens and controlled feeds; this one moves to a fork of Base mainnet: the live cbBTC/USDC 38.5% market as the reference shape, the real Chainlink feeds, real USDC and cbBTC — and the 2-leg oracle candidate, cbBTC/USD ÷ USDC/USD, deployed through the real MorphoChainlinkOracleV2 factory. A funded whale walks the full roundtrip at the exact borrow maximum, and the market returns to zero. Fork receipts are fork-local by construction; the candidate’s deployment is proven by config readback and the factory’s registry flag — real mainnet carries zero code at the same address. The roundtrip market itself is fork-created — a new cbBTC/USDC 38.5% market under the candidate oracle, mirroring the live market’s parameters.
+Eleventh experiment in the nutUSD research series — production equivalence. The preceding series ran on Sepolia against mock tokens and controlled feeds; this one moves to a fork of Base mainnet: the live cbBTC/USDC 38.5% market as the reference shape, the real Chainlink feeds, real USDC and cbBTC — and the 2-leg oracle candidate, cbBTC/USD ÷ USDC/USD, deployed through the real MorphoChainlinkOracleV2 factory. A funded whale walks the full roundtrip at the exact borrow maximum, and the market returns to zero. Fork receipts are fork-local by construction; the candidate’s deployment is proven by config readback and the factory’s registry flag — real mainnet carries zero code at the same address. The roundtrip market itself is fork-created — a new cbBTC/USDC 38.5% market under the candidate oracle, mirroring the live market’s parameters. The roundtrip is then extended past the wall: 7,200 s of real AdaptiveCurve interest accrues on the maximum borrow until the position crosses into liquidation, and the closure runs against the live feeds — seized at the exact fixed incentive, with zero bad debt.
 
 ## Questions
 
@@ -11,6 +11,7 @@ Eleventh experiment in the nutUSD research series — production equivalence. Th
 | E3 | What is the exact max on the fork market? | 1,557.821525 USDC on 0.05 cbBTC — the double share-conversion floor; one unit above reverts `insufficient collateral` |
 | E4 | Does the roundtrip close exactly? | Yes — borrow at max, repay, withdraw collateral, supplier exit: whale deltas zero, market back to zero shares |
 | E5 | Does share math hold on real tokens? | Yes — first supply and borrow shares = assets × 1e6 exact; the full exit burns exact totals |
+| E6 | Does a live-feed liquidation behave exactly? | Yes — real interest alone crosses the wall; the full close seizes at exactly 1.1500× the repaid value, zero bad debt |
 
 ## Environment
 
@@ -23,7 +24,7 @@ Eleventh experiment in the nutUSD research series — production equivalence. Th
 | Tokens | USDC [`0x833589fC…bdA02913`](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913) 6-dec · cbBTC [`0xcbB7C000…0eed33Bf`](https://basescan.org/address/0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf) 8-dec |
 | Candidate oracle | `0xe1cc5c35…6717660c` — cbBTC/USD base · USDC/USD quote · 1e34 scale · deployed via factory [`0x2DC205F2…48Aebd3d`](https://basescan.org/address/0x2DC205F24BCb6B311E5cdf0745B0741648Aebd3d) |
 | Feeds at read | cbBTC/USD proxy [`0x07DA0E54…3aA59f9D`](https://basescan.org/address/0x07DA0E54543a844a80ABE69c8A12F22B3aA59f9D) (8-dec) $80,912.09 (3,852 s old) · USDC/USD proxy [`0x7e860098…9a2bc6B`](https://basescan.org/address/0x7e860098F58bBFC8648a4311b374B1D669a2bc6B) (8-dec) $0.99983065 (58,372 s) |
-| Whale | fork-funded — supplies 10,000 USDC, collateralizes 0.05 cbBTC |
+| Whale | fork-funded — roundtrip: 10,000 USDC supply, 0.05 cbBTC · liquidation leg: 20,000 USDC supply, 0.5 cbBTC collateral, borrow at the max |
 
 ## The candidate — the 2-leg price
 
@@ -53,7 +54,20 @@ The roundtrip market was created on the fork with the live market’s parameters
 | Supplier exit | full redemption — market back to zero shares |
 | Whale deltas | USDC 0 · cbBTC 0 |
 
-Seven transactions, each receipted on the fork (below). The market ends where it began — zero shares, zero debt, zero dust beyond the ledger’s own floor.
+## The liquidation — interest alone crosses the wall
+
+The whale re-supplies 20,000 USDC and the borrower collateralizes 0.5 cbBTC, borrowing the executable maximum — 15,578.215259 USDC, the double-floor shape at ×10 scale. Time does the rest: 7,200 s of warp at the real AdaptiveCurve rate accrues 118,582 micro of interest ($0.118582) — a per-second rate of 1,055,325,182 WAD, 3.3281%/yr annualized, taken from the accrual event itself; the rate view call reverts on the fork. The borrow crosses its maximum by exactly that interest.
+
+| Step | Value |
+|---|---|
+| Control | liquidate while healthy → reverts `position is healthy` |
+| Warp | 7,200 s — interest 118,582 micro at 3.3281%/yr |
+| Cross | 15,578.333841 borrowed vs 15,578.215259 max — over by the interest |
+| Full close | 15,578.333841 USDC repaid — all debt, zero bad debt |
+| Seized | 0.22137668 cbBTC — $17,915.08 at the candidate price |
+| Incentive | 1.2262 cursor-derived → capped at the fixed 1.15 — realized exactly 1.1500× |
+
+The seizure is source-exact: the receipted amount is the liquidation formula’s own rounding combination — repaid taken from the event, incentive floored, price floored. The collateral remainder goes home, the supplier exits, and the market returns to zero debt and zero shares over the ledger’s micro floor.
 
 ## Findings
 
@@ -64,12 +78,15 @@ Seven transactions, each receipted on the fork (below). The market ends where it
 | F3 | The fork market’s exact max on 0.05 cbBTC is 1,557.821525 USDC — the double share-conversion floor, one unit above reverting |
 | F4 | The full roundtrip closes exactly: repay, collateral withdrawal, supplier exit — whale deltas zero, market to zero |
 | F5 | Share math on real tokens matches the Sepolia receipts: first shares = assets × 1e6, full exit exact |
+| F6 | A live-feed liquidation closes exactly: real interest crosses the wall, the full close seizes at the fixed 1.15 incentive — $17,915.08 seized on $15,578.33 repaid — with zero bad debt |
+| F7 | The micro floor is structural: a full-share exit leaves one unclaimable micro, and the floor grows by one per full-share exit — a property of the share ledger’s virtual offsets, left unedited |
 
 ## Limitations
 
 - Fork-local receipts: the seven transactions exist on the fork only; the roundtrip market is fork-created, not the live curated market; real mainnet carries zero code at the candidate’s address — itself the receipt that nothing was broadcast.
 - One timestamp: feed ages 3,852 s and 58,372 s at read; the parity is a point-in-time measurement, not a tracked divergence series.
-- No fork liquidation: the crash geometry is the Sepolia series’ controlled-feed work; this page prices the production path, it does not re-run the failure lattice on live feeds.
+- The fork liquidation exercises the covered branch: debt fully backed by collateral. The failure lattice — zero feeds, clamps, collateral exhaustion, bad debt — is the Sepolia series’ controlled-feed work ([Experiment II](/v2/research/nutusd-adversarial.md), [Experiment VII](/v2/research/nutusd-lltv-ladder.md)).
+- One actor, two roles: the whale is supplier and liquidator — fresh accounts could not be fetched through the fork’s archive-gated upstream. Competition and net liquidator economics — conversion, slippage, failed attempts — are [Experiment VIII](/v2/research/nutusd-mev-races.md)’s surface.
 - The whale is the only actor: crowd-state economics — contention, races, waves — are [Experiment VIII](/v2/research/nutusd-mev-races.md).
 - Accrual within the roundtrip window was minimal at the real IRM; the AdaptiveCurve response is [Experiment IV](/v2/research/nutusd-liquidity-rates.md) and [Experiment XII](/v2/research/nutusd-rate-surface.md).
 
@@ -83,6 +100,8 @@ Seven transactions, each receipted on the fork (below). The market ends where it
 | Roundtrip txs (fork-local) | supply `0x22edd2a1…a3c29209` · collateral `0x2d5a0251…67db9cd4` · borrow `0xdd281084…69a23321` · repay `0x86c5806c…675a1f3d` · withdraw `0x8b9ed34c…8844311e` · supplier exit `0x282477e2…85922ce1` · pre-clean `0xf4a3dee5…9f3881c0` |
 | Results | `artifacts/nutusd/exp11-fork/exp11_market_roundtrip.json` · `artifacts/nutusd/exp11-fork/exp11_oracle_candidate.json` |
 | Scripts | `artifacts/nutusd/exp11-fork/exp11_oracle_candidate.py` · `artifacts/nutusd/exp11-fork/exp11_o8.py` — anvil impersonation only, no real key material |
+| Liquidation leg (fork-local) | supply `0x48ae45f5…05b94eae` | collateral `0x751455c1…cb238b2c` | borrow `0x670e17f5…67771002` | accrue `0xaa5a039d…31509e92` | LIQUIDATE `0x78b43527…87322be2` | collateral home `0x0edfff6e…d9eacb5d` | supplier exit `0xba39a128…5624e994` |
+| Liquidation results | `artifacts/nutusd/exp11-fork/exp11_liquidation.json` · driver `artifacts/nutusd/exp11-fork/exp11_liquidation.py` — anvil impersonation only, no key material |
 | Run window (UTC) | 2026-09-03 – 2026-09-04 |
 
 ## References

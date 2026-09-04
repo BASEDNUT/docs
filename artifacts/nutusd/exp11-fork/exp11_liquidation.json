@@ -1,0 +1,84 @@
+{
+    "experiment": "XI-O9 production-fork liquidation via real interest",
+    "fork_pin": {
+        "block": 50852765,
+        "hash": "0x8a13e0596ac029e83af655b4cbfe1ce19b96ee2bdd1ca1bd0bf5af58ca5f8c22",
+        "url": "https://base.publicnode.com",
+        "url_note": "anvil process args use space-separated form; url read from process arguments (ps), block pin recovered from anvil log banner + header readback"
+    },
+    "market_id": "0x42b1be56153b81ad018835119b8b94fb08f274a8e71103059be3faaad5398e0f",
+    "oracle": "0xe1cc5c35f568225333e0c6eb1c030c776717660c",
+    "roles": "whale=supplier+liquidator, acct0=borrower",
+    "abi_note": "Base singleton dual-input ABI (assets+shares); selectors pinned to live roundtrip txs",
+    "first_supply_share_ratio": 250000,
+    "first_borrow_share_ratio": 1000000,
+    "dust_floor_micro": 3,
+    "final_floor_micro": 4,
+    "dust_note": "SharesMathLib virtual offsets (1,1e6): full-shares exit leaves tsa=N+1/tss=0 (floor grows +1 micro per full-share exit); 1 micro unclaimable; full-assets exit overshoots at small scale. No storage edits used.",
+    "setup": {
+        "supply_usd_micro": 20000000000,
+        "collateral_cbbtc_8dec": 50000000,
+        "max_borrow_micro": 15578215259,
+        "utilization_pct": 77.89
+    },
+    "rate": {
+        "at_t0_per_yr_wad": null,
+        "used_at_accrual_wad": 1055325182,
+        "warp_s": 7200,
+        "used_at_accrual_scale": "WAD per second (AdaptiveCurveIRM internal rate, from AccrueInterest event)",
+        "annualized_pct": 3.3281,
+        "implied_elapsed_s": 7213,
+        "elapsed_note": "7200 s evm_increaseTime warp + ~14 s block progression across intervening txs"
+    },
+    "interest_accrued_micro": 118582,
+    "health_cross": {
+        "borrowed_micro": 15578333841,
+        "max_borrow_micro": 15578215259,
+        "crossed_by_micro": 118582
+    },
+    "control": {
+        "healthy_revert_msg": "position is healthy"
+    },
+    "liquidation": {
+        "tx": "0x78b4352738000d8deb832c2f8e3b0653e5cbb1b7ba4ea27e7fabc98087322be2",
+        "liquidator": "0xfBB6Eed8e7aa03B138556eeDaF5D271A5E1e43ef",
+        "repaid_assets_micro": 15578333841,
+        "repaid_shares": 15578215259000000,
+        "seized_cbbtc_8dec": 22137668,
+        "bad_debt": 0,
+        "bad_debt_shares": 0,
+        "seized_candidates": [
+            22137668,
+            22137669,
+            22137668,
+            22137669,
+            22137668,
+            22137669,
+            22137668,
+            22137669
+        ],
+        "seized_rounding_combo": "ev-repaid/lif-f/px-f",
+        "repaid_drift_micro": 0,
+        "lif_raw_wad": 1226241569589209074,
+        "lif_capped": true,
+        "lif_effective_wad": 1150000000000000000,
+        "seized_usd": 17915.0835,
+        "lif_realized": 1.15
+    },
+    "final_state": {
+        "tsa": 4,
+        "tss": 0,
+        "tba": 0,
+        "tbs": 0
+    },
+    "txs": {
+        "supply": "0x48ae45f5e654be27e7963297316d5e452d965025345a92279b1ce14f05b94eae",
+        "supplyCollateral": "0x751455c1ed4103daaafa940d6a7d6f4a2c233705ffae970265f12372cb238b2c",
+        "borrow": "0x670e17f5faba509e9ae35f6fde0bf9fd04e605ac79bc73d41fe9c1ef67771002",
+        "accrueInterest": "0xaa5a039d3d6bdfcce28bc11e251dbd218dd0b0e1f98a97584c8aead131509e92",
+        "liquidate": "0x78b4352738000d8deb832c2f8e3b0653e5cbb1b7ba4ea27e7fabc98087322be2",
+        "withdrawCollateral": "0x0edfff6e06f397ce6372ee8321948cc402d7fc5fdd44c2e3d508e986d9eacb5d",
+        "withdraw": "0xba39a1280e68488334888b886eaf4bb0b6b612c0b34976e2808cf2435624e994"
+    },
+    "rate_note": "borrowRateView call unavailable on fork (reverted, empty data); rate proven by AccrueInterest event receipt"
+}
