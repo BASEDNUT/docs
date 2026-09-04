@@ -1,6 +1,6 @@
 🔬 Research — nutUSD Invariant Suite (Experiment X)
 
-Tenth experiment in the nutUSD research series — a method shift from receipts to randomized sequences. A Foundry handler suite drives the canonical Morpho Blue source (morpho-org/morpho-blue, forge-installed, unmodified) through random valid action sequences — twelve handlers, four actors, a controllable oracle and IRM mock — checking seven invariants after every call, plus two static proofs. Two runs: 64 runs × 100 depth, then 256 runs × 150 — 38,400 calls, 983 reverts, no violation in either.
+Tenth experiment in the nutUSD research series — a method shift from receipts to randomized sequences. A Foundry handler suite drives the canonical Morpho Blue source (morpho-org/morpho-blue, forge-installed, unmodified) through random valid action sequences — twelve handlers, four actors, a controllable oracle and IRM mock — checking seven invariants after every call, plus two static proofs. Two runs: 64 runs × 100 depth, then 256 runs × 150 — 38,400 calls, 1,082 reverts, no violation in either.
 
 ## Questions
 
@@ -41,7 +41,7 @@ Tenth experiment in the nutUSD research series — a method shift from receipts 
 | setPrice | 553 | 0 |
 | warp | 530 | 0 |
 
-Base run: 6,400 calls, 131 reverts. Deep run: 38,400 calls, 983 reverts, 23.4 s. The reverts are the boundaries doing their work — health-wall hits on borrow, liquidity hits on withdraw — the same walls the receipted series measured.
+Base run: 6,400 calls, 161 reverts. Deep run: 38,400 calls, 1,082 reverts, 23.4 s. The reverts are the boundaries doing their work — health-wall hits on borrow, liquidity hits on withdraw — the same walls the receipted series measured.
 
 ## The invariants — what holds after every call
 
@@ -78,11 +78,11 @@ Two source-level proofs anchor the fuzzed claims: a constructed healthy position
 
 | Artifact | Value |
 |---|---|
-| Suite | `agent-core/exp10_invariants/test/NutUSDInvariant.t.sol` |
-| Source | morpho-org/morpho-blue, forge-installed canonical |
-| Base run | 64 runs × 100 depth — 6,400 calls, 131 reverts, 7/7 invariants + 2/2 static |
-| Deep run | 256 runs × 150 depth — 38,400 calls, 983 reverts, 7/7 + 2/2 |
-| Result | `agent-core/exp10_invariant_results.json` |
+| Suite | `artifacts/nutusd/exp10-invariants/test/NutUSDInvariant.t.sol` |
+| Source | morpho-org/morpho-blue — vendored canonical copy in the artifact bundle |
+| Base run | 64 runs × 100 depth — 6,400 calls, 161 reverts, 7/7 invariants + 2/2 static |
+| Deep run | 256 runs × 150 depth — 38,400 calls, 1,082 reverts, 7/7 + 2/2 |
+| Result | `artifacts/nutusd/exp10-invariants/exp10_invariant_results.json` |
 | Run window (UTC) | 2026-09-03 – 2026-09-04 |
 
 ## References

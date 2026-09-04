@@ -1,0 +1,8 @@
+No files changed, compilation skipped
+
+Ran 2 tests for test/NutUSDInvariant.t.sol:NutUSDStaticTest
+[PASS] test_healthy_position_not_liquidatable() (gas: 168809)
+[PASS] test_lif_cap_full_close() (gas: 308474)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 3.84ms (1.96ms CPU time)
+
+Ran 1 test suite in 35.94ms (3.84ms CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)

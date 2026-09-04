@@ -1,0 +1,78 @@
+{
+ "experiment": "X \u2014 invariant assurance (Foundry)",
+ "suite": "exp10-invariants/test/NutUSDInvariant.t.sol",
+ "public_bundle": "BASEDNUT/docs artifacts/nutusd/exp10-invariants/ (self-contained: harness + vendored deps + logs)",
+ "morpho_source": "morpho-org/morpho-blue canonical, vendored src in bundle",
+ "market_shape": {
+  "lltv": "0.385e18",
+  "lif_cap": "1.15e18",
+  "oracle": "OracleMock controllable",
+  "irm": "IrmMock util-APR",
+  "tokens": "ERC20Mock 18/18"
+ },
+ "handlers": 12,
+ "actors": 4,
+ "invariants": [
+  "invariant_aggregate_liquidity",
+  "invariant_borrow_share_conservation",
+  "invariant_collateral_ledger",
+  "invariant_healthy_never_liquidated",
+  "invariant_idle_balance",
+  "invariant_lif_cap_385",
+  "invariant_supply_share_conservation"
+ ],
+ "rename_note": "invariant_solvency renamed invariant_aggregate_liquidity (audit round 5): the property is aggregate liquidity accounting (totalSupplyAssets >= totalBorrowAssets), not collateral solvency; unrealized bad debt can coexist with it",
+ "static_proofs": [
+  "test_healthy_position_not_liquidatable",
+  "test_lif_cap_full_close (covered full-debt branch; collateral-exhaustion branch is Experiment VII/VIII scope)"
+ ],
+ "reproducibility": {
+  "forge_version": "1.8.1 (commit 982849d314, 2026-08-28)",
+  "fuzz_seed": 385,
+  "forge_std_pin": "1.16.2 rev 2f112697506eab12d433a65fdc31a639548fe365 (vendored)",
+  "morpho_blue_pin": "canonical src vendored; sha16 e84e49813530b77f",
+  "commands": [
+   "forge clean",
+   "forge build",
+   "forge test --match-contract NutUSDInvariantTest --fuzz-seed 385",
+   "FOUNDRY_PROFILE=deep forge test --match-contract NutUSDInvariantTest --fuzz-seed 385",
+   "forge test --match-contract NutUSDStaticTest --fuzz-seed 385"
+  ],
+  "sequence_note": "stats are from a forge-clean cache, runs executed in the listed order, seed 385 \u2014 deterministic; a corpus-carrying cache can shift revert counts (161/1082 are the clean-cache numbers)"
+ },
+ "base_run": {
+  "runs": 64,
+  "depth": 100,
+  "seed": 385,
+  "result": "7/7 PASS",
+  "stats": "6400 calls, 161 reverts",
+  "log": "results/results_base.log"
+ },
+ "static_run": {
+  "seed": 385,
+  "result": "2/2 PASS",
+  "log": "results/results_static.log"
+ },
+ "deep_run": {
+  "runs": 256,
+  "depth": 150,
+  "seed": 385,
+  "stats": {
+   "runs": "256",
+   "calls": "38400",
+   "reverts": "1082"
+  },
+  "result": "PASS",
+  "failures": [],
+  "log": "results/results_deep.log"
+ },
+ "crown_claims_fuzz_proven": [
+  "healthy positions never liquidated (ghost counter across all liquidation attempts)",
+  "liquidation incentive factor bounded 1.15x at 38.5% LLTV",
+  "aggregate liquidity accounting: totalSupplyAssets >= totalBorrowAssets after every call",
+  "supply/borrow share conservation",
+  "collateral ledger == vault balance",
+  "idle balance covers ledger"
+ ],
+ "timestamp": 1788536470
+}

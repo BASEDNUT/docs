@@ -1,0 +1,13 @@
+[profile.default]
+optimizer = true
+optimizer_runs = 10000
+
+[profile.default.invariant]
+runs = 64
+depth = 100
+fail_on_revert = false
+
+[profile.deep.invariant]
+runs = 256
+depth = 150
+fail_on_revert = false

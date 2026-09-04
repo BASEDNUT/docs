@@ -1,0 +1,74 @@
+{
+ "experiment": "nutUSD XI - production fork equivalence",
+ "chain": "base-mainnet-fork",
+ "chainId": 8453,
+ "fork": {
+  "endpoint": "https://base.publicnode.com",
+  "blockNumber": 50852765,
+  "blockHash": "0x8a13e0596ac029e83af655b4cbfe1ce19b96ee2bdd1ca1bd0bf5af58ca5f8c22",
+  "blockTimestamp": 1788494877,
+  "anvilCommand": "anvil --fork-url https://base.publicnode.com --port 8546 --chain-id 8453",
+  "runWindowUtc": "2026-09-03 to 2026-09-04"
+ },
+ "contracts": {
+  "morphoBlue": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+  "loanTokenUsdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "collateralTokenCbbtc": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+  "irmAdaptiveCurve": "0x46415998764C29aB2a25CbeA6254146D50D22687",
+  "lltv": 385000000000000000,
+  "oracleFactoryV2": "0x2DC205F24BCb6B311E5cdf0745B0741648Aebd3d",
+  "oracleCandidateV2": "0xe1cc5c35f568225333e0c6eb1c030c776717660c",
+  "oracleLiveV1Reference": "0x663BECd10daE6C4A3Dcd89F1d76c1174199639B9"
+ },
+ "feeds": {
+  "cbbtcUsdProxy": "0x07DA0E54543a844a80ABE69c8A12F22B3aA59f9D",
+  "usdcUsdProxy": "0x7e860098F58bBFC8648a4311b374B1D669a2bc6B",
+  "decimals": 8,
+  "candidateScaleFactor": 10000000000000000000000000000000000,
+  "creationSalt": "0x6e75745553440000000000000000000000000000000000000000000000000001"
+ },
+ "markets": {
+  "forkCreatedId": "0x42b1be56153b81ad018835119b8b94fb08f274a8e71103059be3faaad5398e0f",
+  "liveReferenceId": "0x2990655b2a05c2a067f10b94e28470cd86284f384c52ca71b9dec49f8fe8ef18",
+  "params": {
+   "loan": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+   "collateral": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+   "oracle": "0xe1cc5c35f568225333e0c6eb1c030c776717660c",
+   "irm": "0x46415998764C29aB2a25CbeA6254146D50D22687",
+   "lltv": "385000000000000000"
+  }
+ },
+ "creationTxsForkLocal": {
+  "oracleDeploy": {
+   "txHash": "0x37202c85d935de65af2dcd7649e1fc53f6c3c81bf21aa96239e428df65a33299",
+   "block": 50852766,
+   "proof": "receipt 0x1, factory-emitted event carries candidate address"
+  },
+  "createMarket": {
+   "txHash": "0x86f2f0b12422099793aca055e5ef40dbb7c2fbdf3e4276257542591587811d71",
+   "block": 50852768,
+   "proof": "unique tx with Morpho target + 0x8c1358a2 selector, receipt 0x1, 2 logs"
+  }
+ },
+ "roundtripTxsForkLocal": {
+  "cleanup_withdraw": "0xf4a3dee5b96d7793b46024dc1cd1232819616b13214554fba19bec259f3881c0",
+  "supply": "0x22edd2a1f7163ecbad44650b6c4cde1368d84b672cdedf710ccca28ea3c29209",
+  "cbbtc_transfer": "0xebf68c60f424463a453e16caca30c9bea3e1cd9b7b529f4896b6dfe8fcc659b6",
+  "collateral": "0x2d5a025155497534c9748858d1674f2a2ed6c311aff4f84117b1b9ba67db9cd4",
+  "borrow": "0xdd281084d7a845fd7b0195f65a0722fc04efed836cb353d4ae219a0869a23321",
+  "repay": "0x86c5806c51e28fcc91da78e1f01f6be2e4a0f45da786bd264e7406c8675a1f3d",
+  "withdrawCollateral": "0x8b9ed34c2f354daead50929774a178e6ad9e6ff52a1bb92537fa6a7b8844311e",
+  "supplierExit": "0x282477e24e4091da89d15d1c0ed18ceccc540d0f51410e3e7233be8085922ce1"
+ },
+ "results": [
+  "exp11_oracle_candidate.json",
+  "exp11_market_roundtrip.json"
+ ],
+ "reproChain": [
+  "exp11_oracle_candidate.py",
+  "exp11_market_roundtrip.py",
+  "exp11_o8.py"
+ ],
+ "licenseNote": "morpho-blue sources vendored under GPL-2.0; interfaces and factory sources are the same upstream Morpho artifacts.",
+ "note": "Fork-local receipts are deterministic under the pinned fork block. Real mainnet carries zero code at the candidate oracle address; deployment is proven on-fork by factory registry readback."
+}

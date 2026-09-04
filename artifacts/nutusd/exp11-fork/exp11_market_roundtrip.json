@@ -1,0 +1,70 @@
+{
+ "experiment": "XI-O5 production-shape market roundtrip on Base mainnet fork",
+ "chain": "base-mainnet fork via anvil :8546 (chainId 0x2105)",
+ "morpho_singleton": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+ "market_id": "0x42b1be56153b81ad018835119b8b94fb08f274a8e71103059be3faaad5398e0f",
+ "market_params": {
+  "loan": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "collateral": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+  "oracle": "0xe1cc5c35f568225333e0c6eb1c030c776717660c",
+  "irm": "0x46415998764C29aB2a25CbeA6254146D50D22687",
+  "lltv": "385000000000000000"
+ },
+ "encoding": "eth_abi; signatures parsed from IMorpho.sol/Morpho.sol; bytes-tail offset=32*(6+n_static)",
+ "shares_math": {
+  "virtual_shares": 1000000,
+  "virtual_assets": 1,
+  "first_supply_shares": "assets*1e6 exact (measured)",
+  "first_borrow_shares": "assets*1e6 exact (measured)",
+  "full_exit_by_shares": "burns exact total, assets out exact (measured)"
+ },
+ "position_decode": "(supplyShares, borrowShares, collateral)",
+ "oracle": {
+  "candidate_v2": "0xe1cc5c35f568225333e0c6eb1c030c776717660c",
+  "price": "809257935592292554744145921111740273215",
+  "real_v1": "0x663BECd10daE6C4A3Dcd89F1d76c1174199639B9",
+  "price_v1": "808365474971000000000000000000000000000",
+  "parity_ratio": 1.001104
+ },
+ "supply": {
+  "assets": 10000000000,
+  "shares": 10000000000000000
+ },
+ "collateral": 5000000,
+ "max_borrow": {
+  "pred_double_floor": 1557821525,
+  "pred_single_floor": 1557821526,
+  "chain_max": 1557821525,
+  "matched": "double-floor",
+  "over_max_revert": "insufficient collateral"
+ },
+ "borrow": {
+  "assets": 1557821525,
+  "shares": 1557821525000000,
+  "receiver": null
+ },
+ "repay": {
+  "mode": "assets-frozen",
+  "post_borrowShares": 0
+ },
+ "final_state": {
+  "tsa": 0,
+  "tss": 0,
+  "tba": 0,
+  "tbs": 0,
+  "lastUpdate": 1788501566,
+  "fee": 0
+ },
+ "whale_usdc_delta": 0,
+ "whale_cbbtc_delta": 0,
+ "txs": {
+  "cleanup_withdraw": "0xf4a3dee5b96d7793b46024dc1cd1232819616b13214554fba19bec259f3881c0",
+  "supply": "0x22edd2a1f7163ecbad44650b6c4cde1368d84b672cdedf710ccca28ea3c29209",
+  "cbbtc_transfer": "0xebf68c60f424463a453e16caca30c9bea3e1cd9b7b529f4896b6dfe8fcc659b6",
+  "collateral": "0x2d5a025155497534c9748858d1674f2a2ed6c311aff4f84117b1b9ba67db9cd4",
+  "borrow": "0xdd281084d7a845fd7b0195f65a0722fc04efed836cb353d4ae219a0869a23321",
+  "repay": "0x86c5806c51e28fcc91da78e1f01f6be2e4a0f45da786bd264e7406c8675a1f3d",
+  "withdrawCollateral": "0x8b9ed34c2f354daead50929774a178e6ad9e6ff52a1bb92537fa6a7b8844311e",
+  "supplierExit": "0x282477e24e4091da89d15d1c0ed18ceccc540d0f51410e3e7233be8085922ce1"
+ }
+}

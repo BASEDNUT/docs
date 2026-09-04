@@ -1,0 +1,45 @@
+No files changed, compilation skipped
+
+Ran 1 test for test/NutUSDInvariant.t.sol:NutUSDInvariantTest
+[PASS]
+NutUSDInvariantTest invariants:
+[PASS] invariant_aggregate_liquidity
+[PASS] invariant_borrow_share_conservation
+[PASS] invariant_collateral_ledger
+[PASS] invariant_healthy_never_liquidated
+[PASS] invariant_idle_balance
+[PASS] invariant_lif_cap_385
+[PASS] invariant_supply_share_conservation
+ NutUSDInvariantTest invariants (runs: 64, calls: 6400, reverts: 161)
+
+╭------------+--------------------+-------+---------+----------╮
+| Contract   | Selector           | Calls | Reverts | Discards |
++==============================================================+
+| NutHandler | borrow             | 554   | 80      | 0        |
+|------------+--------------------+-------+---------+----------|
+| NutHandler | liquidateRepaid    | 514   | 7       | 0        |
+|------------+--------------------+-------+---------+----------|
+| NutHandler | liquidateSeized    | 524   | 13      | 0        |
+|------------+--------------------+-------+---------+----------|
+| NutHandler | repayAssets        | 523   | 25      | 0        |
+|------------+--------------------+-------+---------+----------|
+| NutHandler | repayShares        | 555   | 0       | 0        |
+|------------+--------------------+-------+---------+----------|
+| NutHandler | setFee             | 488   | 19      | 0        |
+|------------+--------------------+-------+---------+----------|
+| NutHandler | setPrice           | 546   | 0       | 0        |
+|------------+--------------------+-------+---------+----------|
+| NutHandler | supply             | 548   | 0       | 0        |
+|------------+--------------------+-------+---------+----------|
+| NutHandler | supplyCollateral   | 503   | 0       | 0        |
+|------------+--------------------+-------+---------+----------|
+| NutHandler | warp               | 540   | 0       | 0        |
+|------------+--------------------+-------+---------+----------|
+| NutHandler | withdraw           | 563   | 0       | 0        |
+|------------+--------------------+-------+---------+----------|
+| NutHandler | withdrawCollateral | 542   | 17      | 0        |
+╰------------+--------------------+-------+---------+----------╯
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 3.79s (3.78s CPU time)
+
+Ran 1 test suite in 3.80s (3.79s CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)
