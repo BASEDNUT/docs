@@ -151,13 +151,13 @@ Measured so far: boundary and normal liquidation (Experiment I); solvency, oracl
 | [V](/v2/research/nutusd-vault-machinery.md) | Vault machinery — measured: roles and timelock, the inflation matrix, the rate limiter |
 | [VI](/v2/research/nutusd-production-recipe.md) | Production-shaped rehearsal — measured: 8-decimal collateral, three-leg composed oracle, boundary and crash liquidation exact |
 | [VII](/v2/research/nutusd-lltv-ladder.md) | LLTV ladder — measured: all eight standard rungs, incentive and absorption geometry, the −55.725% recovery boundary |
-| VIII | Planned: multi-user and adversarial composition — concurrent exits, ordering races, MEV, flash-loan-funded sequences, liquidator economics (gas, slippage, competing liquidators) |
+| VIII | Done — [Experiment VIII](/v2/research/nutusd-mev-races.md): liquidity races and liquidation duels — exactly one winner each; split closes reconcile to the single-winner shape; ordering decides escape; the crash wave closes atomically, zero bad debt; the contract liquidator an EOA plus gas; wiped-key positions recovered by address; every measured shape profitable |
 | IX | Done — [Experiment IX](/v2/research/nutusd-emergency-machinery.md): `forceDeallocate` with its allowance gate and penalty tiers, the production-delay timelock and the self-wall, the sentinel, the `max*` family. Remainders folded forward: supply and deposit caps, adapter failure, Bundler share-price and slippage protection |
-| X | Planned: automated assurance — Foundry invariant testing, Echidna/Medusa property fuzzing, differential math, static analysis, formal properties |
-| XI | Planned: production equivalence — Base mainnet fork, real USDC, cbBTC, cbETH feeds and tokens |
+| X | Done — [Experiment X](/v2/research/nutusd-invariants.md): the Foundry invariant suite over canonical Morpho source — twelve handlers, four actors, seven invariants plus two static proofs, 44,800 calls, zero violations; Echidna/Medusa and static analysis unexecuted |
+| XI | Done — [Experiment XI](/v2/research/nutusd-production-fork.md): production equivalence on a Base mainnet fork — real USDC and cbBTC, live Chainlink feeds, the 2-leg oracle candidate formula-exact, the exact-max roundtrip closing to zero |
 | XII | Done — [Experiment XII](/v2/research/nutusd-rate-surface.md): the AdaptiveCurveIRM utilization ladder 0–100%, `rateAtTarget` adaptation under saturation and repayment, the interest-driven liquidation wave, the full unwind |
 
-Tooling for the invariant layer: Foundry invariant testing, Echidna/Medusa property fuzzing, Slither/Aderyn static analysis, differential computation of core math.
+The invariant layer ran on Foundry — [Experiment X](/v2/research/nutusd-invariants.md); Echidna/Medusa property fuzzing and Slither/Aderyn static analysis remain unexecuted.
 
 ## Best practices applied
 

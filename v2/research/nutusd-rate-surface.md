@@ -95,7 +95,7 @@ The 38.5% market was then spent — a 1-unit dust residue with zero shares — w
 - Mock feeds under the real adapter: the rate surface is IRM behavior, which the feeds never touch, but the liquidation pricing is controlled-feed geometry, not live-market data.
 - One market, one supply size, one collateral; the curve's response at other depths follows the same formulas but is not receipted here.
 - The wave is a single interest-driven breach at one accrual granularity; a compounding wave under repeated high-rate accruals is not separately receipted.
-- Borrowers act in sequence — no concurrency; the multi-user program remains open.
+- Borrowers act in sequence — no concurrency; the multi-user composition is [Experiment VIII](/v2/research/nutusd-mev-races.md).
 - The sweep's 1-unit dust is the market's own floor rounding; negligible by construction, not economically measured.
 
 ## Artifacts
