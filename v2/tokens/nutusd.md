@@ -2,7 +2,7 @@
 
 **Status: PROPOSED** — not deployed on Base mainnet; nutUSD does not exist as a live token yet. For the full asset map see [Token Catalog](/v2/tokens/catalog.md); for how the layers fit see [Multilayered Ecosystem](/v2/tokens/multilayered-ecosystem.md).
 
-> Research series: [Experiment I — Testnet](/v2/research/nutusd-testnet.md) · [II — Adversarial](/v2/research/nutusd-adversarial.md) · [III — Liquidation Envelope](/v2/research/nutusd-liquidation-envelope.md) · [IV — Liquidity & Rates](/v2/research/nutusd-liquidity-rates.md) · [V — Vault Machinery](/v2/research/nutusd-vault-machinery.md) · [VI — Production Recipe](/v2/research/nutusd-production-recipe.md)
+> Research series: [I — Testnet](/v2/research/nutusd-testnet.md) · [II — Adversarial](/v2/research/nutusd-adversarial.md) · [III — Liquidation Envelope](/v2/research/nutusd-liquidation-envelope.md) · [IV — Liquidity & Rates](/v2/research/nutusd-liquidity-rates.md) · [V — Vault Machinery](/v2/research/nutusd-vault-machinery.md) · [VI — Production Recipe](/v2/research/nutusd-production-recipe.md) · [VII — LLTV Ladder](/v2/research/nutusd-lltv-ladder.md) · [VIII — MEV Races](/v2/research/nutusd-mev-races.md) · [IX — Emergency Machinery](/v2/research/nutusd-emergency-machinery.md) · [X — Invariants](/v2/research/nutusd-invariants.md) · [XI — Production Fork](/v2/research/nutusd-production-fork.md) · [XI-M — Oracle Failure Matrix](/v2/research/nutusd-oracle-matrix.md) · [XII — Rate Surface](/v2/research/nutusd-rate-surface.md)
 >
 > First designed application: [Agricultural Credit — RWA](/v2/rwa/credits.md)
 
@@ -472,11 +472,30 @@ The exact oracle address must be published before a strategy becomes active.
 An oracle should never be described merely as infrastructure.
 It determines when borrowers become liquidatable.
 
+The adapter that composes the two legs accepts any non-negative answer. A zero answer on either leg is therefore a live configuration, not an error. The two zeros are not symmetric:
+
+- a zero **collateral-leg** answer serves a zero collateral price — borrowing is gated off, but the liquidation path stays open: collateral can be seized for zero repayment, and any remaining debt is socialized. This is the drain state.
+- a zero **USDC-leg** answer panics in the division, and every price-dependent call freezes with it.
+
+The production invariant is therefore strict: every oracle leg must remain greater than zero, with monitoring wired to an enforced response. The adapter itself carries no such guard and no staleness check — a stale answer serves at its last value.
+
 ### Price Composition
 
 Collateral is valued against USDC through Chainlink price feeds.
 
-For collateral with a direct USD feed, the feed price is the collateral value.
+For collateral with a direct USD feed, the collateral value in USDC terms is composed from two feeds — the collateral leg and the USDC leg:
+
+```
+collateral / USD
+        ÷
+      USDC / USD
+        ↓
+collateral value in USDC
+```
+
+The genesis cbBTC market follows this 2-leg form: cbBTC/USD ÷ USDC/USD. This is the production candidate — collateral priced in USDC terms directly from the two feeds, no ETH leg in the path.
+
+For collateral quoted in ETH, the value is composed from two feeds:
 
 For collateral quoted in ETH, the value is composed from two feeds:
 
