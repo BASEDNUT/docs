@@ -68,7 +68,7 @@ Key material was wiped twice mid-run. The orphaned positions — unhealthy since
 | Partial close | 400.000000 | 459.999999 | 113,637 | 59.999999 |
 | Recovery close | 760.000000 | 873.999999 | 130,749 | 113.999999 |
 
-Gas price 0.016 gwei throughout — the testnet floor; the ETH leg of a full close is 0.000002092 ETH, six orders below the quoted bonus. Every shape is gross-positive at the oracle’s valuation: the 1.15× incentive outpaces repayment by 15% of the debt value. Net realized profit — collateral conversion, swap fees, slippage, failed attempts, competition — was not measured.
+Gas price 0.016 gwei throughout — the testnet floor; a full EOA close consumed 0.000002092 ETH of gas; ETH/USDC conversion was not applied, so no ETH-to-bonus ratio is claimed here. Every shape is gross-positive at the oracle’s valuation: the 1.15× incentive outpaces repayment by 15% of the debt value. Net realized profit — collateral conversion, swap fees, slippage, failed attempts, competition — was not measured.
 
 ## Findings
 

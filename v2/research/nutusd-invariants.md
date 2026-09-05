@@ -28,18 +28,18 @@ Tenth experiment in the nutUSD research series — a method shift from receipts 
 
 | Handler | Calls | Reverts |
 |---|---|---|
-| supply | 512 | 0 |
-| supplyCollateral | 517 | 0 |
-| borrow | 558 | 60 |
-| repayAssets | 511 | 11 |
-| repayShares | 534 | 0 |
-| withdraw | 541 | 1 |
-| withdrawCollateral | 562 | 18 |
-| liquidateSeized | 513 | 16 |
-| liquidateRepaid | 511 | 4 |
-| setFee | 558 | 21 |
-| setPrice | 553 | 0 |
-| warp | 530 | 0 |
+| supply | 548 | 0 |
+| supplyCollateral | 503 | 0 |
+| borrow | 554 | 80 |
+| repayAssets | 523 | 25 |
+| repayShares | 555 | 0 |
+| withdraw | 563 | 0 |
+| withdrawCollateral | 542 | 17 |
+| liquidateSeized | 524 | 13 |
+| liquidateRepaid | 514 | 7 |
+| setFee | 488 | 19 |
+| setPrice | 546 | 0 |
+| warp | 540 | 0 |
 
 Base run: 6,400 calls, 161 reverts. Deep run: 38,400 calls, 1,082 reverts, 23.4 s. The reverts are the boundaries doing their work — health-wall hits on borrow, liquidity hits on withdraw — the same walls the receipted series measured.
 
@@ -62,7 +62,7 @@ Two source-level proofs anchor the fuzzed claims: a constructed healthy position
 | # | Finding |
 |---|---|
 | F1 | Seven invariants and two static proofs hold across 44,800 total calls, zero violations |
-| F2 | The 983 deep-run reverts are boundary hits — health wall, liquidity wall — not failures; invariants check after every call, reverted or not |
+| F2 | The 1,082 deep-run reverts are boundary hits — health wall, liquidity wall — not failures; invariants check after every call, reverted or not |
 | F3 | The healthy-never-liquidated ghost survives randomized price moves and time jumps: accrual is forced before the health read, matching the contract’s own order |
 | F4 | Every handler ran ≥ 500 calls in the base run — no cold paths |
 

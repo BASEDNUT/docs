@@ -108,12 +108,12 @@ Three doors into the Orchard. Pick yours — every path leads back to the same N
 | [nutUSD Vault Machinery](/v2/research/nutusd-vault-machinery.md) | Experiment V — roles and timelock, the inflation matrix, the rate limiter |
 | [nutUSD Production Recipe](/v2/research/nutusd-production-recipe.md) | Experiment VI — 8-decimal collateral, the three-leg composed oracle, boundary and crash liquidation exact |
 | [nutUSD LLTV Ladder](/v2/research/nutusd-lltv-ladder.md) | Experiment VII — all eight standard LLTVs side by side: what is identical, what 38.5% uniquely holds |
-| [nutUSD MEV Races](/v2/research/nutusd-mev-races.md) | Experiment VIII — liquidity races, liquidation duels, split relays, ordering, the crash wave, the contract liquidator, permissionless recovery |
+| [nutUSD MEV Races](/v2/research/nutusd-mev-races.md) | Experiment VIII — liquidity races, liquidation duels, split relays, ordering, the crash wave, the contract liquidator, permissionless repayment/liquidation recovery |
 | [nutUSD Emergency & Timelock Machinery](/v2/research/nutusd-emergency-machinery.md) | Experiment IX — the production-delay timelock and self-wall, permissionless forceDeallocate with its priced gate, the sentinel, the max* family |
 | [nutUSD Invariant Suite](/v2/research/nutusd-invariants.md) | Experiment X — the Foundry fuzz over canonical Morpho source: seven invariants, two static proofs, 44,800 calls, zero violations |
 | [nutUSD Mainnet Fork](/v2/research/nutusd-production-fork.md) | Experiment XI — production equivalence on a Base mainnet fork: real tokens, live feeds, the 2-leg oracle candidate, the exact-max roundtrip , and a live-feed liquidation crossed by real interest |
 | [nutUSD Rate Surface](/v2/research/nutusd-rate-surface.md) | Experiment XII — the AdaptiveCurve walked 0–100%, rateAtTarget adaptation, the interest-driven breach, the full unwind |
-| [nutUSD Oracle Failure Matrix](/v2/research/nutusd-oracle-matrix.md) | Experiment XI, second instrument — ten controlled feed-failure states on the production fork shape: zero pair, staleness, depeg, dislocation, recovery, combined shift, broken feed |
+| [nutUSD Oracle Failure Matrix](/v2/research/nutusd-oracle-matrix.md) | Experiment XI, second instrument — ten controlled oracle states (baseline + nine perturbation/recovery) on the production fork shape: zero pair, staleness, depeg, dislocation, recovery, combined shift, broken feed |
 
 ## 🏰 The Orchard Extras
 

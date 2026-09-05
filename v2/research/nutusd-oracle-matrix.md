@@ -1,13 +1,13 @@
 # Research — nutUSD Oracle Failure Matrix (Experiment XI, second instrument)
 
-Companion instrument to the [mainnet fork](/v2/research/nutusd-production-fork.md): the same production shape — the canonical Morpho singleton, real USDC and cbBTC, the real MorphoChainlinkOracleV2 factory, the real AdaptiveCurveIRM at 38.5% — with the two feed answers placed under direct control. Two fork-deployed Chainlink-style aggregators are seeded to the mainnet fork's captured live raws (cbBTC/USD 8,091,208,877,609 · USDC/USD 99,983,065, both 8-dec) and wired through the real factory into a fork-created cbBTC/USDC market. The oracle path is production-shaped end to end; only the answers move. Ten feed-failure states are then driven one at a time — zero base, zero quote, negative base, day-old staleness, quote depeg, base dislocation, recovery, a combined shift, and a broken feed — each against the live market machinery: the price view, the borrow gate, and the liquidation gate.
+Companion instrument to the [mainnet fork](/v2/research/nutusd-production-fork.md): the same production shape — the canonical Morpho singleton, real USDC and cbBTC, the real MorphoChainlinkOracleV2 factory, the real AdaptiveCurveIRM at 38.5% — with the two feed answers placed under direct control. Two fork-deployed Chainlink-style aggregators are seeded to the mainnet fork's captured live raws (cbBTC/USD 8,091,208,877,609 · USDC/USD 99,983,065, both 8-dec) and wired through the real factory into a fork-created cbBTC/USDC market. The oracle path is production-shaped end to end; only the answers move. Ten controlled oracle states (baseline plus nine perturbation and recovery states) are then driven one at a time — zero base, zero quote, negative base, day-old staleness, quote depeg, base dislocation, recovery, a combined shift, and a broken feed — each against the live market machinery: the price view, the borrow gate, and the liquidation gate.
 
 ## Questions
 
 | # | Question | Verdict |
 |---|---|---|
 | Q1 | What does each failure state do to the price? | Four distinct behaviors: zero base serves a zero price; zero quote panics (0x12) in the division; negative base reverts `negative answer`; staleness serves the same integer unchanged |
-| Q2 | Which failures freeze the market? | Two: zero quote (panic propagates to every price-dependent call) and a broken feed (the adapter's own call reverts — `mock: broken feed` — and every dependent call reverts with it) |
+| Q2 | Which failures freeze the price-dependent paths? | Three: a negative answer reverts at the feed guard; zero quote panics 0x12 in the oracle division; a reverting feed propagates its own revert. Zero base is different in kind — it does not freeze, it opens the seized-assets liquidation drain |
 | Q3 | Which failures move the price without freezing? | Depeg and dislocation: quote at 0.90 USD raises the price by exactly 1/0.9; base at 0.70x lowers it floor-exact to 0.70x; combined 0.80x/0.90x lands at 0.8/0.9 of baseline — each floor-of-exact-rational |
 | Q4 | Does the health gate follow the price? | Yes — at 0.70x the borrow ceiling collapses and the same position that was healthy at baseline becomes liquidatable end to end |
 | Q5 | Does the system return to baseline when the feed heals? | Yes — the restored base answer prices back to the baseline integer exactly; a healed broken feed serves the baseline again |
@@ -48,7 +48,7 @@ latestRoundData  revert: mock: broken feed    (market freezes)
 
 ## The zero pair - asymmetric by construction
 
-Zero base and zero quote are not symmetric. A zero base answer serves a zero price without reverting - and the market machinery follows it down honestly: the borrow gate reverts `insufficient collateral` for any amount, and a 1-sat collateral seizure quotes a zero repayment. Nobody can extract value from a zero base; the position simply becomes unborrowable and unliquidatable at that valuation. A zero quote is the opposite: the adapter's division by zero panics (0x12) inside `price()`, and the panic propagates - every price-dependent market call freezes. The asymmetry is structural: the base enters the numerator, the quote enters the denominator.
+Zero base and zero quote are not symmetric — and the dangerous one is the zero base. A zero base answer passes the adapter's non-negative guard and serves a zero price; borrowing is gated off (`insufficient collateral`), but the liquidation path stays open. Morpho's caller-specified `seizedAssets` branch computes the quoted value as seized × 0 = 0, therefore zero repaid shares, while still subtracting and transferring the requested collateral: a liquidator that requests the position's available collateral drains it for zero repayment, and emptied, the remaining debt is socialized as bad debt — the free-seizure drain [Experiment III](/v2/research/nutusd-liquidation-envelope.md) measured with receipts, reproduced here on the production-shaped oracle path. A zero quote is the opposite shape: the adapter's division by zero panics (0x12) inside `price()`, and the panic propagates — every price-dependent market call freezes. Production invariant: every oracle leg must remain strictly greater than zero, with monitoring wired to an enforced response.
 
 ## Staleness - no guard in the adapter
 
@@ -66,12 +66,12 @@ When `latestRoundData` itself reverts, the adapter reverts with the feed's own m
 
 | # | Finding |
 |---|---|
-| F1 | The four failure behaviors are distinct and structural: zero base serves zero (no revert); zero quote panics 0x12; negative base reverts `negative answer`; a broken feed reverts with the feed's message - three freezes, one silent degradation |
-| F2 | The zero-base path degrades safely: price 0 served, borrow gated off (`insufficient collateral`), 1-sat seizure quotes 0 repayment - no extraction surface at zero valuation |
+| F1 | The four failure behaviors are distinct and structural: zero base serves zero (no revert); zero quote panics 0x12; negative base reverts `negative answer`; a broken feed reverts with the feed's message - three freezes, one non-freezing drain state |
+| F2 | Zero base is the most severe non-reverting oracle state: price 0 is served, borrowing is gated off, but the seized-assets liquidation path removes collateral for zero repayment and socializes remaining debt - the drain, reproduced on the production-shaped path |
 | F3 | The adapter carries no staleness guard: a 24-hour-old answer serves the identical integer |
 | F4 | Price moves are floor-exact: 1/0.9 depeg, 0.70x dislocation, 0.8/0.9 combined - each floor-of-exact-rational, and recovery returns the baseline integer exactly |
 | F5 | The health gate tracks the price: at 0.70x the same position crosses from healthy (`position is healthy` reverts) to liquidatable end to end |
-| F6 | Freezes lift only at the feed: zero quote and broken feed hold the market frozen until the feed itself recovers; the adapter adds no guard, retry, or fallback of its own |
+| F6 | Freezes lift only at the feed: negative answers, zero quote, and reverting feeds keep price-dependent paths frozen until the feed returns to a valid nonzero state; the adapter adds no guard, retry, or fallback of its own. Zero base is not a freeze - it is the drain state and must be handled separately |
 | F7 | The matrix oracle is factory-registered with SCALE_FACTOR 1e34 and the market is the standard cbBTC/USDC 38.5% shape - the production oracle path, only the answers controlled |
 
 ## Limitations
