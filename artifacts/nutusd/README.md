@@ -9,6 +9,7 @@ Published with the series pages under `v2/research/`.
 |---|---|---|
 | `exp10-invariants/` | X — invariant suite | Foundry stateful handler suite, vendored dependencies (forge-std MIT/APACHE-2.0, morpho-blue GPL-2.0), raw run logs, result JSON |
 | `exp11-fork/` | XI — production fork | Fork pin (block/hash/addresses), deployment and roundtrip scripts, result JSONs, oracle/factory/adapter Solidity sources |
+| `exp11-matrix/` | XI — oracle failure matrix | Fork pin, matrix driver, controllable-aggregator source and build, recorded results (10 scenario verdicts, 29 tx hashes), full run log |
 
 ## Provenance
 

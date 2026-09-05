@@ -1,0 +1,42 @@
+== P0 fork pin ==
+pin 50889452 0x3415eab48194978dc6215d7ff0cf3f51431fb5348424ac3fb5f7b6a32a8e2091
+== P1 deploy mock aggregators ==
+base 0x30a5b95c934e0f63f6c62cdbdb2ea0696045ffd5 | quote 0xdc4fcc80a7d9e6a87f5196eea8ba32c00ac90d66
+== P2 factory oracle (real V2 factory, mock feeds) ==
+oracle 0x8b34615005cad42432ccbf58e73351c9ca60822e | SCALE_FACTOR 10000000000000000000000000000000000 | registered True
+== P3 M1 baseline ==
+M1 price exact 809257935592292554744145921111740273215
+== P4 market + max-borrow position ==
+whale usdc 4363509932772 | cbbtc 3438706371 | supplying 10000000000
+borrowed 1557821525 of ceiling 1557821525
+baseline liquidate sim: False string position is healthy
+== M2 base zero ==
+M2 price 0 | borrow string insufficient collateral | seize-sim True ok 0x00000000000000000000000000000000000000
+== M3 quote zero ==
+M3 price panic 0x12 | borrow panic 0x12
+== M4 base negative ==
+M4 price string negative answer
+== M5 stale ==
+M5 price unchanged True
+== M6 quote depeg 0.90 ==
+M6 price 899023208623222222222222222222222222222 exact True
+== M7 base dislocation 0.70x ==
+M7 price 566480554914574783239541616372732722286 exact True | liq-sim True ok 0x00000000000000000000000000000000000000
+== M8 recovery ==
+M8 price back to baseline True
+== M9 combined 0.80x / 0.90x ==
+M9 price 719340391190139112226095001555707912222 exact True
+== M10 broken feed ==
+M10 price string mock: broken feed | borrow string mock: broken feed
+healed price == baseline True
+SAVED /a0/usr/projects/peanutoshi/agent-core/exp11_matrix_results.json
+M1 baseline_serves
+M2 base_zero_zero_price
+M3 quote_zero_panic_freeze
+M4 base_negative_string_freeze
+M5 stale_serves_unchanged
+M6 quote_depeg_price_up
+M7 base_dislocation_price_down
+M8 recovery_baseline_exact
+M9 combined_shift
+M10 broken_feed_call_freeze

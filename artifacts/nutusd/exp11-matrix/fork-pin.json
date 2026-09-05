@@ -1,0 +1,51 @@
+{
+  "experiment": "nutUSD XI - oracle failure matrix (M1-M10)",
+  "chain": "base-mainnet-fork",
+  "chainId": 8453,
+  "fork": {
+    "endpoint": "https://base.publicnode.com",
+    "blockNumber": 50889452,
+    "blockHash": "0x3415eab48194978dc6215d7ff0cf3f51431fb5348424ac3fb5f7b6a32a8e2091",
+    "blockTimestamp": 1788568251,
+    "anvilCommand": "anvil --fork-url https://base.publicnode.com --fork-block-number 50889452 --port 8547 --chain-id 8453",
+    "runWindowUtc": "2026-09-04",
+    "pinNote": "publicnode's free tier serves recent state only; older pins age out of the served window (archive requests 403). Re-take the pin fresh from the chain tip before re-running."
+  },
+  "contracts": {
+    "morphoBlue": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "loanTokenUsdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "collateralTokenCbbtc": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+    "irmAdaptiveCurve": "0x46415998764C29aB2a25CbeA6254146D50D22687",
+    "lltv": 385000000000000000,
+    "oracleFactoryV2": "0x2DC205F24BCb6B311E5cdf0745B0741648Aebd3d",
+    "oracleMatrixV2": "0x8b34615005cad42432ccbf58e73351c9ca60822e"
+  },
+  "mockFeeds": {
+    "baseCbbtcUsdMock": "0x30a5b95c934e0f63f6c62cdbdb2ea0696045ffd5",
+    "quoteUsdcUsdMock": "0xdc4fcc80a7d9e6a87f5196eea8ba32c00ac90d66",
+    "seededRaws": {
+      "base": 8091208877609,
+      "quote": 99983065
+    },
+    "decimals": 8,
+    "creationSalt": "0x6e75745553440000000000000000000000000000000000000000000000000002"
+  },
+  "market": {
+    "forkCreatedId": "0x707d922a324463b0601f67905aab25e0157a4c322bd0922b6559dee944877fff",
+    "params": {
+      "loan": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "collateral": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+      "oracle": "0x8b34615005cad42432ccbf58e73351c9ca60822e",
+      "irm": "0x46415998764C29aB2a25CbeA6254146D50D22687",
+      "lltv": "385000000000000000"
+    },
+    "supplyUsdcMicro": 10000000000,
+    "collateralCbbtcBaseUnits": 5000000,
+    "maxBorrowMicro": 1557821525
+  },
+  "accounts": {
+    "supplierWhale": "0xfBB6Eed8e7aa03B138556eeDaF5D271A5E1e43ef",
+    "borrowerAcct0": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "accessMode": "anvil impersonation only - no private key material"
+  }
+}

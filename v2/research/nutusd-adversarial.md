@@ -156,6 +156,7 @@ Measured across the series: boundary and normal liquidation (Experiment I); solv
 | X | Done — [Experiment X](/v2/research/nutusd-invariants.md): the Foundry invariant suite over canonical Morpho source — twelve handlers, four actors, seven invariants plus two static proofs, 44,800 calls, zero violations; Echidna/Medusa and static analysis unexecuted |
 | XI | Done — [Experiment XI](/v2/research/nutusd-production-fork.md): production equivalence on a Base mainnet fork — real USDC and cbBTC, live Chainlink feeds, the 2-leg oracle candidate formula-exact, the exact-max roundtrip closing to zero |
 | XII | Done — [Experiment XII](/v2/research/nutusd-rate-surface.md): the AdaptiveCurveIRM utilization ladder 0–100%, `rateAtTarget` adaptation under saturation and repayment, the interest-driven liquidation wave, the full unwind |
+| XI-M | Done — [Oracle Failure Matrix](/v2/research/nutusd-oracle-matrix.md): ten controlled feed-failure states on the production fork shape — the zero pair (base serves zero, quote panics 0x12), staleness with no adapter guard, floor-exact depeg and dislocation, exact recovery, combined shift, broken-feed freeze and heal |
 
 The invariant layer ran on Foundry — [Experiment X](/v2/research/nutusd-invariants.md); Echidna/Medusa property fuzzing and Slither/Aderyn static analysis remain unexecuted.
 

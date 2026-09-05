@@ -113,6 +113,7 @@ Three doors into the Orchard. Pick yours — every path leads back to the same N
 | [nutUSD Invariant Suite](/v2/research/nutusd-invariants.md) | Experiment X — the Foundry fuzz over canonical Morpho source: seven invariants, two static proofs, 44,800 calls, zero violations |
 | [nutUSD Mainnet Fork](/v2/research/nutusd-production-fork.md) | Experiment XI — production equivalence on a Base mainnet fork: real tokens, live feeds, the 2-leg oracle candidate, the exact-max roundtrip , and a live-feed liquidation crossed by real interest |
 | [nutUSD Rate Surface](/v2/research/nutusd-rate-surface.md) | Experiment XII — the AdaptiveCurve walked 0–100%, rateAtTarget adaptation, the interest-driven breach, the full unwind |
+| [nutUSD Oracle Failure Matrix](/v2/research/nutusd-oracle-matrix.md) | Experiment XI, second instrument — ten controlled feed-failure states on the production fork shape: zero pair, staleness, depeg, dislocation, recovery, combined shift, broken feed |
 
 ## 🏰 The Orchard Extras
 

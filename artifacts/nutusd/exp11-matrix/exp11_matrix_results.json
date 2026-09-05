@@ -1,0 +1,352 @@
+{
+ "experiment": "XI oracle failure matrix",
+ "fork": {
+  "url": "https://base.publicnode.com",
+  "port": 8547,
+  "block": 50889452,
+  "hash": "0x3415eab48194978dc6215d7ff0cf3f51431fb5348424ac3fb5f7b6a32a8e2091",
+  "anvil": null
+ },
+ "production": {
+  "morpho": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+  "usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "cbbtc": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+  "irm": "0x46415998764C29aB2a25CbeA6254146D50D22687",
+  "factory": "0x2DC205F24BCb6B311E5cdf0745B0741648Aebd3d",
+  "lltv": 385000000000000000
+ },
+ "raws": {
+  "base": 8091208877609,
+  "quote": 99983065
+ },
+ "scenarios": [
+  {
+   "id": "M1",
+   "verdict_class": "baseline_serves",
+   "observed": {
+    "price": 809257935592292554744145921111740273215,
+    "expected": 809257935592292554744145921111740273215,
+    "exact": true
+   }
+  },
+  {
+   "id": "M2",
+   "verdict_class": "base_zero_zero_price",
+   "observed": {
+    "price": 0,
+    "price_serves_zero": true,
+    "borrow_probe": [
+     "string",
+     "insufficient collateral"
+    ],
+    "seizure_probe": [
+     true,
+     "ok",
+     "0x00000000000000000000000000000000000000"
+    ]
+   }
+  },
+  {
+   "id": "M3",
+   "verdict_class": "quote_zero_panic_freeze",
+   "observed": {
+    "price_probe": [
+     "panic",
+     "0x12"
+    ],
+    "borrow_probe": [
+     "panic",
+     "0x12"
+    ]
+   }
+  },
+  {
+   "id": "M4",
+   "verdict_class": "base_negative_string_freeze",
+   "observed": {
+    "price_probe": [
+     "string",
+     "negative answer"
+    ]
+   }
+  },
+  {
+   "id": "M5",
+   "verdict_class": "stale_serves_unchanged",
+   "observed": {
+    "price": 809257935592292554744145921111740273215,
+    "unchanged": true,
+    "age_hours": 24
+   }
+  },
+  {
+   "id": "M6",
+   "verdict_class": "quote_depeg_price_up",
+   "observed": {
+    "price": 899023208623222222222222222222222222222,
+    "expected": 899023208623222222222222222222222222222,
+    "exact": true,
+    "ratio": 1.1109229444444444
+   }
+  },
+  {
+   "id": "M7",
+   "verdict_class": "base_dislocation_price_down",
+   "observed": {
+    "price": 566480554914574783239541616372732722286,
+    "expected": 566480554914574783239541616372732722286,
+    "exact": true,
+    "ratio": 0.6999999999999629,
+    "liquidation_sim": [
+     true,
+     "ok",
+     "0x00000000000000000000000000000000000000"
+    ]
+   }
+  },
+  {
+   "id": "M8",
+   "verdict_class": "recovery_baseline_exact",
+   "observed": {
+    "price": 809257935592292554744145921111740273215,
+    "exact": true
+   }
+  },
+  {
+   "id": "M9",
+   "verdict_class": "combined_shift",
+   "observed": {
+    "price": 719340391190139112226095001555707912222,
+    "expected": 719340391190139112226095001555707912222,
+    "exact": true,
+    "ratio": 0.8888888938279695
+   }
+  },
+  {
+   "id": "M10",
+   "verdict_class": "broken_feed_call_freeze",
+   "observed": {
+    "price_probe": [
+     "string",
+     "mock: broken feed"
+    ],
+    "borrow_probe": [
+     "string",
+     "mock: broken feed"
+    ]
+   }
+  }
+ ],
+ "mocks": {
+  "base": "0x30a5b95c934e0f63f6c62cdbdb2ea0696045ffd5",
+  "quote": "0xdc4fcc80a7d9e6a87f5196eea8ba32c00ac90d66"
+ },
+ "oracle": {
+  "address": "0x8b34615005cad42432ccbf58e73351c9ca60822e",
+  "scale_factor": 10000000000000000000000000000000000,
+  "factory_registered": true
+ },
+ "market_view": {
+  "lastUpdate": 1788568287,
+  "event_mid": "707d922a324463b0601f67905aab25e0157a4c322bd0922b6559dee944877fff",
+  "offline_mid": "707d922a324463b0601f67905aab25e0157a4c322bd0922b6559dee944877fff",
+  "event_match": true,
+  "topic0": "0xac4b2400f169220b0c0afdde7a0b32e775ba727ea1cb30b35f935cdaab8683ac"
+ },
+ "market_id": "707d922a324463b0601f67905aab25e0157a4c322bd0922b6559dee944877fff",
+ "supply_sizing": {
+  "whale_usdc": 4363509932772,
+  "whale_cbbtc": 3438706371,
+  "supplied": 10000000000,
+  "preflight": [
+   {
+    "form": "canonical5",
+    "sig": "supply((address,address,address,address,uint256),uint256,uint256,address,bytes)",
+    "ok": true,
+    "kind": "ok",
+    "info": "0x00000000000000000000000000000000000000000000000000000002540be400000000000000000000000000000000000000000000000000002386f26fc10000"
+   },
+   {
+    "form": "legacy4",
+    "sig": "supply((address,address,address,address,uint256),uint256,address,uint256)",
+    "ok": false,
+    "kind": "raw",
+    "info": "execution reverted"
+   }
+  ]
+ },
+ "supply_form": "canonical5",
+ "scoll_form": "canonical4",
+ "scoll_forms": [
+  {
+   "form": "canonical4",
+   "ok": true,
+   "kind": "ok",
+   "info": "0x"
+  },
+  {
+   "form": "legacy3",
+   "ok": false,
+   "kind": "raw",
+   "info": "execution reverted"
+  }
+ ],
+ "position": {
+  "borrower": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "collateral": 5000000,
+  "borrowed": 1557821525,
+  "ceiling": 1557821525
+ },
+ "baseline_health_probe": {
+  "ok": false,
+  "kind": "string",
+  "info": "position is healthy"
+ },
+ "txs": [
+  {
+   "label": "deploy base mock",
+   "tx": "0xe54285a5f1b3631d8a14ce5455a322a4987516665a31c100b8ae459efe813c00",
+   "gas": 539736
+  },
+  {
+   "label": "deploy quote mock",
+   "tx": "0xcc408dca5fabd246fdea4d44411b4d055a9736a0c5e3cee25bac07d229c15a04",
+   "gas": 539712
+  },
+  {
+   "label": "factory create oracle",
+   "tx": "0x3eac39b19aa128effebc2c396005be8682ee1439e0b20c8c7cbc9d28a13f8efb",
+   "gas": 614649
+  },
+  {
+   "label": "createMarket",
+   "tx": "0x6760a87728e93dea2621abd954c451bf3b5c192e6dd48a5b8674ec38cbb2057d",
+   "gas": 197613
+  },
+  {
+   "label": "whale approve usdc",
+   "tx": "0x53be8d8dd52fb0a56480a3975b472217017b5d5dadccd3e0f3f96ed156761357",
+   "gas": 55785
+  },
+  {
+   "label": "whale supply usdc",
+   "tx": "0xadae8fa6990bd6fdd6614cb9b318582b12522d2cf903f417d7f6397ca0698f1e",
+   "gas": 132597
+  },
+  {
+   "label": "cbbtc to acct0",
+   "tx": "0x5749fdbc7a7a57a3b124c0c8176c70810efdfc47e98bd9a91028aa04856959be",
+   "gas": 65638
+  },
+  {
+   "label": "acct0 approve cbbtc",
+   "tx": "0xba4dcaa64e9eb57933579a4f44922e51b433e2ce6700509ba05fe872a5112822",
+   "gas": 60300
+  },
+  {
+   "label": "acct0 supplyCollateral cbbtc",
+   "tx": "0x1a2c2b77a4f613c9d3edfa7817b791399cc8de94fdb6d3299c1afcb2ca6d3aa1",
+   "gas": 84135
+  },
+  {
+   "label": "supplyCollateral 0.05 cbbtc",
+   "tx": "0x1a2c2b77a4f613c9d3edfa7817b791399cc8de94fdb6d3299c1afcb2ca6d3aa1",
+   "gas": 84135
+  },
+  {
+   "label": "acct0 borrow max",
+   "tx": "0xe1e3fc3bfefdfd63dd695f1a2cbca07db2401f7db29d96eb9861910c1c9c6b3e",
+   "gas": 166379
+  },
+  {
+   "label": "M2 base->0",
+   "tx": "0x6a7cdba196844ea1c84ba6c4389addca1d26a1e287b88c9b7d0c89dbe83a8b0e",
+   "gas": 42166
+  },
+  {
+   "label": "M2 restore base",
+   "tx": "0x7b2a55a30b822ea220187582a74334454275a9451fcceded85d039c8a4bf6309",
+   "gas": 58538
+  },
+  {
+   "label": "M3 quote->0",
+   "tx": "0x75df67da8a0d1c31f5aa49ee9542005a48ea6e9d7e3c02118636a942e74dae72",
+   "gas": 42166
+  },
+  {
+   "label": "M3 restore quote",
+   "tx": "0xa28f0788621f809f605f9766d9cc9a35d51a3bff6b82fc74e8fd466977b6776d",
+   "gas": 58514
+  },
+  {
+   "label": "M4 base->-1",
+   "tx": "0x9e97e464cb043adc0717d2a6e68455a75a94de94b69c01bba7a26606e3b39480",
+   "gas": 47350
+  },
+  {
+   "label": "M4 restore base",
+   "tx": "0x9809f2612bbbe2d66d7eac2985b7d9b9733293c0fb2cdce54ee2dda0e8fc2158",
+   "gas": 41438
+  },
+  {
+   "label": "M5 stale updatedAt",
+   "tx": "0x5e399cda9935b917a01852e0c94b67d94863fc40da71b61e6aaa063a1d2dfbd2",
+   "gas": 26496
+  },
+  {
+   "label": "M5 restore updatedAt",
+   "tx": "0xde681b4b26a22c418d4b524e648738719a36823ae001d816b9bf41d5523d4573",
+   "gas": 26496
+  },
+  {
+   "label": "M6 quote->0.90",
+   "tx": "0xbe0b59f525c838a90b51ff9033df78b4a759d354581a9bfe1325c6cece6c0165",
+   "gas": 47014
+  },
+  {
+   "label": "M6 restore quote",
+   "tx": "0xf2b7dd89388d5ee17c4073f50324de779d8f3327d237168bdb6a10c5d1724fd1",
+   "gas": 41414
+  },
+  {
+   "label": "M7 base->0.70x",
+   "tx": "0xfc867cd137fb7ddab870088f770878170f05ea78d554804da107909739f34315",
+   "gas": 47038
+  },
+  {
+   "label": "M7 restore base",
+   "tx": "0xe17c196fd352d73d7380bbef2af3fbf89a76b5a36f17b9969cef84f57a54a892",
+   "gas": 41438
+  },
+  {
+   "label": "M9 base->0.80x",
+   "tx": "0xfadfb89ff61515cdd8f4b87113b53b46867f04828d4d435cd965983ffe6d7a13",
+   "gas": 41438
+  },
+  {
+   "label": "M9 quote->0.90x",
+   "tx": "0x99256920238f5f1a171e0b35d3ec729fb08d6b218cc2639520bf7286d05624a4",
+   "gas": 47014
+  },
+  {
+   "label": "M9 restore base",
+   "tx": "0xedaef04d008328f5bf1b73bf7f9c2ae64bc9380c66a4fc2de4b1bbaf0ce164b9",
+   "gas": 47038
+  },
+  {
+   "label": "M9 restore quote",
+   "tx": "0x1ddc39e8cc8c6af0a5e712cb9a7087b6385c1e68e0176029ad4c011cc2edc307",
+   "gas": 41414
+  },
+  {
+   "label": "M10 base mode->broken",
+   "tx": "0x7f677a742ed5c79416736f999772b46e36400c8e6f29219e1bcf57d23f5df001",
+   "gas": 43658
+  },
+  {
+   "label": "M10 base mode->serve",
+   "tx": "0x43d170c45c06df3bbe85caa2e8dab88c45cb85244b2ae346d19264810828e936",
+   "gas": 21746
+  }
+ ]
+}
